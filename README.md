@@ -8,8 +8,8 @@ A unified, accessible navigation system for Patterson subsidiary brands with des
 
 1. **Install Plugin**
    ```bash
-   # Copy wordpress folder to your plugins directory
-   cp -r wordpress /path/to/wp-content/plugins/patterson-navigation
+   # Copy plugin folder to your plugins directory
+   cp -r patterson-navigation /path/to/wp-content/plugins/
    ```
 
 2. **Activate & Configure**
@@ -40,7 +40,7 @@ A unified, accessible navigation system for Patterson subsidiary brands with des
 patterson-subsidiaries-styling-tools/
 ├── design-tokens/          # CSS custom properties for all brands
 ├── prototypes/             # Static HTML/CSS/JS prototype
-├── wordpress/              # WordPress plugin (ready to install)
+├── patterson-navigation/   # WordPress plugin (ready to install)
 └── docs/                   # Documentation
 ```
 
