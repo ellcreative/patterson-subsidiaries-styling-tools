@@ -10,6 +10,9 @@
 </head>
 <body>
 
+  <!-- Skip to main content link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Hero Section with Navigation -->
   <div class="hero-section">
     
@@ -38,6 +41,13 @@
     <nav class="main-nav" aria-label="Main navigation">
       <div class="nav-container">
         
+        <!-- Optional: Brand Logo (remove this section if not needed) -->
+        <div class="main-nav__brand-logo">
+          <a href="/" aria-label="Ulterra Home">
+            <img src="assets/ulterra-logo.svg" alt="Ulterra" width="198" height="24">
+          </a>
+        </div>
+
         <!-- Mobile Menu Toggle -->
         <button 
           class="main-nav__mobile-toggle" 
@@ -141,7 +151,7 @@
           <!-- Left: Menu Items -->
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
-              <h2>Drilling Services</h2>
+              <span class="main-nav__dropdown-title">Drilling Services</span>
               <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -151,28 +161,28 @@
               <!-- Column 1 -->
               <div class="main-nav__dropdown-column">
                 <a href="#contract-drilling" class="main-nav__dropdown-item">
-                  <h3>Contract Drilling</h3>
-                  <p>APEX® rigs built for fast moves, high uptime, and consistent performance</p>
+                  <span class="main-nav__dropdown-item-title">Contract Drilling</span>
+                  <span class="main-nav__dropdown-item-description">APEX® rigs built for fast moves, high uptime, and consistent performance</span>
                 </a>
                 <a href="#directional-drilling" class="main-nav__dropdown-item">
-                  <h3>Directional Drilling</h3>
-                  <p>MWD, motors, and remote steering for precise well placement</p>
+                  <span class="main-nav__dropdown-item-title">Directional Drilling</span>
+                  <span class="main-nav__dropdown-item-description">MWD, motors, and remote steering for precise well placement</span>
                 </a>
                 <a href="#wellbore-guidance" class="main-nav__dropdown-item">
-                  <h3>Wellbore Guidance & Navigation</h3>
-                  <p>Seamlessly adopted aerospace algorithms improve accuracy, reduce tortuosity, and save time</p>
+                  <span class="main-nav__dropdown-item-title">Wellbore Guidance & Navigation</span>
+                  <span class="main-nav__dropdown-item-description">Seamlessly adopted aerospace algorithms improve accuracy, reduce tortuosity, and save time</span>
                 </a>
               </div>
 
               <!-- Column 2 -->
               <div class="main-nav__dropdown-column">
                 <a href="#well-cementing" class="main-nav__dropdown-item">
-                  <h3>Well Cementing</h3>
-                  <p>Reliable zonal isolation and well integrity for any environment</p>
+                  <span class="main-nav__dropdown-item-title">Well Cementing</span>
+                  <span class="main-nav__dropdown-item-description">Reliable zonal isolation and well integrity for any environment</span>
                 </a>
                 <a href="#design-manufacturing" class="main-nav__dropdown-item">
-                  <h3>Design, Manufacturing & Repair Services</h3>
-                  <p>Engineered rig systems and responsive field repair services</p>
+                  <span class="main-nav__dropdown-item-title">Design, Manufacturing & Repair Services</span>
+                  <span class="main-nav__dropdown-item-description">Engineered rig systems and responsive field repair services</span>
                 </a>
               </div>
             </div>
@@ -180,12 +190,12 @@
 
           <!-- Right: Featured Content -->
           <div class="main-nav__dropdown-featured">
-            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=250&fit=crop" alt="Contract drilling rig at sunset" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=250&fit=crop" alt="" role="presentation" loading="lazy">
             <div class="main-nav__dropdown-featured-content">
-              <h3>Setting the Standard in Contract Drilling</h3>
+              <span class="main-nav__dropdown-featured-title">Setting the Standard in Contract Drilling</span>
               <p>Our APEX® rigs combine automation, reliability, and speed to help operators drill safer and faster across every major U.S. basin.</p>
               <a href="#learn-more">
-                More
+                Learn more about contract drilling
                 <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -208,7 +218,7 @@
           
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
-              <h2>Drilling Products</h2>
+              <span class="main-nav__dropdown-title">Drilling Products</span>
               <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -217,39 +227,39 @@
             <div class="main-nav__dropdown-columns">
               <div class="main-nav__dropdown-column">
                 <a href="#drill-pipe" class="main-nav__dropdown-item">
-                  <h3>Drill Pipe</h3>
-                  <p>High-performance drill pipe for demanding applications</p>
+                  <span class="main-nav__dropdown-item-title">Drill Pipe</span>
+                  <span class="main-nav__dropdown-item-description">High-performance drill pipe for demanding applications</span>
                 </a>
                 <a href="#drilling-tools" class="main-nav__dropdown-item">
-                  <h3>Drilling Tools</h3>
-                  <p>Comprehensive range of downhole tools and equipment</p>
+                  <span class="main-nav__dropdown-item-title">Drilling Tools</span>
+                  <span class="main-nav__dropdown-item-description">Comprehensive range of downhole tools and equipment</span>
                 </a>
                 <a href="#bits" class="main-nav__dropdown-item">
-                  <h3>Drill Bits</h3>
-                  <p>Advanced bit technology for optimal performance</p>
+                  <span class="main-nav__dropdown-item-title">Drill Bits</span>
+                  <span class="main-nav__dropdown-item-description">Advanced bit technology for optimal performance</span>
                 </a>
               </div>
 
               <div class="main-nav__dropdown-column">
                 <a href="#tubulars" class="main-nav__dropdown-item">
-                  <h3>Tubular Services</h3>
-                  <p>Complete tubular management and inspection services</p>
+                  <span class="main-nav__dropdown-item-title">Tubular Services</span>
+                  <span class="main-nav__dropdown-item-description">Complete tubular management and inspection services</span>
                 </a>
                 <a href="#mud-motors" class="main-nav__dropdown-item">
-                  <h3>Mud Motors</h3>
-                  <p>Reliable downhole motors for directional drilling</p>
+                  <span class="main-nav__dropdown-item-title">Mud Motors</span>
+                  <span class="main-nav__dropdown-item-description">Reliable downhole motors for directional drilling</span>
                 </a>
               </div>
             </div>
           </div>
 
           <div class="main-nav__dropdown-featured">
-            <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop" alt="Drilling products" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop" alt="" role="presentation" loading="lazy">
             <div class="main-nav__dropdown-featured-content">
-              <h3>Premium Drilling Products</h3>
+              <span class="main-nav__dropdown-featured-title">Premium Drilling Products</span>
               <p>Industry-leading drill pipe, tools, and equipment engineered for maximum efficiency and reliability in the field.</p>
               <a href="#products">
-                More
+                Learn more about drilling products
                 <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -272,7 +282,7 @@
           
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
-              <h2>Completion Solutions</h2>
+              <span class="main-nav__dropdown-title">Completion Solutions</span>
               <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -281,39 +291,39 @@
             <div class="main-nav__dropdown-columns">
               <div class="main-nav__dropdown-column">
                 <a href="#pressure-pumping" class="main-nav__dropdown-item">
-                  <h3>Pressure Pumping</h3>
-                  <p>Hydraulic fracturing and pressure pumping services</p>
+                  <span class="main-nav__dropdown-item-title">Pressure Pumping</span>
+                  <span class="main-nav__dropdown-item-description">Hydraulic fracturing and pressure pumping services</span>
                 </a>
                 <a href="#coiled-tubing" class="main-nav__dropdown-item">
-                  <h3>Coiled Tubing</h3>
-                  <p>Advanced coiled tubing services for well intervention</p>
+                  <span class="main-nav__dropdown-item-title">Coiled Tubing</span>
+                  <span class="main-nav__dropdown-item-description">Advanced coiled tubing services for well intervention</span>
                 </a>
                 <a href="#wireline" class="main-nav__dropdown-item">
-                  <h3>Wireline Services</h3>
-                  <p>Comprehensive wireline and perforating services</p>
+                  <span class="main-nav__dropdown-item-title">Wireline Services</span>
+                  <span class="main-nav__dropdown-item-description">Comprehensive wireline and perforating services</span>
                 </a>
               </div>
 
               <div class="main-nav__dropdown-column">
                 <a href="#well-testing" class="main-nav__dropdown-item">
-                  <h3>Well Testing</h3>
-                  <p>Complete well testing and flowback services</p>
+                  <span class="main-nav__dropdown-item-title">Well Testing</span>
+                  <span class="main-nav__dropdown-item-description">Complete well testing and flowback services</span>
                 </a>
                 <a href="#sand-management" class="main-nav__dropdown-item">
-                  <h3>Sand Management</h3>
-                  <p>Proppant logistics and frac sand solutions</p>
+                  <span class="main-nav__dropdown-item-title">Sand Management</span>
+                  <span class="main-nav__dropdown-item-description">Proppant logistics and frac sand solutions</span>
                 </a>
               </div>
             </div>
           </div>
 
           <div class="main-nav__dropdown-featured">
-            <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=250&fit=crop" alt="Completion solutions" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=250&fit=crop" alt="" role="presentation" loading="lazy">
             <div class="main-nav__dropdown-featured-content">
-              <h3>Complete Well Solutions</h3>
+              <span class="main-nav__dropdown-featured-title">Complete Well Solutions</span>
               <p>Integrated completion services from hydraulic fracturing to well testing, optimizing your well's productivity.</p>
               <a href="#solutions">
-                More
+                Learn more about completion solutions
                 <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -336,7 +346,7 @@
           
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
-              <h2>Power Services</h2>
+              <span class="main-nav__dropdown-title">Power Services</span>
               <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -345,35 +355,35 @@
             <div class="main-nav__dropdown-columns">
               <div class="main-nav__dropdown-column">
                 <a href="#power-generation" class="main-nav__dropdown-item">
-                  <h3>Power Generation</h3>
-                  <p>Reliable power generation for remote operations</p>
+                  <span class="main-nav__dropdown-item-title">Power Generation</span>
+                  <span class="main-nav__dropdown-item-description">Reliable power generation for remote operations</span>
                 </a>
                 <a href="#gas-compression" class="main-nav__dropdown-item">
-                  <h3>Gas Compression</h3>
-                  <p>Natural gas compression services and equipment</p>
+                  <span class="main-nav__dropdown-item-title">Gas Compression</span>
+                  <span class="main-nav__dropdown-item-description">Natural gas compression services and equipment</span>
                 </a>
               </div>
 
               <div class="main-nav__dropdown-column">
                 <a href="#power-distribution" class="main-nav__dropdown-item">
-                  <h3>Power Distribution</h3>
-                  <p>Electrical distribution systems for field operations</p>
+                  <span class="main-nav__dropdown-item-title">Power Distribution</span>
+                  <span class="main-nav__dropdown-item-description">Electrical distribution systems for field operations</span>
                 </a>
                 <a href="#equipment-rental" class="main-nav__dropdown-item">
-                  <h3>Equipment Rental</h3>
-                  <p>Power equipment rental and maintenance services</p>
+                  <span class="main-nav__dropdown-item-title">Equipment Rental</span>
+                  <span class="main-nav__dropdown-item-description">Power equipment rental and maintenance services</span>
                 </a>
               </div>
             </div>
           </div>
 
           <div class="main-nav__dropdown-featured">
-            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=250&fit=crop" alt="Power services" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=250&fit=crop" alt="" role="presentation" loading="lazy">
             <div class="main-nav__dropdown-featured-content">
-              <h3>Powering Your Operations</h3>
+              <span class="main-nav__dropdown-featured-title">Powering Your Operations</span>
               <p>Dependable power generation and compression services keeping your operations running efficiently 24/7.</p>
               <a href="#power">
-                More
+                Learn more about power services
                 <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -396,7 +406,7 @@
           
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
-              <h2>Performance Optimization</h2>
+              <span class="main-nav__dropdown-title">Performance Optimization</span>
               <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -405,39 +415,39 @@
             <div class="main-nav__dropdown-columns">
               <div class="main-nav__dropdown-column">
                 <a href="#data-analytics" class="main-nav__dropdown-item">
-                  <h3>Data & Analytics</h3>
-                  <p>Real-time data analytics for operational insights</p>
+                  <span class="main-nav__dropdown-item-title">Data & Analytics</span>
+                  <span class="main-nav__dropdown-item-description">Real-time data analytics for operational insights</span>
                 </a>
                 <a href="#automation" class="main-nav__dropdown-item">
-                  <h3>Automation Solutions</h3>
-                  <p>Advanced automation technology for drilling efficiency</p>
+                  <span class="main-nav__dropdown-item-title">Automation Solutions</span>
+                  <span class="main-nav__dropdown-item-description">Advanced automation technology for drilling efficiency</span>
                 </a>
                 <a href="#consulting" class="main-nav__dropdown-item">
-                  <h3>Technical Consulting</h3>
-                  <p>Expert consulting to optimize well performance</p>
+                  <span class="main-nav__dropdown-item-title">Technical Consulting</span>
+                  <span class="main-nav__dropdown-item-description">Expert consulting to optimize well performance</span>
                 </a>
               </div>
 
               <div class="main-nav__dropdown-column">
                 <a href="#remote-operations" class="main-nav__dropdown-item">
-                  <h3>Remote Operations</h3>
-                  <p>Remote monitoring and operational support</p>
+                  <span class="main-nav__dropdown-item-title">Remote Operations</span>
+                  <span class="main-nav__dropdown-item-description">Remote monitoring and operational support</span>
                 </a>
                 <a href="#training" class="main-nav__dropdown-item">
-                  <h3>Training Services</h3>
-                  <p>Comprehensive training programs for your team</p>
+                  <span class="main-nav__dropdown-item-title">Training Services</span>
+                  <span class="main-nav__dropdown-item-description">Comprehensive training programs for your team</span>
                 </a>
               </div>
             </div>
           </div>
 
           <div class="main-nav__dropdown-featured">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="Performance optimization" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="" role="presentation" loading="lazy">
             <div class="main-nav__dropdown-featured-content">
-              <h3>Optimize Performance</h3>
+              <span class="main-nav__dropdown-featured-title">Optimize Performance</span>
               <p>Leverage data, automation, and expertise to maximize operational efficiency and well productivity.</p>
               <a href="#optimization">
-                More
+                Learn more about performance optimization
                 <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -597,7 +607,7 @@
   </div><!-- End hero-section -->
 
   <!-- Demo Content -->
-  <main style="padding: 2rem; min-height: 100vh;">
+  <main id="main-content" style="padding: 2rem; min-height: 100vh;">
     <h1>Patterson Navigation Prototype</h1>
     <p>This is a demonstration of the Patterson unified navigation system.</p>
     <p>Resize your browser to see the responsive behavior (mobile breakpoint: 1024px).</p>
@@ -617,9 +627,26 @@
 
     <h2>Keyboard Navigation:</h2>
     <ul>
-      <li><kbd>Tab</kbd> - Navigate through interactive elements</li>
+      <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> - Navigate through interactive elements</li>
       <li><kbd>Enter</kbd> / <kbd>Space</kbd> - Open/close dropdowns</li>
-      <li><kbd>Escape</kbd> - Close open dropdown or mobile menu</li>
+      <li><kbd>Arrow Left/Right</kbd> - Navigate between main menu items</li>
+      <li><kbd>Arrow Down</kbd> - Open dropdown (when on menu button)</li>
+      <li><kbd>Arrow Up/Down</kbd> - Navigate within dropdown items</li>
+      <li><kbd>Escape</kbd> - Close open dropdown or mobile menu and return focus to trigger</li>
+    </ul>
+
+    <h2>Accessibility Improvements:</h2>
+    <ul>
+      <li>✅ Skip to main content link for keyboard users</li>
+      <li>✅ Proper ARIA attributes (aria-expanded, aria-controls, aria-label)</li>
+      <li>✅ Focus management - focus moves to dropdown when opened</li>
+      <li>✅ Arrow key navigation for menu and dropdowns</li>
+      <li>✅ Semantic HTML - no heading elements in navigation structure</li>
+      <li>✅ Descriptive link text for screen readers</li>
+      <li>✅ Decorative images marked with role="presentation"</li>
+      <li>✅ Focus visible indicators using :focus-visible</li>
+      <li>✅ Focus trap in mobile menu</li>
+      <li>✅ prefers-reduced-motion support</li>
     </ul>
   </main>
 

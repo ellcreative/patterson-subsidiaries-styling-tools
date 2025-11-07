@@ -105,7 +105,7 @@ Make sure your hero content accounts for this when positioning elements.
 
 ## Mobile Considerations
 
-On mobile (<1024px), the navigation height is reduced:
+On mobile (≤1420px), the navigation height is reduced:
 - Universal Nav: 46px (min)
 - Main Nav: 64px (min)
 - **Total: ~110px**
@@ -120,6 +120,8 @@ If your hero has interactive elements (video, carousel, etc.), make sure their z
 
 ## Brand Customization
 
+### Primary Color
+
 Each brand should override the `--primary-color` CSS custom property:
 
 ```css
@@ -133,6 +135,50 @@ This color will be used for:
 - Hover states
 - Active states
 - Any brand-specific styling
+
+### Optional Brand Logo
+
+Some brands may want to display their logo before the main navigation menu items. This is optional and can be easily added or removed.
+
+#### Adding a Brand Logo
+
+To add a brand logo to the main navigation, include the `.main-nav__brand-logo` section in your HTML:
+
+```html
+<nav class="main-nav" aria-label="Main navigation">
+  <div class="nav-container">
+    
+    <!-- Optional: Brand Logo -->
+    <div class="main-nav__brand-logo">
+      <a href="/" aria-label="Your Brand Home">
+        <img src="path/to/your-logo.svg" alt="Your Brand" width="198" height="24">
+      </a>
+      <div class="main-nav__brand-divider" aria-hidden="true"></div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="main-nav__mobile-toggle">...</button>
+    
+    <!-- Rest of navigation -->
+    <ul class="main-nav__menu">...</ul>
+  </div>
+</nav>
+```
+
+**Desktop behavior:**
+- Logo appears on the left side before menu items
+- Vertical divider line separates logo from navigation
+- Recommended logo height: 24px (max)
+- Recommended logo width: ~200px (flexible)
+
+**Mobile behavior:**
+- Logo appears next to the hamburger menu icon
+- Divider line is hidden
+- Logo scales down slightly (20px max height)
+
+#### Removing the Brand Logo
+
+If your brand doesn't need a logo in the navigation, simply remove the entire `.main-nav__brand-logo` section from the HTML. The navigation will work perfectly without it.
 
 ## Best Practices
 

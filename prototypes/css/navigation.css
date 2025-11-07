@@ -15,8 +15,8 @@
 
 /* 
  * Mobile Breakpoint: When navigation switches to hamburger menu
- * Default: 1315px
- * To change: Find and replace "1315px" with your desired breakpoint
+ * Default: 1420px
+ * To change: Find and replace "1420px" with your desired breakpoint
  */
 
 /* ============================================
@@ -126,6 +126,31 @@ body {
   vertical-align: middle;
 }
 
+/* ============================================
+   SKIP LINK
+   ============================================ */
+
+.skip-link {
+  position: absolute;
+  inset-block-start: -9999px;
+  inset-inline-start: 0;
+  z-index: 9999;
+  padding: var(--space-4) var(--space-6);
+  background: var(--primary-color);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  inset-block-start: var(--space-4);
+  inset-inline-start: var(--space-4);
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: 2px;
+}
+
 .nav-container {
   display: flex;
   flex-direction: row;
@@ -225,27 +250,48 @@ body {
   padding-block: var(--space-3);
 }
 
+/* ============================================
+   BRAND LOGO (Optional)
+   ============================================ */
+
+.main-nav__brand-logo {
+  display: flex;
+  align-items: center;
+  margin-inline-end: clamp(0, 3vw, 3rem);
+}
+
+.main-nav__brand-logo a {
+  display: block;
+  line-height: 0;
+}
+
+.main-nav__brand-logo img {
+  display: block;
+  block-size: auto;
+  max-block-size: 24px;
+  max-inline-size: 100%;
+}
+
+/* When brand logo is present, adjust menu container */
+.main-nav__menu-container {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+}
+
 .main-nav__menu {
   display: flex;
-  gap: 37px;
+  justify-content: space-evenly;
   align-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1;
   flex-wrap: wrap;
 }
 
-@media (max-width: 1400px) {
-  .main-nav__menu {
-    gap: var(--space-6);
-  }
-}
-
 @media (max-width: 1200px) {
-  .main-nav__menu {
-    gap: var(--space-4);
-  }
-  
   .main-nav__link {
     font-size: var(--font-size-lg);
   }
@@ -427,19 +473,13 @@ body {
   border-block-end: 1px solid var(--color-border-default);
 }
 
-.main-nav__dropdown-header h2 {
+.main-nav__dropdown-title {
   font-family: var(--font-heading);
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
   color: var(--color-gray-500);
-  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-.main-nav__dropdown-header i {
-  color: var(--primary-color);
-  font-size: var(--font-size-xl);
 }
 
 .main-nav__dropdown-columns {
@@ -481,20 +521,20 @@ body {
   outline-offset: -2px;
 }
 
-.main-nav__dropdown-item h3 {
+.main-nav__dropdown-item-title {
+  display: block;
   color: var(--color-text-secondary);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
-  margin: 0;
 }
 
-.main-nav__dropdown-item p {
+.main-nav__dropdown-item-description {
+  display: block;
   font-family: var(--font-body);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
-  margin: 0;
 }
 
 /* Featured Content */
@@ -523,13 +563,13 @@ body {
   gap: var(--space-5);
 }
 
-.main-nav__dropdown-featured-content h3 {
+.main-nav__dropdown-featured-title {
+  display: block;
   font-family: var(--font-heading);
   font-size: clamp(1.5rem, 1.3rem + 0.5vw, 1.8rem);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   line-height: var(--line-height-tight);
-  margin: 0;
 }
 
 .main-nav__dropdown-featured-content p {
@@ -577,13 +617,22 @@ body {
   display: none;
 }
 
-@media (max-width: 1315px) {
+@media (max-width: 1420px) {
   
   /* Hide desktop elements */
   .universal-nav__menu,
   .main-nav__menu,
   .main-nav__actions {
     display: none;
+  }
+  
+  /* Adjust brand logo for mobile */
+  .main-nav__brand-logo {
+    margin-inline-end: auto;
+  }
+  
+  .main-nav__brand-logo img {
+    max-block-size: 20px;
   }
   
   /* Show mobile toggle */

@@ -106,6 +106,30 @@ class Patterson_Nav_Admin {
                 'section' => 'patterson_nav_main'
             ),
             array(
+                'id' => 'brand_logo_enabled',
+                'title' => __('Enable Brand Logo', 'patterson-nav'),
+                'callback' => 'render_checkbox_field',
+                'section' => 'patterson_nav_main'
+            ),
+            array(
+                'id' => 'brand_logo_url',
+                'title' => __('Brand Logo URL', 'patterson-nav'),
+                'callback' => 'render_media_field',
+                'section' => 'patterson_nav_main'
+            ),
+            array(
+                'id' => 'brand_logo_width',
+                'title' => __('Logo Width (px)', 'patterson-nav'),
+                'callback' => 'render_number_field',
+                'section' => 'patterson_nav_main'
+            ),
+            array(
+                'id' => 'brand_logo_height',
+                'title' => __('Logo Height (px)', 'patterson-nav'),
+                'callback' => 'render_number_field',
+                'section' => 'patterson_nav_main'
+            ),
+            array(
                 'id' => 'search_enabled',
                 'title' => __('Enable Search', 'patterson-nav'),
                 'callback' => 'render_checkbox_field',
@@ -137,6 +161,12 @@ class Patterson_Nav_Admin {
             ),
             
             // Design
+            array(
+                'id' => 'mobile_breakpoint',
+                'title' => __('Mobile Breakpoint (px)', 'patterson-nav'),
+                'callback' => 'render_number_field',
+                'section' => 'patterson_nav_design'
+            ),
             array(
                 'id' => 'brand_color',
                 'title' => __('Brand Primary Color', 'patterson-nav'),
@@ -182,10 +212,12 @@ class Patterson_Nav_Admin {
     
     public function render_main_section() {
         echo '<p>' . esc_html__('Configure the main navigation menu and actions.', 'patterson-nav') . '</p>';
+        echo '<p><strong>' . esc_html__('Brand Logo:', 'patterson-nav') . '</strong> ' . esc_html__('Optional. Some brands display their logo before the navigation menu items. On mobile, the logo appears next to the hamburger menu.', 'patterson-nav') . '</p>';
     }
     
     public function render_design_section() {
         echo '<p>' . esc_html__('Customize the appearance and branding.', 'patterson-nav') . '</p>';
+        echo '<p><strong>' . esc_html__('Mobile Breakpoint:', 'patterson-nav') . '</strong> ' . esc_html__('The viewport width (in pixels) at which the navigation switches to the mobile hamburger menu.', 'patterson-nav') . '</p>';
     }
     
     /**
@@ -262,6 +294,73 @@ class Patterson_Nav_Admin {
         <?php
     }
     
+    public function render_media_field($args) {
+        $options = get_option('patterson_nav_settings');
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        ?>
+        <div class="patterson-nav-media-upload">
+            <input type="text" 
+                   id="patterson_nav_<?php echo esc_attr($args['id']); ?>" 
+                   name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+                   value="<?php echo esc_url($value); ?>" 
+                   class="regular-text">
+            <button type="button" 
+                    class="button patterson-nav-upload-button" 
+                    data-target="patterson_nav_<?php echo esc_attr($args['id']); ?>">
+                <?php esc_html_e('Upload Logo', 'patterson-nav'); ?>
+            </button>
+            <?php if ($value) : ?>
+                <div class="patterson-nav-logo-preview" style="margin-top: 10px;">
+                    <img src="<?php echo esc_url($value); ?>" alt="Logo preview" style="max-height: 60px; max-width: 300px;">
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        if ($args['id'] === 'brand_logo_url') {
+            echo '<p class="description">' . esc_html__('Upload your brand logo. Recommended size: 198x24px (SVG or PNG). The logo will appear before the navigation menu items with a divider.', 'patterson-nav') . '</p>';
+        }
+    }
+    
+    public function render_number_field($args) {
+        $options = get_option('patterson_nav_settings');
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        
+        // Default values
+        $defaults = array(
+            'brand_logo_width' => '198',
+            'brand_logo_height' => '24',
+            'mobile_breakpoint' => '1420'
+        );
+        $placeholder = isset($defaults[$args['id']]) ? $defaults[$args['id']] : '';
+        
+        // Set min/max based on field
+        $min = 1;
+        $max = 500;
+        if ($args['id'] === 'mobile_breakpoint') {
+            $min = 320;
+            $max = 2000;
+        }
+        ?>
+        <input type="number" 
+               name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+               value="<?php echo esc_attr($value); ?>" 
+               placeholder="<?php echo esc_attr($placeholder); ?>"
+               min="<?php echo esc_attr($min); ?>"
+               max="<?php echo esc_attr($max); ?>"
+               class="small-text">
+        <span class="description">px</span>
+        <?php
+        if ($args['id'] === 'brand_logo_width') {
+            echo '<p class="description">' . esc_html__('Recommended: 198px', 'patterson-nav') . '</p>';
+        }
+        if ($args['id'] === 'brand_logo_height') {
+            echo '<p class="description">' . esc_html__('Recommended: 24px', 'patterson-nav') . '</p>';
+        }
+        if ($args['id'] === 'mobile_breakpoint') {
+            echo '<p class="description">' . esc_html__('Default: 1420px. The navigation switches to hamburger menu at this width and below.', 'patterson-nav') . '</p>';
+        }
+    }
+    
     /**
      * Sanitize settings
      */
@@ -269,7 +368,7 @@ class Patterson_Nav_Admin {
         $sanitized = array();
         
         // Checkbox fields
-        $checkbox_fields = array('universal_nav_enabled', 'search_enabled', 'cta_enabled', 'enable_design_tokens');
+        $checkbox_fields = array('universal_nav_enabled', 'search_enabled', 'cta_enabled', 'enable_design_tokens', 'brand_logo_enabled');
         foreach ($checkbox_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? 1 : 0;
         }
@@ -279,6 +378,14 @@ class Patterson_Nav_Admin {
         foreach ($text_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? sanitize_text_field($input[$field]) : '';
         }
+        
+        // URL fields
+        $sanitized['brand_logo_url'] = isset($input['brand_logo_url']) ? esc_url_raw($input['brand_logo_url']) : '';
+        
+        // Number fields
+        $sanitized['brand_logo_width'] = isset($input['brand_logo_width']) ? absint($input['brand_logo_width']) : 198;
+        $sanitized['brand_logo_height'] = isset($input['brand_logo_height']) ? absint($input['brand_logo_height']) : 24;
+        $sanitized['mobile_breakpoint'] = isset($input['mobile_breakpoint']) ? absint($input['mobile_breakpoint']) : 1420;
         
         // Textarea fields
         $sanitized['search_code'] = isset($input['search_code']) ? wp_kses_post($input['search_code']) : '';
@@ -336,10 +443,59 @@ class Patterson_Nav_Admin {
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('wp-color-picker');
         
+        // Enqueue WordPress media uploader
+        wp_enqueue_media();
+        
         // Enqueue custom admin JS
         wp_add_inline_script('wp-color-picker', '
             jQuery(document).ready(function($) {
+                // Color picker
                 $(".patterson-nav-color-picker").wpColorPicker();
+                
+                // Media uploader
+                var mediaUploader;
+                $(".patterson-nav-upload-button").on("click", function(e) {
+                    e.preventDefault();
+                    var button = $(this);
+                    var targetId = button.data("target");
+                    var targetInput = $("#" + targetId);
+                    
+                    // If the media frame already exists, reopen it
+                    if (mediaUploader) {
+                        mediaUploader.open();
+                        return;
+                    }
+                    
+                    // Create a new media frame
+                    mediaUploader = wp.media({
+                        title: "Select or Upload Logo",
+                        button: {
+                            text: "Use this logo"
+                        },
+                        multiple: false
+                    });
+                    
+                    // When an image is selected, run a callback
+                    mediaUploader.on("select", function() {
+                        var attachment = mediaUploader.state().get("selection").first().toJSON();
+                        targetInput.val(attachment.url);
+                        
+                        // Update preview if it exists
+                        var preview = button.parent().find(".patterson-nav-logo-preview");
+                        if (preview.length) {
+                            preview.find("img").attr("src", attachment.url);
+                        } else {
+                            button.parent().append(
+                                \'<div class="patterson-nav-logo-preview" style="margin-top: 10px;">\' +
+                                \'<img src="\' + attachment.url + \'" alt="Logo preview" style="max-height: 60px; max-width: 300px;">\' +
+                                \'</div>\'
+                            );
+                        }
+                    });
+                    
+                    // Open the media frame
+                    mediaUploader.open();
+                });
             });
         ');
         

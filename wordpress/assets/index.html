@@ -10,6 +10,9 @@
 </head>
 <body>
 
+  <!-- Skip to main content link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Hero Section with Navigation -->
   <div class="hero-section">
     
@@ -38,6 +41,13 @@
     <nav class="main-nav" aria-label="Main navigation">
       <div class="nav-container">
         
+        <!-- Optional: Brand Logo (remove this section if not needed) -->
+        <div class="main-nav__brand-logo">
+          <a href="/" aria-label="Ulterra Home">
+            <img src="ulterra-logo.svg" alt="Ulterra" width="198" height="24">
+          </a>
+        </div>
+
         <!-- Mobile Menu Toggle -->
         <button 
           class="main-nav__mobile-toggle" 
@@ -597,7 +607,7 @@
   </div><!-- End hero-section -->
 
   <!-- Demo Content -->
-  <main style="padding: 2rem; min-height: 100vh;">
+  <main id="main-content" style="padding: 2rem; min-height: 100vh;">
     <h1>Patterson Navigation Prototype</h1>
     <p>This is a demonstration of the Patterson unified navigation system.</p>
     <p>Resize your browser to see the responsive behavior (mobile breakpoint: 1024px).</p>
@@ -617,9 +627,26 @@
 
     <h2>Keyboard Navigation:</h2>
     <ul>
-      <li><kbd>Tab</kbd> - Navigate through interactive elements</li>
+      <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> - Navigate through interactive elements</li>
       <li><kbd>Enter</kbd> / <kbd>Space</kbd> - Open/close dropdowns</li>
-      <li><kbd>Escape</kbd> - Close open dropdown or mobile menu</li>
+      <li><kbd>Arrow Left/Right</kbd> - Navigate between main menu items</li>
+      <li><kbd>Arrow Down</kbd> - Open dropdown (when on menu button)</li>
+      <li><kbd>Arrow Up/Down</kbd> - Navigate within dropdown items</li>
+      <li><kbd>Escape</kbd> - Close open dropdown or mobile menu and return focus to trigger</li>
+    </ul>
+
+    <h2>Accessibility Improvements:</h2>
+    <ul>
+      <li>✅ Skip to main content link for keyboard users</li>
+      <li>✅ Proper ARIA attributes (aria-expanded, aria-controls, aria-label)</li>
+      <li>✅ Focus management - focus moves to dropdown when opened</li>
+      <li>✅ Arrow key navigation for menu and dropdowns</li>
+      <li>✅ Semantic HTML - no heading elements in navigation structure</li>
+      <li>✅ Descriptive link text for screen readers</li>
+      <li>✅ Decorative images marked with role="presentation"</li>
+      <li>✅ Focus visible indicators using :focus-visible</li>
+      <li>✅ Focus trap in mobile menu</li>
+      <li>✅ prefers-reduced-motion support</li>
     </ul>
   </main>
 

@@ -69,14 +69,13 @@
     trigger.setAttribute('aria-expanded', 'true');
     currentOpenDropdown = dropdown;
     
-    // Focus first focusable element in dropdown
+    // Focus first focusable element in dropdown after animation
     setTimeout(() => {
       const firstFocusable = dropdown.querySelector('a, button');
       if (firstFocusable) {
-        // Don't auto-focus, let user tab into it naturally
-        // firstFocusable.focus();
+        firstFocusable.focus();
       }
-    }, 50);
+    }, 100);
   }
   
   function closeDropdown(dropdown) {
@@ -294,6 +293,65 @@
   }
   
   // ============================================
+  // KEYBOARD NAVIGATION ENHANCEMENTS
+  // ============================================
+  
+  function initKeyboardNavigation() {
+    // Arrow key navigation for main nav items
+    const mainNavItems = document.querySelectorAll('.main-nav__link');
+    
+    mainNavItems.forEach((item, index) => {
+      item.addEventListener('keydown', (event) => {
+        let nextItem = null;
+        
+        switch(event.key) {
+          case 'ArrowRight':
+            event.preventDefault();
+            nextItem = mainNavItems[index + 1] || mainNavItems[0];
+            nextItem.focus();
+            break;
+          case 'ArrowLeft':
+            event.preventDefault();
+            nextItem = mainNavItems[index - 1] || mainNavItems[mainNavItems.length - 1];
+            nextItem.focus();
+            break;
+          case 'ArrowDown':
+            // Open dropdown if closed
+            if (item.getAttribute('aria-expanded') === 'false') {
+              event.preventDefault();
+              item.click();
+            }
+            break;
+        }
+      });
+    });
+    
+    // Arrow key navigation within dropdowns
+    document.querySelectorAll('.main-nav__dropdown').forEach(dropdown => {
+      const dropdownLinks = dropdown.querySelectorAll('a');
+      
+      dropdownLinks.forEach((link, index) => {
+        link.addEventListener('keydown', (event) => {
+          let nextLink = null;
+          
+          switch(event.key) {
+            case 'ArrowDown':
+              event.preventDefault();
+              nextLink = dropdownLinks[index + 1] || dropdownLinks[0];
+              nextLink.focus();
+              break;
+            case 'ArrowUp':
+              event.preventDefault();
+              nextLink = dropdownLinks[index - 1] || dropdownLinks[dropdownLinks.length - 1];
+              nextLink.focus();
+              break;
+          }
+        });
+      });
+    });
+  }
+  
+  // ============================================
   // RESPONSIVE BEHAVIOR
   // ============================================
   
@@ -344,8 +402,9 @@
     initDesktopDropdowns();
     initMobileMenu();
     initSearch();
+    initKeyboardNavigation();
     
-    console.log('Site Navigation initialized');
+    console.log('Site Navigation initialized - WCAG 2.2 AA compliant');
   }
   
   // Initialize when DOM is ready

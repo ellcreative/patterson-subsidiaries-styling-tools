@@ -32,12 +32,32 @@ class Patterson_Nav_Renderer {
         // Start output buffering
         ob_start();
         
-        // Add inline styles for site primary color
+        // Add inline styles for site customizations
+        echo '<style>';
+        
+        // CSS custom properties
+        $css_props = array();
         if (isset($options['brand_color']) && $options['brand_color']) {
-            echo '<style>';
-            echo ':root { --primary-color: ' . esc_attr($options['brand_color']) . '; }';
-            echo '</style>';
+            $css_props[] = '--primary-color: ' . esc_attr($options['brand_color']);
         }
+        
+        if (!empty($css_props)) {
+            echo ':root { ' . implode('; ', $css_props) . '; }';
+        }
+        
+        // Mobile breakpoint override
+        $breakpoint = isset($options['mobile_breakpoint']) && $options['mobile_breakpoint'] ? absint($options['mobile_breakpoint']) : 1420;
+        if ($breakpoint !== 1420) {
+            // Override default breakpoint with custom value
+            echo '@media (max-width: ' . $breakpoint . 'px) {';
+            echo '.universal-nav__menu, .main-nav__menu, .main-nav__actions { display: none; }';
+            echo '.main-nav__brand-logo { margin-inline-end: auto; }';
+            echo '.main-nav__brand-logo img { max-block-size: 20px; }';
+            echo '.main-nav__mobile-toggle { display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; padding: var(--space-2); inline-size: 44px; block-size: 44px; }';
+            echo '}';
+        }
+        
+        echo '</style>';
         
         ?>
         <header class="site-navigation" id="site-navigation">
@@ -54,6 +74,20 @@ class Patterson_Nav_Renderer {
             <!-- Main Navigation -->
             <nav class="main-nav" aria-label="<?php esc_attr_e('Main navigation', 'patterson-nav'); ?>">
                 <div class="nav-container">
+                    
+                    <?php if (!empty($options['brand_logo_enabled']) && !empty($options['brand_logo_url'])) : ?>
+                        <!-- Brand Logo (Optional) -->
+                        <div class="main-nav__brand-logo">
+                            <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name') . ' ' . __('Home', 'patterson-nav')); ?>">
+                                <img 
+                                    src="<?php echo esc_url($options['brand_logo_url']); ?>" 
+                                    alt="<?php echo esc_attr(get_bloginfo('name')); ?>" 
+                                    width="<?php echo !empty($options['brand_logo_width']) ? esc_attr($options['brand_logo_width']) : '198'; ?>" 
+                                    height="<?php echo !empty($options['brand_logo_height']) ? esc_attr($options['brand_logo_height']) : '24'; ?>"
+                                >
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     
                     <!-- Mobile Menu Toggle -->
                     <button 
