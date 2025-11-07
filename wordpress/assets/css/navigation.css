@@ -2,11 +2,21 @@
  * Universal Navigation & Brand Main Navigation
  * 
  * Consumes design tokens from tokens.css
- * Mobile breakpoint: 1024px
  * 
  * Structure:
  * - .universal-nav (Patterson-specific, always visible)
  * - .main-nav (brand-specific navigation)
+ */
+
+/* ============================================
+   BRAND CONFIGURATION
+   Customize these values per brand site
+   ============================================ */
+
+/* 
+ * Mobile Breakpoint: When navigation switches to hamburger menu
+ * Default: 1315px
+ * To change: Find and replace "1315px" with your desired breakpoint
  */
 
 /* ============================================
@@ -566,7 +576,7 @@ body {
   display: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1315px) {
   
   /* Hide desktop elements */
   .universal-nav__menu,
