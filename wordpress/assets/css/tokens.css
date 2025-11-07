@@ -56,15 +56,15 @@
   --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', 
                Consolas, 'Courier New', monospace;
   
-  /* Font Sizes - Using fluid typography */
-  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-  --font-size-sm: clamp(0.875rem, 0.825rem + 0.25vw, 1rem);
-  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --font-size-lg: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
-  --font-size-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
-  --font-size-2xl: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
-  --font-size-3xl: clamp(1.875rem, 1.65rem + 1.125vw, 2.25rem);
-  --font-size-4xl: clamp(2.25rem, 1.95rem + 1.5vw, 3rem);
+  /* Font Sizes - Mobile first (base sizes) */
+  --font-size-xs: 0.6875rem;    /* 11px */
+  --font-size-sm: 0.8125rem;    /* 13px */
+  --font-size-base: 0.9375rem;  /* 15px */
+  --font-size-lg: 1.0625rem;    /* 17px */
+  --font-size-xl: 1.1875rem;    /* 19px */
+  --font-size-2xl: 1.375rem;    /* 22px */
+  --font-size-3xl: 1.75rem;     /* 28px */
+  --font-size-4xl: 2.125rem;    /* 34px */
   
   /* Line Heights */
   --line-height-tight: 1.2;
@@ -84,18 +84,18 @@
   
   --space-0: 0;
   --space-1: 0.25rem;    /* 4px */
-  --space-2: 0.5rem;     /* 8px */
-  --space-3: 0.75rem;    /* 12px */
-  --space-4: 1rem;       /* 16px */
-  --space-5: 1.25rem;    /* 20px */
-  --space-6: 1.5rem;     /* 24px */
-  --space-7: 1.75rem;    /* 28px */
-  --space-8: 2rem;       /* 32px */
-  --space-10: 2.5rem;    /* 40px */
-  --space-12: 3rem;      /* 48px */
-  --space-16: 4rem;      /* 64px */
-  --space-20: 5rem;      /* 80px */
-  --space-24: 6rem;      /* 96px */
+  --space-2: 0.4375rem;  /* 7px */
+  --space-3: 0.6875rem;  /* 11px */
+  --space-4: 0.9375rem;  /* 15px */
+  --space-5: 1.125rem;   /* 18px */
+  --space-6: 1.375rem;   /* 22px */
+  --space-7: 1.5625rem;  /* 25px */
+  --space-8: 1.875rem;   /* 30px */
+  --space-10: 2.25rem;   /* 36px */
+  --space-12: 2.75rem;   /* 44px */
+  --space-16: 3.625rem;  /* 58px */
+  --space-20: 4.5rem;    /* 72px */
+  --space-24: 5.5rem;    /* 88px */
   
   /* ============================================
      LAYOUT
@@ -186,6 +186,20 @@
    RESPONSIVE ADJUSTMENTS
    ============================================ */
 
+/* Tablet and up - increase font sizes */
+/*@media (min-width: 768px) {
+  :root {
+    --font-size-xs: 0.875rem;     /* 14px */
+    --font-size-sm: 1rem;         /* 16px */
+    --font-size-base: 1.125rem;   /* 18px */
+    --font-size-lg: 1.25rem;      /* 20px */
+    --font-size-xl: 1.5rem;       /* 24px */
+    --font-size-2xl: 1.875rem;    /* 30px */
+    --font-size-3xl: 2.25rem;     /* 36px */
+    --font-size-4xl: 3rem;        /* 48px */
+  }
+}*/
+
 @media (max-width: 1024px) {
   :root {
     --container-padding-inline: var(--space-8);
@@ -197,4 +211,3 @@
     --container-padding-inline: var(--space-4);
   }
 }
-
