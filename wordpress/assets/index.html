@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patterson Navigation - Prototype</title>
+  <link rel="stylesheet" href="https://use.typekit.net/akz7boc.css">
+  <link rel="stylesheet" href="../design-tokens/tokens.css">
+  <link rel="stylesheet" href="css/navigation.css">
+</head>
+<body>
+
+  <!-- Hero Section with Navigation -->
+  <div class="hero-section">
+    
+    <!-- Site Navigation Component (positioned over hero) -->
+    <header class="site-navigation" id="site-navigation">
+    
+    <!-- Universal Navigation (Fixed styling - always Patterson branding) -->
+    <nav class="universal-nav" aria-label="Utility navigation">
+      <div class="nav-container">
+        <div class="universal-nav__logo">
+          <a href="https://pattersoncompanies.com" aria-label="Patterson Companies">
+            <img src="assets/patterson-logo.svg" alt="Patterson" width="130" height="22">
+          </a>
+        </div>
+        <ul class="universal-nav__menu" role="list">
+          <li><a href="https://pattersoncompanies.com/about">About</a></li>
+          <li><a href="https://pattersoncompanies.com/brands">Our Brands</a></li>
+          <li><a href="https://pattersoncompanies.com/investors">Investors</a></li>
+          <li><a href="https://pattersoncompanies.com/sustainability">Sustainability</a></li>
+          <li><a href="https://pattersoncompanies.com/careers">Careers</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav" aria-label="Main navigation">
+      <div class="nav-container">
+        
+        <!-- Mobile Menu Toggle -->
+        <button 
+          class="main-nav__mobile-toggle" 
+          aria-expanded="false" 
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="main-nav__hamburger" aria-hidden="true"></span>
+        </button>
+
+        <!-- Desktop Menu Items -->
+        <ul class="main-nav__menu" role="list">
+          <li class="main-nav__item">
+            <button 
+              class="main-nav__link" 
+              aria-expanded="false"
+              aria-controls="dropdown-drilling-services"
+            >
+              Drilling Services
+              <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+          <li class="main-nav__item">
+            <button 
+              class="main-nav__link"
+              aria-expanded="false"
+              aria-controls="dropdown-drilling-products"
+            >
+              Drilling Products
+              <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+          <li class="main-nav__item">
+            <button 
+              class="main-nav__link"
+              aria-expanded="false"
+              aria-controls="dropdown-completion-solutions"
+            >
+              Completion Solutions
+              <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+          <li class="main-nav__item">
+            <button 
+              class="main-nav__link"
+              aria-expanded="false"
+              aria-controls="dropdown-power-services"
+            >
+              Power Services
+              <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+          <li class="main-nav__item">
+            <button 
+              class="main-nav__link"
+              aria-expanded="false"
+              aria-controls="dropdown-performance-optimization"
+            >
+              Performance Optimization
+              <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+        </ul>
+
+        <!-- Actions (Search + CTA) -->
+        <div class="main-nav__actions">
+          <button class="main-nav__search" aria-label="Open search">
+            <svg class="nav-icon" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+              <path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Search</span>
+          </button>
+          <a href="#contact" class="main-nav__cta">Contact</a>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Dropdown Mega Menus -->
+    
+    <!-- Drilling Services Dropdown -->
+    <div 
+      class="main-nav__dropdown" 
+      id="dropdown-drilling-services"
+      hidden
+    >
+      <div class="main-nav__dropdown-container">
+        <div class="main-nav__dropdown-content">
+          
+          <!-- Left: Menu Items -->
+          <div class="main-nav__dropdown-section">
+            <div class="main-nav__dropdown-header">
+              <h2>Drilling Services</h2>
+              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="main-nav__dropdown-columns">
+              <!-- Column 1 -->
+              <div class="main-nav__dropdown-column">
+                <a href="#contract-drilling" class="main-nav__dropdown-item">
+                  <h3>Contract Drilling</h3>
+                  <p>APEX® rigs built for fast moves, high uptime, and consistent performance</p>
+                </a>
+                <a href="#directional-drilling" class="main-nav__dropdown-item">
+                  <h3>Directional Drilling</h3>
+                  <p>MWD, motors, and remote steering for precise well placement</p>
+                </a>
+                <a href="#wellbore-guidance" class="main-nav__dropdown-item">
+                  <h3>Wellbore Guidance & Navigation</h3>
+                  <p>Seamlessly adopted aerospace algorithms improve accuracy, reduce tortuosity, and save time</p>
+                </a>
+              </div>
+
+              <!-- Column 2 -->
+              <div class="main-nav__dropdown-column">
+                <a href="#well-cementing" class="main-nav__dropdown-item">
+                  <h3>Well Cementing</h3>
+                  <p>Reliable zonal isolation and well integrity for any environment</p>
+                </a>
+                <a href="#design-manufacturing" class="main-nav__dropdown-item">
+                  <h3>Design, Manufacturing & Repair Services</h3>
+                  <p>Engineered rig systems and responsive field repair services</p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Featured Content -->
+          <div class="main-nav__dropdown-featured">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=250&fit=crop" alt="Contract drilling rig at sunset" loading="lazy">
+            <div class="main-nav__dropdown-featured-content">
+              <h3>Setting the Standard in Contract Drilling</h3>
+              <p>Our APEX® rigs combine automation, reliability, and speed to help operators drill safer and faster across every major U.S. basin.</p>
+              <a href="#learn-more">
+                More
+                <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Drilling Products Dropdown -->
+    <div 
+      class="main-nav__dropdown" 
+      id="dropdown-drilling-products"
+      hidden
+    >
+      <div class="main-nav__dropdown-container">
+        <div class="main-nav__dropdown-content">
+          
+          <div class="main-nav__dropdown-section">
+            <div class="main-nav__dropdown-header">
+              <h2>Drilling Products</h2>
+              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="main-nav__dropdown-columns">
+              <div class="main-nav__dropdown-column">
+                <a href="#drill-pipe" class="main-nav__dropdown-item">
+                  <h3>Drill Pipe</h3>
+                  <p>High-performance drill pipe for demanding applications</p>
+                </a>
+                <a href="#drilling-tools" class="main-nav__dropdown-item">
+                  <h3>Drilling Tools</h3>
+                  <p>Comprehensive range of downhole tools and equipment</p>
+                </a>
+                <a href="#bits" class="main-nav__dropdown-item">
+                  <h3>Drill Bits</h3>
+                  <p>Advanced bit technology for optimal performance</p>
+                </a>
+              </div>
+
+              <div class="main-nav__dropdown-column">
+                <a href="#tubulars" class="main-nav__dropdown-item">
+                  <h3>Tubular Services</h3>
+                  <p>Complete tubular management and inspection services</p>
+                </a>
+                <a href="#mud-motors" class="main-nav__dropdown-item">
+                  <h3>Mud Motors</h3>
+                  <p>Reliable downhole motors for directional drilling</p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-nav__dropdown-featured">
+            <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=250&fit=crop" alt="Drilling products" loading="lazy">
+            <div class="main-nav__dropdown-featured-content">
+              <h3>Premium Drilling Products</h3>
+              <p>Industry-leading drill pipe, tools, and equipment engineered for maximum efficiency and reliability in the field.</p>
+              <a href="#products">
+                More
+                <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Completion Solutions Dropdown -->
+    <div 
+      class="main-nav__dropdown" 
+      id="dropdown-completion-solutions"
+      hidden
+    >
+      <div class="main-nav__dropdown-container">
+        <div class="main-nav__dropdown-content">
+          
+          <div class="main-nav__dropdown-section">
+            <div class="main-nav__dropdown-header">
+              <h2>Completion Solutions</h2>
+              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="main-nav__dropdown-columns">
+              <div class="main-nav__dropdown-column">
+                <a href="#pressure-pumping" class="main-nav__dropdown-item">
+                  <h3>Pressure Pumping</h3>
+                  <p>Hydraulic fracturing and pressure pumping services</p>
+                </a>
+                <a href="#coiled-tubing" class="main-nav__dropdown-item">
+                  <h3>Coiled Tubing</h3>
+                  <p>Advanced coiled tubing services for well intervention</p>
+                </a>
+                <a href="#wireline" class="main-nav__dropdown-item">
+                  <h3>Wireline Services</h3>
+                  <p>Comprehensive wireline and perforating services</p>
+                </a>
+              </div>
+
+              <div class="main-nav__dropdown-column">
+                <a href="#well-testing" class="main-nav__dropdown-item">
+                  <h3>Well Testing</h3>
+                  <p>Complete well testing and flowback services</p>
+                </a>
+                <a href="#sand-management" class="main-nav__dropdown-item">
+                  <h3>Sand Management</h3>
+                  <p>Proppant logistics and frac sand solutions</p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-nav__dropdown-featured">
+            <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=250&fit=crop" alt="Completion solutions" loading="lazy">
+            <div class="main-nav__dropdown-featured-content">
+              <h3>Complete Well Solutions</h3>
+              <p>Integrated completion services from hydraulic fracturing to well testing, optimizing your well's productivity.</p>
+              <a href="#solutions">
+                More
+                <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Power Services Dropdown -->
+    <div 
+      class="main-nav__dropdown" 
+      id="dropdown-power-services"
+      hidden
+    >
+      <div class="main-nav__dropdown-container">
+        <div class="main-nav__dropdown-content">
+          
+          <div class="main-nav__dropdown-section">
+            <div class="main-nav__dropdown-header">
+              <h2>Power Services</h2>
+              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="main-nav__dropdown-columns">
+              <div class="main-nav__dropdown-column">
+                <a href="#power-generation" class="main-nav__dropdown-item">
+                  <h3>Power Generation</h3>
+                  <p>Reliable power generation for remote operations</p>
+                </a>
+                <a href="#gas-compression" class="main-nav__dropdown-item">
+                  <h3>Gas Compression</h3>
+                  <p>Natural gas compression services and equipment</p>
+                </a>
+              </div>
+
+              <div class="main-nav__dropdown-column">
+                <a href="#power-distribution" class="main-nav__dropdown-item">
+                  <h3>Power Distribution</h3>
+                  <p>Electrical distribution systems for field operations</p>
+                </a>
+                <a href="#equipment-rental" class="main-nav__dropdown-item">
+                  <h3>Equipment Rental</h3>
+                  <p>Power equipment rental and maintenance services</p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-nav__dropdown-featured">
+            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=250&fit=crop" alt="Power services" loading="lazy">
+            <div class="main-nav__dropdown-featured-content">
+              <h3>Powering Your Operations</h3>
+              <p>Dependable power generation and compression services keeping your operations running efficiently 24/7.</p>
+              <a href="#power">
+                More
+                <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Optimization Dropdown -->
+    <div 
+      class="main-nav__dropdown" 
+      id="dropdown-performance-optimization"
+      hidden
+    >
+      <div class="main-nav__dropdown-container">
+        <div class="main-nav__dropdown-content">
+          
+          <div class="main-nav__dropdown-section">
+            <div class="main-nav__dropdown-header">
+              <h2>Performance Optimization</h2>
+              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="main-nav__dropdown-columns">
+              <div class="main-nav__dropdown-column">
+                <a href="#data-analytics" class="main-nav__dropdown-item">
+                  <h3>Data & Analytics</h3>
+                  <p>Real-time data analytics for operational insights</p>
+                </a>
+                <a href="#automation" class="main-nav__dropdown-item">
+                  <h3>Automation Solutions</h3>
+                  <p>Advanced automation technology for drilling efficiency</p>
+                </a>
+                <a href="#consulting" class="main-nav__dropdown-item">
+                  <h3>Technical Consulting</h3>
+                  <p>Expert consulting to optimize well performance</p>
+                </a>
+              </div>
+
+              <div class="main-nav__dropdown-column">
+                <a href="#remote-operations" class="main-nav__dropdown-item">
+                  <h3>Remote Operations</h3>
+                  <p>Remote monitoring and operational support</p>
+                </a>
+                <a href="#training" class="main-nav__dropdown-item">
+                  <h3>Training Services</h3>
+                  <p>Comprehensive training programs for your team</p>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-nav__dropdown-featured">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="Performance optimization" loading="lazy">
+            <div class="main-nav__dropdown-featured-content">
+              <h3>Optimize Performance</h3>
+              <p>Leverage data, automation, and expertise to maximize operational efficiency and well productivity.</p>
+              <a href="#optimization">
+                More
+                <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div 
+      class="main-nav__mobile-menu" 
+      id="mobile-menu"
+      hidden
+    >
+      <div class="main-nav__mobile-header">
+        <button 
+          class="main-nav__mobile-close" 
+          aria-label="Close navigation menu"
+        >
+          <svg class="nav-icon" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 2L16 16M16 2L2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Optional: Search in mobile -->
+      <div class="main-nav__mobile-search">
+        <button class="main-nav__search" aria-label="Open search">
+          <svg class="nav-icon" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+            <path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Search</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Items (Accordion style) -->
+      <ul class="main-nav__mobile-items" role="list">
+        <li>
+          <button 
+            class="main-nav__mobile-link"
+            aria-expanded="false"
+            aria-controls="mobile-dropdown-drilling-services"
+          >
+            Drilling Services
+            <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="main-nav__mobile-dropdown" id="mobile-dropdown-drilling-services" hidden>
+            <a href="#contract-drilling">Contract Drilling</a>
+            <a href="#directional-drilling">Directional Drilling</a>
+            <a href="#wellbore-guidance">Wellbore Guidance & Navigation</a>
+            <a href="#well-cementing">Well Cementing</a>
+            <a href="#design-manufacturing">Design, Manufacturing & Repair Services</a>
+          </div>
+        </li>
+        <li>
+          <button 
+            class="main-nav__mobile-link"
+            aria-expanded="false"
+            aria-controls="mobile-dropdown-drilling-products"
+          >
+            Drilling Products
+            <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="main-nav__mobile-dropdown" id="mobile-dropdown-drilling-products" hidden>
+            <a href="#product-1">Product 1</a>
+            <a href="#product-2">Product 2</a>
+          </div>
+        </li>
+        <li>
+          <button 
+            class="main-nav__mobile-link"
+            aria-expanded="false"
+            aria-controls="mobile-dropdown-completion-solutions"
+          >
+            Completion Solutions
+            <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="main-nav__mobile-dropdown" id="mobile-dropdown-completion-solutions" hidden>
+            <a href="#solution-1">Solution 1</a>
+            <a href="#solution-2">Solution 2</a>
+          </div>
+        </li>
+        <li>
+          <button 
+            class="main-nav__mobile-link"
+            aria-expanded="false"
+            aria-controls="mobile-dropdown-power-services"
+          >
+            Power Services
+            <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="main-nav__mobile-dropdown" id="mobile-dropdown-power-services" hidden>
+            <a href="#service-1">Service 1</a>
+            <a href="#service-2">Service 2</a>
+          </div>
+        </li>
+        <li>
+          <button 
+            class="main-nav__mobile-link"
+            aria-expanded="false"
+            aria-controls="mobile-dropdown-performance-optimization"
+          >
+            Performance Optimization
+            <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="main-nav__mobile-dropdown" id="mobile-dropdown-performance-optimization" hidden>
+            <a href="#optimization-1">Optimization 1</a>
+            <a href="#optimization-2">Optimization 2</a>
+          </div>
+        </li>
+      </ul>
+
+      <!-- CTA in mobile menu -->
+      <div class="main-nav__mobile-cta">
+        <a href="#contact" class="main-nav__cta">Contact</a>
+      </div>
+
+      <!-- Universal nav links in mobile -->
+      <ul class="main-nav__mobile-universal" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#brands">Our Brands</a></li>
+        <li><a href="#investors">Investors</a></li>
+        <li><a href="#sustainability">Sustainability</a></li>
+        <li><a href="#careers">Careers</a></li>
+      </ul>
+    </div>
+
+    <!-- Mobile Menu Backdrop -->
+    <div class="main-nav__backdrop" hidden></div>
+
+  </header>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <div class="hero-content__container">
+      <div class="hero-content__badge">Navigation Demo</div>
+      <h1 class="hero-content__title">Energizing Progress</h1>
+      <p class="hero-content__description">Patterson-UTI inspires innovation and talent to safely and responsibly provide energy to the world.</p>
+      <a href="#learn-more" class="main-nav__cta">Learn More</a>
+    </div>
+  </div>
+
+  </div><!-- End hero-section -->
+
+  <!-- Demo Content -->
+  <main style="padding: 2rem; min-height: 100vh;">
+    <h1>Patterson Navigation Prototype</h1>
+    <p>This is a demonstration of the Patterson unified navigation system.</p>
+    <p>Resize your browser to see the responsive behavior (mobile breakpoint: 1024px).</p>
+    
+    <h2>Features:</h2>
+    <ul>
+      <li>✅ Two-tier navigation (universal + main)</li>
+      <li>✅ Mega-menu dropdowns with multi-column layout</li>
+      <li>✅ Featured content area (right side)</li>
+      <li>✅ Mobile hamburger menu</li>
+      <li>✅ Search integration placeholder</li>
+      <li>✅ Brand color theming via CSS custom properties</li>
+      <li>✅ WCAG 2.2 AA accessible</li>
+      <li>✅ Keyboard navigation support</li>
+      <li>✅ Reduced motion support</li>
+    </ul>
+
+    <h2>Keyboard Navigation:</h2>
+    <ul>
+      <li><kbd>Tab</kbd> - Navigate through interactive elements</li>
+      <li><kbd>Enter</kbd> / <kbd>Space</kbd> - Open/close dropdowns</li>
+      <li><kbd>Escape</kbd> - Close open dropdown or mobile menu</li>
+    </ul>
+  </main>
+
+  <script src="js/navigation.js"></script>
+
+</body>
+</html>
+
