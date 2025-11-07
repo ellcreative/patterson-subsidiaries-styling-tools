@@ -60,6 +60,9 @@ class Patterson_Nav_Renderer {
         echo '</style>';
         
         ?>
+        <!-- Skip to main content link -->
+        <a href="#main-content" class="skip-link"><?php esc_html_e('Skip to main content', 'patterson-nav'); ?></a>
+        
         <header class="site-navigation" id="site-navigation">
             
             <?php if (!empty($options['universal_nav_enabled']) && !empty($options['universal_nav_menu'])) : ?>
@@ -272,7 +275,7 @@ class Patterson_Nav_Renderer {
             // Left section with menu items
             echo '<div class="main-nav__dropdown-section">';
             echo '<div class="main-nav__dropdown-header">';
-            echo '<h2>' . esc_html($item->title) . '</h2>';
+            echo '<span class="main-nav__dropdown-title">' . esc_html($item->title) . '</span>';
             echo self::get_icon_svg('angle-right');
             echo '</div>';
             
@@ -285,9 +288,9 @@ class Patterson_Nav_Renderer {
                 echo '<div class="main-nav__dropdown-column">';
                 foreach ($chunk as $child) {
                     echo '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item">';
-                    echo '<h3>' . esc_html($child->title) . '</h3>';
+                    echo '<span class="main-nav__dropdown-item-title">' . esc_html($child->title) . '</span>';
                     if (!empty($child->description)) {
-                        echo '<p>' . esc_html($child->description) . '</p>';
+                        echo '<span class="main-nav__dropdown-item-description">' . esc_html($child->description) . '</span>';
                     }
                     echo '</a>';
                 }
@@ -302,18 +305,25 @@ class Patterson_Nav_Renderer {
                 echo '<div class="main-nav__dropdown-featured">';
                 
                 if (!empty($item->featured_image)) {
-                    echo '<img src="' . esc_url($item->featured_image) . '" alt="' . esc_attr($item->featured_title) . '" loading="lazy">';
+                    // Mark as decorative - the title provides the context
+                    echo '<img src="' . esc_url($item->featured_image) . '" alt="" role="presentation" loading="lazy">';
                 }
                 
                 echo '<div class="main-nav__dropdown-featured-content">';
-                echo '<h3>' . esc_html($item->featured_title) . '</h3>';
+                echo '<span class="main-nav__dropdown-featured-title">' . esc_html($item->featured_title) . '</span>';
                 
                 if (!empty($item->featured_desc)) {
                     echo '<p>' . esc_html($item->featured_desc) . '</p>';
                 }
                 
                 if (!empty($item->featured_link_url)) {
+                    // Create descriptive link text for screen readers
                     $link_text = !empty($item->featured_link_text) ? $item->featured_link_text : __('More', 'patterson-nav');
+                    // If link text is generic, make it more descriptive
+                    if ($link_text === __('More', 'patterson-nav')) {
+                        /* translators: %s: Featured title */
+                        $link_text = sprintf(__('Learn more about %s', 'patterson-nav'), strtolower($item->featured_title));
+                    }
                     echo '<a href="' . esc_url($item->featured_link_url) . '">';
                     echo esc_html($link_text);
                     echo self::get_icon_svg('angle-right');
