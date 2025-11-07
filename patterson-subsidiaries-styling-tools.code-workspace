@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+		"titleBar.activeBackground": "#e51b24",
+		"titleBar.activeForeground": "#FFFFFF",
+		"titleBar.inactiveBackground": "#8B1419",
+		"titleBar.inactiveForeground": "#FFFFFF",
+		},
+		"workbench.iconTheme": "material-icon-theme",
+		"material-icon-theme.folders.associations": {
+			"atoms": "atom",
+			"molecules": "plugin",
+			"organisms": "container",
+			"pages": "views",
+			"layout": "layout",
+			"Cards": "class",
+			"sections": "content"
+		}
+	}
+}
