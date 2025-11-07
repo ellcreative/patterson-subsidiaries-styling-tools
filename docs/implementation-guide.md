@@ -1,28 +1,25 @@
 # Implementation Guide
 
-## Navigation Positioning
+## Navigation Structure
 
-The site navigation is designed to overlay your hero/header component. It uses `position: absolute` to sit on top of your site's background image or hero section.
+The navigation system consists of two parts:
+1. **Universal Nav** - Patterson Companies top bar (dark background)
+2. **Main Nav** - Your brand's navigation (transparent with border)
 
-The navigation consists of two parts:
-1. **Universal Nav** (`.universal-nav`) - Patterson-specific, always visible
-2. **Main Nav** (`.main-nav`) - Your brand's navigation
+Both are contained in a `<header class="site-navigation">` element.
 
-### HTML Structure
+## Positioning Requirements
 
-Your site's hero/header should be wrapped in a `position: relative` container:
+The navigation is designed to **overlay your hero/header section** using absolute positioning.
+
+### Essential HTML Structure
 
 ```html
-<div class="your-hero-section" style="position: relative;">
+<div class="your-hero-wrapper" style="position: relative;">
   
-  <!-- Site Navigation overlays here -->
-  <header class="site-navigation">
-    <nav class="universal-nav"><!-- Patterson nav --></nav>
-    <nav class="main-nav"><!-- Your brand nav --></nav>
-  </header>
+  <?php patterson_nav(); ?>
   
-  <!-- Your hero content -->
-  <div class="hero-content">
+  <div class="hero-content" style="padding-top: 150px;">
     <h1>Your Title</h1>
     <p>Your content...</p>
   </div>
@@ -30,99 +27,35 @@ Your site's hero/header should be wrapped in a `position: relative` container:
 </div>
 ```
 
-### CSS Requirements
-
-Your hero/header wrapper needs:
+### Key CSS Requirements
 
 ```css
-.your-hero-section {
-  position: relative; /* Required for absolute positioning */
-  min-height: 100vh; /* Or your desired height */
-  background-image: url('your-hero-image.jpg');
-  background-size: cover;
-  background-position: center;
-}
-```
-
-Your hero content should account for the navigation height (134px):
-
-```css
-.your-hero-content {
-  padding-top: calc(134px + 2rem); /* Nav height + spacing */
-}
-```
-
-### WordPress Implementation
-
-#### In your theme's header.php or page template:
-
-```php
-<div class="site-hero">
-  <?php patterson_nav(); ?>
-  
-  <div class="hero-content">
-    <!-- Your hero content -->
-  </div>
-</div>
-```
-
-#### In your theme's style.css:
-
-```css
-.site-hero {
+/* Your hero section must have position: relative */
+.your-hero-wrapper {
   position: relative;
   min-height: 100vh;
-  background: url('assets/hero-bg.jpg') center/cover;
+  background: url('hero.jpg') center/cover;
 }
 
+/* Your hero content needs top padding to account for nav */
 .hero-content {
-  padding-top: 150px; /* Account for nav */
+  padding-top: 150px; /* Accounts for 134px nav height + spacing */
 }
-```
-
-### Craft CMS Implementation
-
-#### In your layout template:
-
-```twig
-<div class="site-hero">
-  {{ craft.pattersonNav.render() }}
-  
-  <div class="hero-content">
-    {# Your hero content #}
-  </div>
-</div>
 ```
 
 ## Navigation Height
 
-The navigation has a fixed total height:
-- Universal Nav: 46px
-- Main Nav: 88px
-- **Total: 134px**
+- **Universal Nav:** 46px
+- **Main Nav:** 88px (desktop) / 64px (mobile)
+- **Total:** 134px (desktop) / 110px (mobile)
 
-Make sure your hero content accounts for this when positioning elements.
-
-## Mobile Considerations
-
-On mobile (≤1420px), the navigation height is reduced:
-- Universal Nav: 46px (min)
-- Main Nav: 64px (min)
-- **Total: ~110px**
-
-The mobile menu is a slide-in panel and doesn't affect layout.
-
-## Z-Index
-
-The navigation uses `z-index: var(--z-index-fixed)` which is `1030` by default.
-
-If your hero has interactive elements (video, carousel, etc.), make sure their z-index is lower than the navigation.
+Account for this in your hero content positioning.
 
 ## Brand Customization
 
 ### Primary Color
 
-Each brand should override the `--primary-color` CSS custom property:
+Set your brand color in theme CSS or design tokens:
 
 ```css
 :root {
@@ -130,129 +63,154 @@ Each brand should override the `--primary-color` CSS custom property:
 }
 ```
 
-This color will be used for:
+This color is used for:
 - CTA button background
+- Focus indicators
 - Hover states
-- Active states
-- Any brand-specific styling
 
-### Optional Brand Logo
+### Brand Logo (Optional)
 
-Some brands may want to display their logo before the main navigation menu items. This is optional and can be easily added or removed.
+Enable in **Patterson Nav** settings:
+- Upload your logo (SVG recommended)
+- Set dimensions (default: 198px × 24px)
+- Logo displays before menu items on desktop
+- Scales down on mobile (max 20px height)
 
-#### Adding a Brand Logo
+## Common Implementation Patterns
 
-To add a brand logo to the main navigation, include the `.main-nav__brand-logo` section in your HTML:
-
-```html
-<nav class="main-nav" aria-label="Main navigation">
-  <div class="nav-container">
-    
-    <!-- Optional: Brand Logo -->
-    <div class="main-nav__brand-logo">
-      <a href="/" aria-label="Your Brand Home">
-        <img src="path/to/your-logo.svg" alt="Your Brand" width="198" height="24">
-      </a>
-      <div class="main-nav__brand-divider" aria-hidden="true"></div>
-    </div>
-
-    <!-- Mobile Menu Toggle -->
-    <button class="main-nav__mobile-toggle">...</button>
-    
-    <!-- Rest of navigation -->
-    <ul class="main-nav__menu">...</ul>
-  </div>
-</nav>
-```
-
-**Desktop behavior:**
-- Logo appears on the left side before menu items
-- Vertical divider line separates logo from navigation
-- Recommended logo height: 24px (max)
-- Recommended logo width: ~200px (flexible)
-
-**Mobile behavior:**
-- Logo appears next to the hamburger menu icon
-- Divider line is hidden
-- Logo scales down slightly (20px max height)
-
-#### Removing the Brand Logo
-
-If your brand doesn't need a logo in the navigation, simply remove the entire `.main-nav__brand-logo` section from the HTML. The navigation will work perfectly without it.
-
-## Best Practices
-
-1. **Always wrap the nav in a `position: relative` container**
-2. **Account for nav height in your hero content padding**
-3. **Use white text on the main nav items** (they're designed for dark backgrounds)
-4. **Set your brand's primary color** via CSS custom property
-5. **Test dropdowns on various background colors** to ensure visibility
-6. **The universal nav has a semi-transparent dark background** - it works on any background
-
-## Examples
-
-### Example 1: Simple Hero
+### Pattern 1: Simple Hero with Image
 
 ```php
-<header class="page-hero" style="position: relative; background: url('hero.jpg') center/cover; min-height: 100vh;">
+<div class="hero" style="position: relative; background: url('bg.jpg') center/cover; min-height: 100vh;">
   <?php patterson_nav(); ?>
   
-  <div style="padding-top: 200px; padding-left: 80px;">
+  <div style="padding: 200px 80px;">
     <h1 style="color: white; font-size: 96px;">Welcome</h1>
   </div>
-</header>
+</div>
 ```
 
-### Example 2: Video Background
+### Pattern 2: Video Background
 
 ```php
-<div class="video-hero" style="position: relative; overflow: hidden;">
+<div class="video-hero" style="position: relative; overflow: hidden; height: 100vh;">
   <?php patterson_nav(); ?>
   
-  <video autoplay muted loop style="position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
-    <source src="hero-video.mp4" type="video/mp4">
+  <video autoplay muted loop playsinline 
+         style="position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+    <source src="hero.mp4" type="video/mp4">
   </video>
   
   <div style="position: relative; z-index: 1; padding-top: 200px;">
-    <h1>Your Content</h1>
+    <h1 style="color: white;">Your Content</h1>
   </div>
 </div>
 ```
 
-### Example 3: Image Slider Background
+### Pattern 3: Solid Color Background
 
 ```php
-<div class="slider-hero" style="position: relative;">
+<div class="hero" style="position: relative; background: #333; min-height: 80vh;">
   <?php patterson_nav(); ?>
   
-  <div class="slider" style="height: 100vh;">
-    <!-- Your slider images here -->
-  </div>
-  
-  <div class="hero-text" style="position: absolute; top: 200px; left: 80px; z-index: 2;">
+  <div style="padding: 180px 80px; color: white;">
     <h1>Your Title</h1>
+    <p>Your description...</p>
   </div>
 </div>
 ```
+
+## Mobile Considerations
+
+At ≤1420px (or your custom breakpoint):
+- Desktop menu becomes hamburger icon
+- Mobile slide-in panel activated
+- Logo scales down (if enabled)
+- Navigation height reduces slightly
+
+## Z-Index Management
+
+The navigation uses `z-index: 1030` (fixed).
+
+If your hero has interactive elements (videos, carousels), ensure:
+```css
+.your-interactive-element {
+  z-index: 1; /* Lower than navigation */
+}
+```
+
+## Best Practices
+
+### Do's
+✅ Wrap navigation in `position: relative` container  
+✅ Account for 134px nav height in hero content  
+✅ Use white/light text on main nav items (designed for dark backgrounds)  
+✅ Set your brand's primary color  
+✅ Test on multiple viewport sizes
+
+### Don'ts
+❌ Place navigation in container with `overflow: hidden`  
+❌ Forget to add `position: relative` to parent  
+❌ Use dark text colors on main nav  
+❌ Block navigation with high z-index elements
 
 ## Troubleshooting
 
-### Navigation is not visible
-- Check that the parent container has `position: relative`
-- Verify z-index isn't being overridden
-- Ensure the navigation CSS is loaded
+**Navigation not visible**
+- Add `position: relative` to parent container
+- Check z-index isn't being overridden
+- Verify CSS files are loading
 
-### Text is hard to read
-- Check your background image brightness
-- Consider adding an overlay: `background: rgba(0,0,0,0.5);`
-- Adjust the design tokens brand color for better contrast
+**Text hard to read**
+- Check background image brightness
+- Consider adding dark overlay: `background: rgba(0,0,0,0.4);`
+- Adjust transparency on the universal nav
 
-### Dropdowns are cut off
-- Ensure no parent has `overflow: hidden`
-- Check that the dropdown z-index is higher than other elements
+**Dropdowns cut off**
+- Remove `overflow: hidden` from parent containers
+- Verify dropdown z-index is higher than other elements
 
-### Mobile menu doesn't open
-- Verify JavaScript is loading
-- Check browser console for errors
-- Ensure no other scripts are interfering with event handlers
+**Mobile menu doesn't open**
+- Check browser console for JavaScript errors
+- Verify breakpoint setting
+- Test on actual mobile device
 
+## Advanced Customization
+
+### Custom CSS Override
+
+```css
+/* Adjust CTA button style */
+.main-nav__cta {
+  border-radius: 4px;
+  padding: 12px 32px;
+}
+
+/* Custom logo spacing */
+.main-nav__brand-logo {
+  margin-inline-end: 3rem;
+}
+
+/* Adjust mobile breakpoint via CSS (use admin setting instead) */
+@media (max-width: 1500px) {
+  .main-nav__menu {
+    display: none !important;
+  }
+}
+```
+
+### PHP Customization
+
+```php
+// Programmatically modify settings
+add_filter('patterson_nav_options', function($options) {
+    $options['mobile_breakpoint'] = 1500;
+    return $options;
+});
+```
+
+## Need Help?
+
+- Check [WordPress Configuration](wordpress-configuration.md) for all settings
+- Review [Installation Guide](installation.md) for setup steps
+- Contact development team for support

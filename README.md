@@ -1,82 +1,95 @@
-# Patterson Subsidiaries Styling Tools
+# Patterson Subsidiary Navigation System
 
-A unified navigation system and design token framework for Patterson subsidiary brands.
+A unified, accessible navigation system for Patterson subsidiary brands with design tokens and WordPress plugin support.
 
-## Repository Structure
+## Quick Start
+
+### For WordPress Sites
+
+1. **Install Plugin**
+   ```bash
+   # Copy wordpress folder to your plugins directory
+   cp -r wordpress /path/to/wp-content/plugins/patterson-navigation
+   ```
+
+2. **Activate & Configure**
+   - Activate plugin in WordPress Admin → Plugins
+   - Go to **Patterson Nav** settings
+   - Select your menus and configure options
+   
+3. **Add to Theme**
+   ```php
+   <?php patterson_nav(); ?>
+   ```
+
+**That's it!** See [Installation Guide](docs/installation.md) for detailed steps.
+
+## Features
+
+- ✅ **Two-tier navigation** - Universal Patterson nav + brand-specific nav
+- ✅ **Mega-menu dropdowns** - Multi-column layouts with featured content
+- ✅ **Fully accessible** - WCAG 2.2 Level AA compliant
+- ✅ **Mobile responsive** - Hamburger menu with slide-out panel
+- ✅ **Keyboard navigation** - Full keyboard and screen reader support
+- ✅ **Brand customization** - Easy color theming via CSS custom properties
+- ✅ **WordPress plugin** - Easy integration with admin settings
+
+## What's Included
 
 ```
 patterson-subsidiaries-styling-tools/
-├── design-tokens/          # Brand design tokens (CSS, SCSS, JSON)
-├── navigation-plugin/      # Menu/navigation plugin
-│   ├── shared/            # Framework-agnostic code
-│   ├── wordpress/         # WordPress implementation
-│   └── craft/             # Craft CMS implementation
-├── docs/                  # Documentation
-└── prototypes/            # Static HTML prototypes
-```
-
-## Components
-
-### 1. Design Tokens
-Centralized design system tokens (colors, typography, spacing) used across all Patterson subsidiary sites and the navigation plugin.
-
-### 2. Navigation Plugin
-Multi-CMS navigation plugin supporting:
-- WordPress (6.8.3+)
-- Craft CMS (4.16+)
-
-**Features:**
-- Two-tier navigation (universal + main nav)
-- Mega-menu dropdowns with multi-column layout
-- Featured content areas per dropdown
-- Configurable search integration
-- Brand color theming
-- Mobile hamburger menu
-- WCAG 2.2 AA accessible
-- Legacy browser support
-
-## Sites Using This System
-
-1. **patenergy.com** - Craft CMS 4.16.13
-2. **ulterra.com** - WordPress 6.8.3
-3. **nextierofs.com** - WordPress 6.8.3
-4. **superiorqc.com** - WordPress 6.9
-
-## Getting Started
-
-See [docs/getting-started.md](docs/getting-started.md) for installation and configuration instructions.
-
-## Development
-
-### Requirements
-- PHP 7.4+ (for WordPress plugin)
-- Craft CMS 4+ (for Craft plugin)
-- Modern browser or legacy browser support (Chrome 76+, Edge 17+, Safari 9+, Firefox 103+)
-
-### Local Development
-```bash
-# Clone the repository
-git clone [repository-url]
-cd patterson-subsidiaries-styling-tools
-
-# View static prototype
-open prototypes/index.html
+├── design-tokens/          # CSS custom properties for all brands
+├── prototypes/             # Static HTML/CSS/JS prototype
+├── wordpress/              # WordPress plugin (ready to install)
+└── docs/                   # Documentation
 ```
 
 ## Documentation
 
-- [Installation Guide](docs/installation.md)
-- [Configuration](docs/configuration.md)
-- [Design Tokens](docs/design-tokens.md)
-- [WordPress Setup](docs/wordpress-setup.md)
-- [Craft CMS Setup](docs/craft-setup.md)
-- [Customization](docs/customization.md)
+### Getting Started
+- **[Installation Guide](docs/installation.md)** - Step-by-step setup
+- **[Implementation Guide](docs/implementation-guide.md)** - Integration patterns
+- **[WordPress Configuration](docs/wordpress-configuration.md)** - All settings explained
+
+### Design Tokens
+See [design-tokens/README.md](design-tokens/README.md) for usage.
+
+## Design Tokens
+
+The `design-tokens/tokens.css` file provides consistent styling across all brands:
+
+```css
+/* In your site's CSS */
+:root {
+  --primary-color: #YOUR_BRAND_COLOR;
+}
+```
+
+All spacing, typography, colors, and transitions use these tokens for consistency.
+
+## Browser Support
+
+- Chrome 76+
+- Edge 17+
+- Safari 9+
+- Firefox 103+
+
+## Requirements
+
+- **WordPress**: 6.0+ and PHP 7.4+
+- **Design Tokens**: Modern browser with CSS custom properties support
+
+## Live Sites Using This System
+
+1. **ulterra.com** - WordPress 6.8.3
+2. **nextierofs.com** - WordPress 6.8.3
+3. **patenergy.com** - Craft CMS 4.16.13
+4. **superiorqc.com** - WordPress 6.9
+
+## Support
+
+Contact the development team for questions or issues.
 
 ## License
 
 Proprietary - Patterson Companies
-
-## Support
-
-Contact the development team for support and questions.
-

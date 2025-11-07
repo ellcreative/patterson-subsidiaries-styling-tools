@@ -2,115 +2,139 @@
 
 ## Prerequisites
 
-- WordPress 6.0+ or Craft CMS 4+
-- PHP 7.4 or higher
+- WordPress 6.0+
+- PHP 7.4+
 - Modern browser (Chrome 76+, Edge 17+, Safari 9+, Firefox 103+)
 
-## Installation Steps
+## WordPress Installation
 
-### For WordPress Sites
+### 1. Upload Plugin
 
-1. **Upload Plugin**
-   - Copy the `wordpress` folder to `wp-content/plugins/`
-   - Rename it to `patterson-navigation` if needed
+```bash
+# Copy the wordpress folder to your plugins directory
+cp -r wordpress /path/to/wp-content/plugins/patterson-navigation
+```
 
-2. **Activate Plugin**
-   - Go to WordPress Admin → Plugins
-   - Find "Patterson Navigation"
-   - Click "Activate"
+Or manually:
+- Upload `wordpress` folder to `wp-content/plugins/`
+- Rename to `patterson-navigation` if needed
 
-3. **Configure Settings**
-   - Go to Patterson Nav in the admin menu
-   - Configure your settings (see [Configuration Guide](configuration.md))
+### 2. Activate Plugin
 
-4. **Set Up Menus**
-   - Go to Appearance → Menus
-   - Create or edit your menus
-   - Add custom fields to menu items (descriptions, featured content)
+- Go to **WordPress Admin → Plugins**
+- Find "Patterson Subsidiary Navigation"
+- Click **Activate**
 
-5. **Add to Theme**
-   - Add to your theme template:
-   ```php
-   <?php patterson_nav(); ?>
-   ```
-   
-   OR use the shortcode:
-   ```php
-   <?php echo do_shortcode('[patterson_navigation]'); ?>
-   ```
+### 3. Create Menus
 
-### For Craft CMS Sites
+Go to **Appearance → Menus** and create:
 
-_Note: Craft plugin development pending. Contact development team for implementation._
+**Universal Navigation** (Patterson top bar):
+- About
+- Our Brands
+- Investors
+- Sustainability
+- Careers
 
-## Design Tokens Setup
+**Main Navigation** (Your brand):
+- 5-7 parent items
+- Add sub-items under each parent
+- Add descriptions to sub-items (optional)
 
-1. **Copy Tokens File**
-   - Copy `design-tokens/tokens.css` to your theme/site
+### 4. Configure Plugin
 
-2. **Include in Your Site**
-   
-   **For WordPress:**
-   ```php
-   // In functions.php
-   wp_enqueue_style('patterson-tokens', get_template_directory_uri() . '/tokens.css');
-   ```
-   
-   **For Craft:**
-   ```twig
-   {# In your layout template #}
-   <link rel="stylesheet" href="{{ alias('@web/assets/tokens.css') }}">
-   ```
-   
-   **OR configure in plugin settings:**
-   - Enable "Load Design Tokens File"
-   - Enter the URL to your tokens.css file
+Go to **Patterson Nav** in admin menu:
 
-3. **Customize Brand Color**
-   - Edit tokens.css and change:
-   ```css
-   :root {
-     --brand-primary: #YOUR_BRAND_COLOR;
-   }
-   ```
+**Required Settings:**
+- Select Universal Nav menu
+- Select Main Nav menu
+- Set brand primary color
+
+**Optional Settings:**
+- Enable brand logo (upload your logo)
+- Enable search (add shortcode/HTML)
+- Enable CTA button (set text and URL)
+- Adjust mobile breakpoint if needed
+
+Click **Save Changes**
+
+### 5. Add to Theme
+
+Add to your header template (e.g., `header.php`):
+
+```php
+<div class="your-hero-section" style="position: relative;">
+  <?php patterson_nav(); ?>
+  
+  <div class="hero-content" style="padding-top: 150px;">
+    <!-- Your hero content -->
+  </div>
+</div>
+```
+
+**Important:** The navigation needs a `position: relative` parent container to position correctly.
+
+## Design Tokens (Optional)
+
+The navigation uses design tokens from `design-tokens/tokens.css`. You have two options:
+
+### Option 1: Load via Plugin (Recommended)
+1. Upload `design-tokens/tokens.css` to your theme
+2. In **Patterson Nav** settings:
+   - Check "Load Design Tokens File"
+   - Enter URL: `/wp-content/themes/yourtheme/tokens.css`
+
+### Option 2: Load in Theme
+```php
+// In functions.php
+wp_enqueue_style(
+    'patterson-tokens', 
+    get_template_directory_uri() . '/assets/css/tokens.css'
+);
+```
+
+### Customize Brand Color
+
+Override in your theme CSS or tokens file:
+```css
+:root {
+  --primary-color: #YOUR_BRAND_COLOR;
+}
+```
 
 ## Verification
 
-After installation, verify:
+Test the following:
 
-- [ ] Navigation displays correctly on desktop
-- [ ] Mobile menu works (test at <1024px viewport)
-- [ ] Dropdowns open/close properly
+- [ ] Navigation displays on desktop
+- [ ] Dropdowns open when clicking parent items
+- [ ] Mobile menu works (resize browser to <1420px)
 - [ ] Keyboard navigation works (Tab, Enter, Escape)
-- [ ] Brand color is correct
-- [ ] Search functionality works (if enabled)
-- [ ] CTA button displays (if enabled)
+- [ ] Brand color appears on CTA button
+- [ ] Search works (if enabled)
 
 ## Troubleshooting
 
-### Navigation not displaying
-- Check that the plugin is activated
-- Verify you've added the template tag or shortcode
-- Check browser console for JavaScript errors
+**Navigation not showing**
+- Verify plugin is activated
+- Check you added `<?php patterson_nav(); ?>` to theme
+- Ensure menus are assigned in settings
 
-### Styles look wrong
-- Ensure design tokens file is loaded
-- Check for theme CSS conflicts
-- Verify Font Awesome is loading
+**Styles look wrong**
+- Check design tokens file is loading
+- Look for CSS conflicts with theme
+- Clear browser cache
 
-### Dropdowns not working
+**Dropdowns don't work**
 - Check browser console for JavaScript errors
-- Ensure JavaScript file is loading
+- Verify JavaScript file is loading
 - Test in different browser
 
-### Mobile menu not working
-- Verify viewport is less than 1024px
-- Check that backdrop and mobile menu elements exist
-- Test JavaScript console for errors
+**Mobile menu doesn't work**
+- Ensure viewport is < 1420px (or your custom breakpoint)
+- Check for JavaScript errors in console
 
 ## Next Steps
 
-- [Configuration Guide](configuration.md)
-- [WordPress Setup](wordpress-setup.md)
-- [Customization Guide](customization.md)
-
+- [WordPress Configuration](wordpress-configuration.md) - Detailed settings reference
+- [Implementation Guide](implementation-guide.md) - Integration tips and best practices
