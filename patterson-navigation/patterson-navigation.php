@@ -67,8 +67,14 @@ class Patterson_Navigation {
      * Initialize hooks
      */
     private function init_hooks() {
+        // Register navigation menus
+        add_action('after_setup_theme', array($this, 'register_nav_menus'));
+        
         // Enqueue assets
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
+        
+        // Add filter to load custom menu item fields (needed on frontend)
+        add_filter('wp_setup_nav_menu_item', array($this, 'add_menu_item_custom_fields'));
         
         // Initialize admin
         if (is_admin()) {
@@ -79,39 +85,49 @@ class Patterson_Navigation {
         // Add shortcode for rendering navigation
         add_shortcode('patterson_navigation', array('Patterson_Nav_Renderer', 'render_navigation'));
         
+        // Prevent wpautop from adding <p> tags around shortcode output
+        add_filter('the_content', array($this, 'remove_wpautop_for_shortcode'), 9);
+        
         // Add theme support check
         add_action('after_setup_theme', array($this, 'check_theme_support'));
+    }
+    
+    /**
+     * Register navigation menu locations
+     */
+    public function register_nav_menus() {
+        register_nav_menus(array(
+            'patterson-main-nav' => __('Patterson Main Navigation', 'patterson-nav'),
+        ));
     }
     
     /**
      * Enqueue frontend assets
      */
     public function enqueue_frontend_assets() {
-        // Get plugin settings
-        $options = get_option('patterson_nav_settings', array());
+        // Enqueue Adobe Typekit fonts (required for Patterson brand fonts)
+        wp_enqueue_style(
+            'patterson-typekit',
+            'https://use.typekit.net/akz7boc.css',
+            array(),
+            null
+        );
         
-        // Enqueue design tokens if enabled
-        if (isset($options['enable_design_tokens']) && $options['enable_design_tokens']) {
-            $tokens_url = isset($options['design_tokens_url']) ? $options['design_tokens_url'] : '';
-            if ($tokens_url) {
-                wp_enqueue_style(
-                    'patterson-nav-tokens',
-                    esc_url($tokens_url),
-                    array(),
-                    PATTERSON_NAV_VERSION
-                );
-            }
-        }
+        // Enqueue design tokens (required)
+        wp_enqueue_style(
+            'patterson-nav-tokens',
+            PATTERSON_NAV_PLUGIN_URL . 'assets/css/tokens.css',
+            array('patterson-typekit'),
+            PATTERSON_NAV_VERSION
+        );
         
         // Enqueue navigation CSS
         wp_enqueue_style(
             'patterson-nav-styles',
             PATTERSON_NAV_PLUGIN_URL . 'assets/css/navigation.css',
-            array(),
+            array('patterson-nav-tokens'),
             PATTERSON_NAV_VERSION
         );
-        
-        // No longer using Font Awesome - using inline SVG icons for better accessibility and performance
         
         // Enqueue navigation JS
         wp_enqueue_script(
@@ -129,6 +145,49 @@ class Patterson_Navigation {
     public function check_theme_support() {
         // Optionally add theme support features
         add_theme_support('patterson-navigation');
+    }
+    
+    /**
+     * Add custom fields to menu item objects
+     * This runs on both frontend and admin
+     */
+    public function add_menu_item_custom_fields($menu_item) {
+        $menu_item->description = get_post_meta($menu_item->ID, '_patterson_nav_description', true);
+        $menu_item->enable_featured = get_post_meta($menu_item->ID, '_patterson_nav_enable_featured', true);
+        $menu_item->featured_image = get_post_meta($menu_item->ID, '_patterson_nav_featured_image', true);
+        $menu_item->featured_title = get_post_meta($menu_item->ID, '_patterson_nav_featured_title', true);
+        $menu_item->featured_desc = get_post_meta($menu_item->ID, '_patterson_nav_featured_desc', true);
+        $menu_item->featured_link_text = get_post_meta($menu_item->ID, '_patterson_nav_featured_link_text', true);
+        $menu_item->featured_link_url = get_post_meta($menu_item->ID, '_patterson_nav_featured_link_url', true);
+        
+        return $menu_item;
+    }
+    
+    /**
+     * Remove wpautop from content containing our shortcode
+     * This prevents WordPress from wrapping our navigation in <p> tags
+     */
+    public function remove_wpautop_for_shortcode($content) {
+        if (has_shortcode($content, 'patterson_navigation')) {
+            // Remove wpautop filter temporarily
+            remove_filter('the_content', 'wpautop');
+            
+            // Re-add it after our shortcode runs
+            add_filter('the_content', 'wpautop', 99);
+            add_filter('the_content', array($this, 'restore_wpautop'), 100);
+        }
+        return $content;
+    }
+    
+    /**
+     * Restore wpautop for future content
+     */
+    public function restore_wpautop($content) {
+        // Ensure wpautop is back on for subsequent content
+        if (!has_filter('the_content', 'wpautop')) {
+            add_filter('the_content', 'wpautop');
+        }
+        return $content;
     }
 }
 
@@ -148,17 +207,13 @@ patterson_navigation_init();
 register_activation_hook(__FILE__, function() {
     // Set default options
     $default_options = array(
-        'universal_nav_enabled' => true,
         'main_nav_menu' => 0,
-        'universal_nav_menu' => 0,
         'search_enabled' => true,
         'search_code' => '',
         'cta_enabled' => true,
         'cta_text' => 'Contact',
         'cta_url' => '#contact',
         'brand_color' => '#e51b24',
-        'enable_design_tokens' => false,
-        'design_tokens_url' => '',
     );
     
     add_option('patterson_nav_settings', $default_options);

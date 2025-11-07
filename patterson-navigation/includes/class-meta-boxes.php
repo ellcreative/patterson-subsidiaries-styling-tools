@@ -17,6 +17,70 @@ class Patterson_Nav_Meta_Boxes {
         add_action('wp_nav_menu_item_custom_fields', array($this, 'add_menu_item_fields'), 10, 4);
         add_action('wp_update_nav_menu_item', array($this, 'save_menu_item_fields'), 10, 2);
         add_filter('wp_setup_nav_menu_item', array($this, 'add_custom_nav_fields'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_menu_assets'));
+    }
+    
+    /**
+     * Enqueue assets for menu screen
+     */
+    public function enqueue_menu_assets($hook) {
+        // Only load on the nav-menus.php page
+        if ('nav-menus.php' !== $hook) {
+            return;
+        }
+        
+        // Enqueue WordPress media uploader
+        wp_enqueue_media();
+        
+        // Add inline styles for better UX
+        wp_add_inline_style('wp-admin', '
+            .field-patterson-description.description-wide,
+            .field-enable-featured.description-wide {
+                background: #f0f6fc;
+                padding: 12px;
+                border-left: 3px solid #0073aa;
+                margin: 10px 0;
+                display: block !important;
+            }
+            .field-patterson-description.description-wide label {
+                font-weight: 600;
+                color: #0073aa;
+            }
+            .field-enable-featured.description-wide {
+                background: #fff9e6;
+                border-left-color: #f0b849;
+            }
+            .field-enable-featured.description-wide label {
+                color: #f0b849;
+                font-weight: 600;
+            }
+            .patterson-featured-content {
+                padding: 15px;
+                background: #fff;
+                border: 2px solid #f0b849;
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+            .patterson-featured-content::before {
+                content: "Featured Content for Mega Menu";
+                display: block;
+                font-weight: 600;
+                font-size: 13px;
+                color: #f0b849;
+                margin-bottom: 15px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .patterson-featured-content p {
+                margin-bottom: 15px;
+            }
+            .patterson-featured-content label {
+                font-weight: 600;
+            }
+            .patterson-upload-image {
+                margin-top: 5px;
+            }
+        ');
     }
     
     /**
@@ -33,17 +97,19 @@ class Patterson_Nav_Meta_Boxes {
         $featured_link_url = get_post_meta($item_id, '_patterson_nav_featured_link_url', true);
         
         ?>
-        <p class="field-description description description-wide">
-            <label for="edit-menu-item-patterson-description-<?php echo esc_attr($item_id); ?>">
-                <?php esc_html_e('Menu Item Description', 'patterson-nav'); ?><br>
-                <textarea 
-                    id="edit-menu-item-patterson-description-<?php echo esc_attr($item_id); ?>"
-                    class="widefat edit-menu-item-patterson-description" 
-                    rows="3"
-                    name="menu-item-patterson-description[<?php echo esc_attr($item_id); ?>]"><?php echo esc_textarea($description); ?></textarea>
-                <span class="description"><?php esc_html_e('Short description shown in dropdown menu', 'patterson-nav'); ?></span>
-            </label>
-        </p>
+        <?php if ($depth > 0) : // Only show description for child items (not top-level) ?>
+            <p class="field-patterson-description description description-wide">
+                <label for="edit-menu-item-patterson-description-<?php echo esc_attr($item_id); ?>">
+                    <?php esc_html_e('📝 Patterson Nav: Menu Item Description', 'patterson-nav'); ?><br>
+                    <textarea 
+                        id="edit-menu-item-patterson-description-<?php echo esc_attr($item_id); ?>"
+                        class="widefat edit-menu-item-patterson-description" 
+                        rows="3"
+                        name="menu-item-patterson-description[<?php echo esc_attr($item_id); ?>]"><?php echo esc_textarea($description); ?></textarea>
+                    <span class="description"><?php esc_html_e('Short description shown below the menu item title in dropdown menus', 'patterson-nav'); ?></span>
+                </label>
+            </p>
+        <?php endif; ?>
         
         <?php if ($depth === 0) : // Only show featured content for top-level items ?>
             
@@ -55,8 +121,11 @@ class Patterson_Nav_Meta_Boxes {
                         value="1" 
                         name="menu-item-patterson-enable-featured[<?php echo esc_attr($item_id); ?>]"
                         <?php checked($enable_featured, '1'); ?>>
-                    <?php esc_html_e('Enable Featured Content', 'patterson-nav'); ?>
+                    <?php esc_html_e('⭐ Enable Featured Content for Mega Menu', 'patterson-nav'); ?>
                 </label>
+                <span class="description" style="display:block; margin-top:5px;">
+                    <?php esc_html_e('Check this to add a featured content section (image, title, description, and link) to this menu\'s dropdown. Note: Only shows if this item has child menu items.', 'patterson-nav'); ?>
+                </span>
             </p>
             
             <div class="patterson-featured-content" style="<?php echo $enable_featured ? '' : 'display:none;'; ?>" data-item-id="<?php echo esc_attr($item_id); ?>">

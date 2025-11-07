@@ -10,6 +10,50 @@ if (!defined('ABSPATH')) {
 class Patterson_Nav_Renderer {
     
     /**
+     * Enqueue frontend assets
+     */
+    private static function enqueue_assets() {
+        // Enqueue Adobe Typekit fonts (required for Patterson brand fonts)
+        if (!wp_style_is('patterson-typekit', 'enqueued')) {
+            wp_enqueue_style(
+                'patterson-typekit',
+                'https://use.typekit.net/akz7boc.css',
+                array(),
+                null
+            );
+        }
+        
+        // Only enqueue if not already enqueued
+        if (!wp_style_is('patterson-nav-tokens', 'enqueued')) {
+            wp_enqueue_style(
+                'patterson-nav-tokens',
+                PATTERSON_NAV_PLUGIN_URL . 'assets/css/tokens.css',
+                array('patterson-typekit'),
+                PATTERSON_NAV_VERSION
+            );
+        }
+        
+        if (!wp_style_is('patterson-nav-styles', 'enqueued')) {
+            wp_enqueue_style(
+                'patterson-nav-styles',
+                PATTERSON_NAV_PLUGIN_URL . 'assets/css/navigation.css',
+                array('patterson-nav-tokens'),
+                PATTERSON_NAV_VERSION
+            );
+        }
+        
+        if (!wp_script_is('patterson-nav-script', 'enqueued')) {
+            wp_enqueue_script(
+                'patterson-nav-script',
+                PATTERSON_NAV_PLUGIN_URL . 'assets/js/navigation.js',
+                array(),
+                PATTERSON_NAV_VERSION,
+                true
+            );
+        }
+    }
+    
+    /**
      * Get SVG icon
      */
     private static function get_icon_svg($type = 'angle-down') {
@@ -28,6 +72,9 @@ class Patterson_Nav_Renderer {
      */
     public static function render_navigation($atts = array()) {
         $options = get_option('patterson_nav_settings');
+        
+        // Ensure assets are enqueued (for block themes and shortcode usage)
+        self::enqueue_assets();
         
         // Start output buffering
         ob_start();
@@ -59,28 +106,13 @@ class Patterson_Nav_Renderer {
         
         echo '</style>';
         
-        ?>
-        <!-- Skip to main content link -->
-        <a href="#main-content" class="skip-link"><?php esc_html_e('Skip to main content', 'patterson-nav'); ?></a>
-        
-        <header class="site-navigation" id="site-navigation">
-            
-            <?php if (!empty($options['universal_nav_enabled']) && !empty($options['universal_nav_menu'])) : ?>
-                <!-- Universal Navigation -->
-                <nav class="universal-nav" aria-label="<?php esc_attr_e('Utility navigation', 'patterson-nav'); ?>">
-                    <div class="nav-container">
-                        <?php self::render_universal_nav($options); ?>
-                    </div>
-                </nav>
-            <?php endif; ?>
-            
-            <!-- Main Navigation -->
-            <nav class="main-nav" aria-label="<?php esc_attr_e('Main navigation', 'patterson-nav'); ?>">
+        ?><a href="#main-content" class="skip-link"><?php esc_html_e('Skip to main content', 'patterson-nav'); ?></a><div class="site-navigation" id="site-navigation"><nav class="universal-nav" aria-label="<?php esc_attr_e('Utility navigation', 'patterson-nav'); ?>">
                 <div class="nav-container">
-                    
-                    <?php if (!empty($options['brand_logo_enabled']) && !empty($options['brand_logo_url'])) : ?>
-                        <!-- Brand Logo (Optional) -->
-                        <div class="main-nav__brand-logo">
+                    <?php self::render_universal_nav(); ?>
+                </div>
+            </nav><nav class="main-nav" aria-label="<?php esc_attr_e('Main navigation', 'patterson-nav'); ?>"><div class="nav-container"><?php 
+                    if (!empty($options['brand_logo_enabled']) && !empty($options['brand_logo_url'])) : 
+                ?><div class="main-nav__brand-logo">
                             <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name') . ' ' . __('Home', 'patterson-nav')); ?>">
                                 <img 
                                     src="<?php echo esc_url($options['brand_logo_url']); ?>" 
@@ -89,85 +121,82 @@ class Patterson_Nav_Renderer {
                                     height="<?php echo !empty($options['brand_logo_height']) ? esc_attr($options['brand_logo_height']) : '24'; ?>"
                                 >
                             </a>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Mobile Menu Toggle -->
-                    <button 
+                        </div><?php 
+                    endif; 
+                    ?><button 
                         class="main-nav__mobile-toggle" 
                         aria-expanded="false" 
                         aria-controls="mobile-menu"
                         aria-label="<?php esc_attr_e('Toggle navigation menu', 'patterson-nav'); ?>"
-                    >
-                        <span class="main-nav__hamburger" aria-hidden="true"></span>
-                    </button>
-                    
-                    <!-- Desktop Menu -->
-                    <?php if (!empty($options['main_nav_menu'])) : ?>
-                        <?php self::render_main_nav($options); ?>
-                    <?php endif; ?>
-                    
-                    <!-- Actions (Search + CTA) -->
-                    <div class="main-nav__actions">
-                        <?php if (!empty($options['search_enabled'])) : ?>
-                            <?php self::render_search($options); ?>
-                        <?php endif; ?>
+                    ><span class="main-nav__hamburger" aria-hidden="true"></span></button><?php 
+                    if (!empty($options['main_nav_menu'])) : 
+                        self::render_main_nav($options);
+                    endif; 
+                    ?><div class="main-nav__actions"><?php 
+                        if (!empty($options['search_enabled'])) : 
+                            self::render_search($options);
+                        endif;
                         
-                        <?php if (!empty($options['cta_enabled']) && !empty($options['cta_text'])) : ?>
-                            <a href="<?php echo esc_url($options['cta_url']); ?>" class="main-nav__cta">
-                                <?php echo esc_html($options['cta_text']); ?>
-                            </a>
-                        <?php endif; ?>
-                    </div>
-                    
-                </div>
-            </nav>
-            
-            <!-- Dropdown Mega Menus -->
-            <?php if (!empty($options['main_nav_menu'])) : ?>
-                <?php self::render_dropdowns($options); ?>
-            <?php endif; ?>
-            
-            <!-- Mobile Menu Panel -->
-            <?php if (!empty($options['main_nav_menu'])) : ?>
-                <?php self::render_mobile_menu($options); ?>
-            <?php endif; ?>
-            
-            <!-- Mobile Menu Backdrop -->
-            <div class="main-nav__backdrop" hidden></div>
-            
-        </header>
-        <?php
+                        if (!empty($options['cta_enabled']) && !empty($options['cta_text'])) : 
+                            ?><a href="<?php echo esc_url($options['cta_url']); ?>" class="main-nav__cta"><?php echo esc_html($options['cta_text']); ?></a><?php 
+                        endif; 
+                    ?></div></div>
+            </nav><?php 
+            if (!empty($options['main_nav_menu'])) : 
+                self::render_dropdowns($options);
+                self::render_mobile_menu($options);
+            endif; 
+            ?><div class="main-nav__backdrop" hidden></div></div><?php
         
         return ob_get_clean();
     }
     
     /**
-     * Render universal navigation
+     * Render universal navigation (hardcoded Patterson Companies links)
      */
-    private static function render_universal_nav($options) {
-        $menu_id = $options['universal_nav_menu'];
-        $menu = wp_get_nav_menu_object($menu_id);
-        
-        if (!$menu) {
-            return;
-        }
+    private static function render_universal_nav() {
+        // Patterson logo/brand
+        $logo_url = PATTERSON_NAV_PLUGIN_URL . 'assets/patterson-logo.svg';
         
         echo '<div class="universal-nav__logo">';
-        echo '<a href="' . esc_url(home_url('/')) . '">';
-        echo '<span class="universal-nav__logo-text">' . esc_html(get_bloginfo('name')) . '</span>';
+        echo '<a href="https://www.pattersoncompanies.com/" aria-label="Patterson Companies">';
+        echo '<img src="' . esc_url($logo_url) . '" alt="Patterson" width="130" height="22">';
         echo '</a>';
         echo '</div>';
         
-        $menu_items = wp_get_nav_menu_items($menu_id);
-        if ($menu_items) {
+        // Static Patterson Companies navigation links
+        $universal_links = array(
+            array(
+                'title' => 'About Patterson',
+                'url' => 'https://www.pattersoncompanies.com/about/'
+            ),
+            array(
+                'title' => 'Careers',
+                'url' => 'https://www.pattersoncompanies.com/careers/'
+            ),
+            array(
+                'title' => 'Investors',
+                'url' => 'https://www.pattersoncompanies.com/investors/'
+            ),
+            array(
+                'title' => 'News',
+                'url' => 'https://www.pattersoncompanies.com/news/'
+            ),
+            array(
+                'title' => 'Contact',
+                'url' => 'https://www.pattersoncompanies.com/contact/'
+            ),
+        );
+        
+        // Allow filtering of universal links
+        $universal_links = apply_filters('patterson_nav_universal_links', $universal_links);
+        
+        if (!empty($universal_links)) {
             echo '<ul class="universal-nav__menu" role="list">';
-            foreach ($menu_items as $item) {
-                if ($item->menu_item_parent == 0) { // Only top-level items
-                    echo '<li>';
-                    echo '<a href="' . esc_url($item->url) . '">' . esc_html($item->title) . '</a>';
-                    echo '</li>';
-                }
+            foreach ($universal_links as $link) {
+                echo '<li>';
+                echo '<a href="' . esc_url($link['url']) . '">' . esc_html($link['title']) . '</a>';
+                echo '</li>';
             }
             echo '</ul>';
         }
@@ -425,18 +454,39 @@ class Patterson_Nav_Renderer {
             echo '</div>';
         }
         
-        // Universal nav in mobile
-        if (!empty($options['universal_nav_enabled']) && !empty($options['universal_nav_menu'])) {
-            $universal_items = wp_get_nav_menu_items($options['universal_nav_menu']);
-            if ($universal_items) {
-                echo '<ul class="main-nav__mobile-universal" role="list">';
-                foreach ($universal_items as $item) {
-                    if ($item->menu_item_parent == 0) {
-                        echo '<li><a href="' . esc_url($item->url) . '">' . esc_html($item->title) . '</a></li>';
-                    }
-                }
-                echo '</ul>';
+        // Universal nav in mobile (Patterson Companies links)
+        $universal_links = array(
+            array(
+                'title' => 'About Patterson',
+                'url' => 'https://www.pattersoncompanies.com/about/'
+            ),
+            array(
+                'title' => 'Careers',
+                'url' => 'https://www.pattersoncompanies.com/careers/'
+            ),
+            array(
+                'title' => 'Investors',
+                'url' => 'https://www.pattersoncompanies.com/investors/'
+            ),
+            array(
+                'title' => 'News',
+                'url' => 'https://www.pattersoncompanies.com/news/'
+            ),
+            array(
+                'title' => 'Contact',
+                'url' => 'https://www.pattersoncompanies.com/contact/'
+            ),
+        );
+        
+        // Allow filtering of universal links
+        $universal_links = apply_filters('patterson_nav_universal_links', $universal_links);
+        
+        if (!empty($universal_links)) {
+            echo '<ul class="main-nav__mobile-universal" role="list">';
+            foreach ($universal_links as $link) {
+                echo '<li><a href="' . esc_url($link['url']) . '">' . esc_html($link['title']) . '</a></li>';
             }
+            echo '</ul>';
         }
         
         echo '</div>'; // .main-nav__mobile-menu

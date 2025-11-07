@@ -44,6 +44,7 @@ body {
   inset-inline: 0;
   inset-block-start: 0;
   z-index: var(--z-index-fixed);
+  margin: 0 !important; /* Override WordPress block theme layout margins */
 }
 
 /* ============================================
@@ -129,6 +130,15 @@ body {
 /* ============================================
    SKIP LINK
    ============================================ */
+
+/* Remove margins from WordPress-generated <p> wrapper */
+p:has(> .skip-link) {
+  margin: 0;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 9999;
+}
 
 .skip-link {
   position: absolute;

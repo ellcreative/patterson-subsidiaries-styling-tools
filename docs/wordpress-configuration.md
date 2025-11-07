@@ -127,6 +127,71 @@ Navigate to **WordPress Admin** → **Patterson Nav**
 - **Example**: `/wp-content/themes/yourtheme/assets/css/tokens.css`
 - **Note**: Only loads if "Load Design Tokens File" is enabled
 
+## Menu Configuration
+
+### Setting Up Dropdown Menus with Descriptions and Featured Content
+
+The navigation supports enhanced dropdown menus with item descriptions and featured content sections.
+
+#### Enable Custom Fields in Menu Editor
+
+**Important**: Before you can see the custom fields, you must enable them:
+
+1. Go to **Appearance** → **Menus**
+2. Click **Screen Options** at the top right of the page
+3. Check the **"Description"** checkbox
+4. The Patterson custom fields will now appear when you expand menu items
+
+#### Menu Item Descriptions (Child Items Only)
+
+**What**: Short descriptions that appear below menu item titles in dropdown menus
+
+**Where**: Only available on **child items** (sub-menu items), not on top-level items
+
+**How to add**:
+1. In the menu editor, expand a **child menu item** (indented item)
+2. Scroll down to find the blue box: **"📝 Patterson Nav: Menu Item Description"**
+3. Enter a short description (1-2 sentences)
+4. Save the menu
+
+**Example**:
+```
+Menu Item: Dashboard
+Description: Access real-time insights and analytics
+```
+
+#### Featured Content (Top-Level Items Only)
+
+**What**: A featured content section that appears on the right side of mega-menu dropdowns
+
+**Where**: Available on all **top-level menu items** (but only displays in dropdowns that have child items)
+
+**How to add**:
+1. In the menu editor, expand a **top-level menu item** that has children
+2. Scroll down to find the yellow box: **"⭐ Enable Featured Content for Mega Menu"**
+3. Check the checkbox to enable featured content
+4. Fill in the featured content fields:
+   - **Featured Image URL**: Click "Select Image" to choose an image
+   - **Featured Title**: Main heading for the featured content
+   - **Featured Description**: Text description
+   - **Featured Link Text**: Call-to-action text (e.g., "Learn More")
+   - **Featured Link URL**: Where the link goes
+5. Save the menu
+
+**Best Practices**:
+- Use high-quality images (recommended: 455px wide × 255px tall)
+- Keep titles short and compelling
+- Descriptions should be 2-3 sentences max
+- Use descriptive link text (not just "More" or "Learn More")
+
+**Example**:
+```
+Featured Title: New Product Launch
+Featured Description: Discover our latest innovation in drilling technology with enhanced performance and reliability.
+Featured Link Text: View Product Details
+Featured Link URL: /products/new-drill-system
+```
+
 ## Usage
 
 After configuring the settings, add the navigation to your theme:

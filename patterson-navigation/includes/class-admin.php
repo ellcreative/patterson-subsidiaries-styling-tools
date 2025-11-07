@@ -41,22 +41,6 @@ class Patterson_Nav_Admin {
             'sanitize_callback' => array($this, 'sanitize_settings')
         ));
         
-        // General Settings Section
-        add_settings_section(
-            'patterson_nav_general',
-            __('General Settings', 'patterson-nav'),
-            array($this, 'render_general_section'),
-            'patterson-navigation'
-        );
-        
-        // Universal Nav Section
-        add_settings_section(
-            'patterson_nav_universal',
-            __('Universal Navigation', 'patterson-nav'),
-            array($this, 'render_universal_section'),
-            'patterson-navigation'
-        );
-        
         // Main Nav Section
         add_settings_section(
             'patterson_nav_main',
@@ -65,7 +49,7 @@ class Patterson_Nav_Admin {
             'patterson-navigation'
         );
         
-        // Design Tokens Section
+        // Design & Branding Section
         add_settings_section(
             'patterson_nav_design',
             __('Design & Branding', 'patterson-nav'),
@@ -82,22 +66,6 @@ class Patterson_Nav_Admin {
      */
     private function add_settings_fields() {
         $fields = array(
-            // General
-            array(
-                'id' => 'universal_nav_enabled',
-                'title' => __('Enable Universal Nav', 'patterson-nav'),
-                'callback' => 'render_checkbox_field',
-                'section' => 'patterson_nav_general'
-            ),
-            
-            // Universal Nav
-            array(
-                'id' => 'universal_nav_menu',
-                'title' => __('Universal Nav Menu', 'patterson-nav'),
-                'callback' => 'render_menu_select_field',
-                'section' => 'patterson_nav_universal'
-            ),
-            
             // Main Nav
             array(
                 'id' => 'main_nav_menu',
@@ -115,19 +83,22 @@ class Patterson_Nav_Admin {
                 'id' => 'brand_logo_url',
                 'title' => __('Brand Logo URL', 'patterson-nav'),
                 'callback' => 'render_media_field',
-                'section' => 'patterson_nav_main'
+                'section' => 'patterson_nav_main',
+                'class' => 'brand-logo-field'
             ),
             array(
                 'id' => 'brand_logo_width',
                 'title' => __('Logo Width (px)', 'patterson-nav'),
                 'callback' => 'render_number_field',
-                'section' => 'patterson_nav_main'
+                'section' => 'patterson_nav_main',
+                'class' => 'brand-logo-field'
             ),
             array(
                 'id' => 'brand_logo_height',
                 'title' => __('Logo Height (px)', 'patterson-nav'),
                 'callback' => 'render_number_field',
-                'section' => 'patterson_nav_main'
+                'section' => 'patterson_nav_main',
+                'class' => 'brand-logo-field'
             ),
             array(
                 'id' => 'search_enabled',
@@ -173,28 +144,21 @@ class Patterson_Nav_Admin {
                 'callback' => 'render_color_field',
                 'section' => 'patterson_nav_design'
             ),
-            array(
-                'id' => 'enable_design_tokens',
-                'title' => __('Load Design Tokens File', 'patterson-nav'),
-                'callback' => 'render_checkbox_field',
-                'section' => 'patterson_nav_design'
-            ),
-            array(
-                'id' => 'design_tokens_url',
-                'title' => __('Design Tokens URL', 'patterson-nav'),
-                'callback' => 'render_text_field',
-                'section' => 'patterson_nav_design'
-            ),
         );
         
         foreach ($fields as $field) {
+            $args = array('id' => $field['id']);
+            if (isset($field['class'])) {
+                $args['class'] = $field['class'];
+            }
+            
             add_settings_field(
                 'patterson_nav_' . $field['id'],
                 $field['title'],
                 array($this, $field['callback']),
                 'patterson-navigation',
                 $field['section'],
-                array('id' => $field['id'])
+                $args
             );
         }
     }
@@ -202,21 +166,13 @@ class Patterson_Nav_Admin {
     /**
      * Render section descriptions
      */
-    public function render_general_section() {
-        echo '<p>' . esc_html__('Configure general navigation settings.', 'patterson-nav') . '</p>';
-    }
-    
-    public function render_universal_section() {
-        echo '<p>' . esc_html__('The universal navigation appears above the main navigation.', 'patterson-nav') . '</p>';
-    }
-    
     public function render_main_section() {
-        echo '<p>' . esc_html__('Configure the main navigation menu and actions.', 'patterson-nav') . '</p>';
+        echo '<p>' . esc_html__('Configure the main navigation menu and actions. The universal Patterson navigation bar will always appear above the main navigation.', 'patterson-nav') . '</p>';
         echo '<p><strong>' . esc_html__('Brand Logo:', 'patterson-nav') . '</strong> ' . esc_html__('Optional. Some brands display their logo before the navigation menu items. On mobile, the logo appears next to the hamburger menu.', 'patterson-nav') . '</p>';
     }
     
     public function render_design_section() {
-        echo '<p>' . esc_html__('Customize the appearance and branding.', 'patterson-nav') . '</p>';
+        echo '<p>' . esc_html__('Customize the appearance and branding. Design tokens are automatically loaded for consistent styling.', 'patterson-nav') . '</p>';
         echo '<p><strong>' . esc_html__('Mobile Breakpoint:', 'patterson-nav') . '</strong> ' . esc_html__('The viewport width (in pixels) at which the navigation switches to the mobile hamburger menu.', 'patterson-nav') . '</p>';
     }
     
@@ -226,11 +182,18 @@ class Patterson_Nav_Admin {
     public function render_checkbox_field($args) {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : false;
+        
+        // Add data attribute for JS toggle
+        $data_attr = '';
+        if ($args['id'] === 'brand_logo_enabled') {
+            $data_attr = 'id="brand_logo_enabled_checkbox"';
+        }
         ?>
         <label>
             <input type="checkbox" 
                    name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
                    value="1" 
+                   <?php echo $data_attr; ?>
                    <?php checked($value, 1); ?>>
         </label>
         <?php
@@ -245,11 +208,6 @@ class Patterson_Nav_Admin {
                value="<?php echo esc_attr($value); ?>" 
                class="regular-text">
         <?php
-        
-        // Add description for specific fields
-        if ($args['id'] === 'design_tokens_url') {
-            echo '<p class="description">' . esc_html__('URL to your design tokens CSS file (e.g., /wp-content/themes/yourtheme/tokens.css)', 'patterson-nav') . '</p>';
-        }
     }
     
     public function render_textarea_field($args) {
@@ -297,8 +255,9 @@ class Patterson_Nav_Admin {
     public function render_media_field($args) {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        $row_class = isset($args['class']) ? ' ' . esc_attr($args['class']) : '';
         ?>
-        <div class="patterson-nav-media-upload">
+        <div class="patterson-nav-media-upload<?php echo $row_class; ?>">
             <input type="text" 
                    id="patterson_nav_<?php echo esc_attr($args['id']); ?>" 
                    name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
@@ -323,7 +282,8 @@ class Patterson_Nav_Admin {
     
     public function render_number_field($args) {
         $options = get_option('patterson_nav_settings');
-        $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        $value = isset($options[$args['id']]) && $options[$args['id']] ? $options[$args['id']] : '';
+        $row_class = isset($args['class']) ? ' class="' . esc_attr($args['class']) . '"' : '';
         
         // Default values
         $defaults = array(
@@ -341,13 +301,14 @@ class Patterson_Nav_Admin {
             $max = 2000;
         }
         ?>
+        <span<?php echo $row_class; ?>>
         <input type="number" 
                name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
                value="<?php echo esc_attr($value); ?>" 
                placeholder="<?php echo esc_attr($placeholder); ?>"
                min="<?php echo esc_attr($min); ?>"
                max="<?php echo esc_attr($max); ?>"
-               class="small-text">
+               class="small-text brand-logo-number-field">
         <span class="description">px</span>
         <?php
         if ($args['id'] === 'brand_logo_width') {
@@ -359,6 +320,9 @@ class Patterson_Nav_Admin {
         if ($args['id'] === 'mobile_breakpoint') {
             echo '<p class="description">' . esc_html__('Default: 1420px. The navigation switches to hamburger menu at this width and below.', 'patterson-nav') . '</p>';
         }
+        ?>
+        </span>
+        <?php
     }
     
     /**
@@ -368,13 +332,13 @@ class Patterson_Nav_Admin {
         $sanitized = array();
         
         // Checkbox fields
-        $checkbox_fields = array('universal_nav_enabled', 'search_enabled', 'cta_enabled', 'enable_design_tokens', 'brand_logo_enabled');
+        $checkbox_fields = array('search_enabled', 'cta_enabled', 'brand_logo_enabled');
         foreach ($checkbox_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? 1 : 0;
         }
         
         // Text fields
-        $text_fields = array('cta_text', 'cta_url', 'brand_color', 'design_tokens_url');
+        $text_fields = array('cta_text', 'cta_url', 'brand_color');
         foreach ($text_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? sanitize_text_field($input[$field]) : '';
         }
@@ -382,17 +346,22 @@ class Patterson_Nav_Admin {
         // URL fields
         $sanitized['brand_logo_url'] = isset($input['brand_logo_url']) ? esc_url_raw($input['brand_logo_url']) : '';
         
-        // Number fields
-        $sanitized['brand_logo_width'] = isset($input['brand_logo_width']) ? absint($input['brand_logo_width']) : 198;
-        $sanitized['brand_logo_height'] = isset($input['brand_logo_height']) ? absint($input['brand_logo_height']) : 24;
-        $sanitized['mobile_breakpoint'] = isset($input['mobile_breakpoint']) ? absint($input['mobile_breakpoint']) : 1420;
+        // Number fields - only save if brand logo is enabled and values provided
+        if (!empty($sanitized['brand_logo_enabled'])) {
+            $sanitized['brand_logo_width'] = isset($input['brand_logo_width']) && $input['brand_logo_width'] ? absint($input['brand_logo_width']) : 198;
+            $sanitized['brand_logo_height'] = isset($input['brand_logo_height']) && $input['brand_logo_height'] ? absint($input['brand_logo_height']) : 24;
+        } else {
+            // Don't set values when logo is disabled (leave them undefined)
+            $sanitized['brand_logo_width'] = '';
+            $sanitized['brand_logo_height'] = '';
+        }
+        $sanitized['mobile_breakpoint'] = isset($input['mobile_breakpoint']) && $input['mobile_breakpoint'] ? absint($input['mobile_breakpoint']) : 1420;
         
         // Textarea fields
         $sanitized['search_code'] = isset($input['search_code']) ? wp_kses_post($input['search_code']) : '';
         
         // Menu select fields
         $sanitized['main_nav_menu'] = isset($input['main_nav_menu']) ? absint($input['main_nav_menu']) : 0;
-        $sanitized['universal_nav_menu'] = isset($input['universal_nav_menu']) ? absint($input['universal_nav_menu']) : 0;
         
         return $sanitized;
     }
@@ -451,6 +420,27 @@ class Patterson_Nav_Admin {
             jQuery(document).ready(function($) {
                 // Color picker
                 $(".patterson-nav-color-picker").wpColorPicker();
+                
+                // Toggle brand logo fields
+                function toggleBrandLogoFields() {
+                    var isChecked = $("#brand_logo_enabled_checkbox").is(":checked");
+                    $(".brand-logo-field").closest("tr").toggle(isChecked);
+                    
+                    // Disable hidden fields to prevent HTML5 validation issues
+                    if (isChecked) {
+                        $(".brand-logo-field input, .brand-logo-field textarea, .brand-logo-field select").prop("disabled", false);
+                    } else {
+                        $(".brand-logo-field input, .brand-logo-field textarea, .brand-logo-field select").prop("disabled", true);
+                    }
+                }
+                
+                // Initial state
+                toggleBrandLogoFields();
+                
+                // On change
+                $("#brand_logo_enabled_checkbox").on("change", function() {
+                    toggleBrandLogoFields();
+                });
                 
                 // Media uploader
                 var mediaUploader;

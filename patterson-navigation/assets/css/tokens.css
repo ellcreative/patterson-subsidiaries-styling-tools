@@ -112,6 +112,9 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
   
+  /* Navigation Breakpoint (reference only - must be updated in navigation.css) */
+  --nav-mobile-breakpoint: 1315px;
+  
   /* ============================================
      BORDERS & RADII
      ============================================ */
@@ -211,3 +214,4 @@
     --container-padding-inline: var(--space-4);
   }
 }
+
