@@ -116,6 +116,47 @@
   --nav-mobile-breakpoint: 1315px;
   
   /* ============================================
+     NAVIGATION-SPECIFIC TOKENS
+     ============================================ */
+  
+  /* Navigation Colors */
+  --nav-dropdown-title-color: #838383;
+  --nav-dropdown-item-color: #959494;
+  --nav-dropdown-featured-bg: #f8f8f8;
+  --nav-dropdown-featured-border: #eeeeee;
+  --nav-dropdown-featured-text: #282828;
+  
+  /* Navigation Spacing */
+  --nav-dropdown-section-padding: 3.75rem;      /* 60px */
+  --nav-dropdown-header-gap: 3.0625rem;         /* 49px */
+  --nav-dropdown-header-width: 18.375rem;       /* 294px */
+  --nav-dropdown-column-gap: 1.25rem;           /* 20px */
+  --nav-dropdown-column-width: 19.8125rem;      /* 317px */
+  --nav-dropdown-item-gap: 0.1875rem;           /* 3px */
+  --nav-dropdown-item-padding-block: 0.75rem;   /* 12px */
+  --nav-dropdown-item-padding-inline: 1.0625rem;/* 17px */
+  --nav-dropdown-item-border-radius: 0.25rem;   /* 4px */
+  --nav-dropdown-featured-width: 28.4375rem;    /* 455px */
+  --nav-dropdown-featured-min-height: 34.375rem;/* 550px */
+  --nav-dropdown-featured-content-width: 25.25rem; /* 404px */
+  --nav-dropdown-featured-padding-top: 1.625rem;   /* 26px */
+  --nav-dropdown-featured-padding-inline: 1.5rem;  /* 24px */
+  --nav-dropdown-featured-padding-bottom: 1.25rem; /* 20px */
+  --nav-dropdown-featured-gap: 1.3125rem;          /* 21px */
+  --nav-dropdown-featured-image-height: 15.9375rem;/* 255px */
+  --nav-dropdown-featured-link-gap: 0.5625rem;     /* 9px */
+  
+  /* Navigation Typography */
+  --nav-dropdown-title-size: 1.5625rem;         /* 25px */
+  --nav-dropdown-item-title-size: 1rem;         /* 16px */
+  --nav-dropdown-item-desc-size: 0.875rem;      /* 14px */
+  --nav-dropdown-item-desc-line-height: 1.0625rem; /* 17px */
+  --nav-dropdown-item-desc-width: 17.6875rem;   /* 283px */
+  --nav-dropdown-featured-title-size: 1.8125rem;/* 29px */
+  --nav-dropdown-featured-desc-line-height: 1.4375rem; /* 23px */
+  --nav-dropdown-featured-link-size: 1.25rem;   /* 20px */
+  
+  /* ============================================
      BORDERS & RADII
      ============================================ */
   

@@ -482,11 +482,23 @@ class Patterson_Nav_Renderer {
         $universal_links = apply_filters('patterson_nav_universal_links', $universal_links);
         
         if (!empty($universal_links)) {
-            echo '<ul class="main-nav__mobile-universal" role="list">';
+            echo '<div class="main-nav__mobile-universal">';
+            
+            // Patterson logo
+            echo '<div class="main-nav__mobile-universal-logo">';
+            echo '<a href="https://pattersoncompanies.com" aria-label="Patterson Companies">';
+            echo '<img src="' . plugins_url('assets/patterson-logo.svg', dirname(__FILE__)) . '" alt="Patterson" width="130" height="22">';
+            echo '</a>';
+            echo '</div>';
+            
+            // Universal links
+            echo '<ul class="main-nav__mobile-universal-menu" role="list">';
             foreach ($universal_links as $link) {
                 echo '<li><a href="' . esc_url($link['url']) . '">' . esc_html($link['title']) . '</a></li>';
             }
             echo '</ul>';
+            
+            echo '</div>';
         }
         
         echo '</div>'; // .main-nav__mobile-menu
