@@ -159,7 +159,7 @@ class Patterson_Nav_Renderer {
         $logo_url = PATTERSON_NAV_PLUGIN_URL . 'assets/patterson-logo.svg';
         
         echo '<div class="universal-nav__logo">';
-        echo '<a href="https://www.pattersoncompanies.com/" aria-label="Patterson Companies">';
+        echo '<a href="https://patenergy.com/" aria-label="Patterson Companies">';
         echo '<img src="' . esc_url($logo_url) . '" alt="Patterson" width="130" height="22">';
         echo '</a>';
         echo '</div>';
@@ -167,24 +167,24 @@ class Patterson_Nav_Renderer {
         // Static Patterson Companies navigation links
         $universal_links = array(
             array(
-                'title' => 'About Patterson',
-                'url' => 'https://www.pattersoncompanies.com/about/'
+                'title' => 'About',
+                'url' => 'https://patenergy.com/about-us/'
             ),
             array(
-                'title' => 'Careers',
-                'url' => 'https://www.pattersoncompanies.com/careers/'
+                'title' => 'Our Brands',
+                'url' => 'https://patenergy.com/'
             ),
             array(
                 'title' => 'Investors',
-                'url' => 'https://www.pattersoncompanies.com/investors/'
+                'url' => 'https://investor.patenergy.com/overview/'
             ),
             array(
-                'title' => 'News',
-                'url' => 'https://www.pattersoncompanies.com/news/'
+                'title' => 'Sustainability',
+                'url' => 'https://esg.patenergy.com/'
             ),
             array(
-                'title' => 'Contact',
-                'url' => 'https://www.pattersoncompanies.com/contact/'
+                'title' => 'Careers',
+                'url' => 'https://patenergy.com/careers/'
             ),
         );
         
@@ -457,24 +457,24 @@ class Patterson_Nav_Renderer {
         // Universal nav in mobile (Patterson Companies links)
         $universal_links = array(
             array(
-                'title' => 'About Patterson',
-                'url' => 'https://www.pattersoncompanies.com/about/'
+                'title' => 'About',
+                'url' => 'https://patenergy.com/about-us/'
             ),
             array(
-                'title' => 'Careers',
-                'url' => 'https://www.pattersoncompanies.com/careers/'
+                'title' => 'Our Brands',
+                'url' => 'https://patenergy.com/'
             ),
             array(
                 'title' => 'Investors',
-                'url' => 'https://www.pattersoncompanies.com/investors/'
+                'url' => 'https://investor.patenergy.com/overview/'
             ),
             array(
-                'title' => 'News',
-                'url' => 'https://www.pattersoncompanies.com/news/'
+                'title' => 'Sustainability',
+                'url' => 'https://esg.patenergy.com/'
             ),
             array(
-                'title' => 'Contact',
-                'url' => 'https://www.pattersoncompanies.com/contact/'
+                'title' => 'Careers',
+                'url' => 'https://patenergy.com/careers/'
             ),
         );
         
@@ -486,7 +486,7 @@ class Patterson_Nav_Renderer {
             
             // Patterson logo
             echo '<div class="main-nav__mobile-universal-logo">';
-            echo '<a href="https://pattersoncompanies.com" aria-label="Patterson Companies">';
+            echo '<a href="https://patenergy.com/" aria-label="Patterson Companies">';
             echo '<img src="' . plugins_url('assets/patterson-logo.svg', dirname(__FILE__)) . '" alt="Patterson" width="130" height="22">';
             echo '</a>';
             echo '</div>';

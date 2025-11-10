@@ -7,7 +7,7 @@
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Patterson Companies
- * Author URI: https://pattersoncompanies.com
+ * Author URI: https://patenergy.com
  * License: Proprietary
  * Text Domain: patterson-nav
  * Domain Path: /languages
