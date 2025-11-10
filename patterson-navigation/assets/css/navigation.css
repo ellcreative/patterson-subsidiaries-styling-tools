@@ -328,6 +328,7 @@ p:has(> .skip-link) {
   font-weight: var(--font-weight-semibold);
   padding: var(--space-2);
   white-space: nowrap;
+  text-decoration: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
