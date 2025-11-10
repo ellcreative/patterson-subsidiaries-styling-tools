@@ -10,6 +10,45 @@ if (!defined('ABSPATH')) {
 class Patterson_Nav_Renderer {
     
     /**
+     * Get navigation configuration from JSON file
+     */
+    private static function get_config() {
+        static $config = null;
+        
+        if ($config === null) {
+            $config_file = PATTERSON_NAV_PLUGIN_DIR . 'config/navigation-config.json';
+            
+            if (file_exists($config_file)) {
+                $config = json_decode(file_get_contents($config_file), true);
+            }
+            
+            // Fallback to hardcoded config if file doesn't exist
+            if (!$config) {
+                $config = array(
+                    'universal_nav' => array(
+                        'logo' => array(
+                            'url' => 'https://patenergy.com/',
+                            'aria_label' => 'Patterson Companies',
+                            'alt' => 'Patterson',
+                            'width' => 130,
+                            'height' => 22
+                        ),
+                        'links' => array(
+                            array('title' => 'About', 'url' => 'https://patenergy.com/about-us/'),
+                            array('title' => 'Our Brands', 'url' => 'https://patenergy.com/'),
+                            array('title' => 'Investors', 'url' => 'https://investor.patenergy.com/overview/'),
+                            array('title' => 'Sustainability', 'url' => 'https://esg.patenergy.com/'),
+                            array('title' => 'Careers', 'url' => 'https://patenergy.com/careers/')
+                        )
+                    )
+                );
+            }
+        }
+        
+        return $config;
+    }
+    
+    /**
      * Enqueue frontend assets
      */
     private static function enqueue_assets() {
@@ -152,41 +191,24 @@ class Patterson_Nav_Renderer {
     }
     
     /**
-     * Render universal navigation (hardcoded Patterson Companies links)
+     * Render universal navigation (Patterson Companies links from config)
      */
     private static function render_universal_nav() {
+        // Load configuration from JSON file
+        $config = self::get_config();
+        
         // Patterson logo/brand
         $logo_url = PATTERSON_NAV_PLUGIN_URL . 'assets/patterson-logo.svg';
+        $logo_config = $config['universal_nav']['logo'];
         
         echo '<div class="universal-nav__logo">';
-        echo '<a href="https://patenergy.com/" aria-label="Patterson Companies">';
-        echo '<img src="' . esc_url($logo_url) . '" alt="Patterson" width="130" height="22">';
+        echo '<a href="' . esc_url($logo_config['url']) . '" aria-label="' . esc_attr($logo_config['aria_label']) . '">';
+        echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr($logo_config['alt']) . '" width="' . intval($logo_config['width']) . '" height="' . intval($logo_config['height']) . '">';
         echo '</a>';
         echo '</div>';
         
-        // Static Patterson Companies navigation links
-        $universal_links = array(
-            array(
-                'title' => 'About',
-                'url' => 'https://patenergy.com/about-us/'
-            ),
-            array(
-                'title' => 'Our Brands',
-                'url' => 'https://patenergy.com/'
-            ),
-            array(
-                'title' => 'Investors',
-                'url' => 'https://investor.patenergy.com/overview/'
-            ),
-            array(
-                'title' => 'Sustainability',
-                'url' => 'https://esg.patenergy.com/'
-            ),
-            array(
-                'title' => 'Careers',
-                'url' => 'https://patenergy.com/careers/'
-            ),
-        );
+        // Universal navigation links from config
+        $universal_links = $config['universal_nav']['links'];
         
         // Allow filtering of universal links
         $universal_links = apply_filters('patterson_nav_universal_links', $universal_links);
@@ -454,29 +476,9 @@ class Patterson_Nav_Renderer {
             echo '</div>';
         }
         
-        // Universal nav in mobile (Patterson Companies links)
-        $universal_links = array(
-            array(
-                'title' => 'About',
-                'url' => 'https://patenergy.com/about-us/'
-            ),
-            array(
-                'title' => 'Our Brands',
-                'url' => 'https://patenergy.com/'
-            ),
-            array(
-                'title' => 'Investors',
-                'url' => 'https://investor.patenergy.com/overview/'
-            ),
-            array(
-                'title' => 'Sustainability',
-                'url' => 'https://esg.patenergy.com/'
-            ),
-            array(
-                'title' => 'Careers',
-                'url' => 'https://patenergy.com/careers/'
-            ),
-        );
+        // Universal nav in mobile (Patterson Companies links) - use same config as desktop
+        $config = self::get_config();
+        $universal_links = $config['universal_nav']['links'];
         
         // Allow filtering of universal links
         $universal_links = apply_filters('patterson_nav_universal_links', $universal_links);
@@ -485,9 +487,10 @@ class Patterson_Nav_Renderer {
             echo '<div class="main-nav__mobile-universal">';
             
             // Patterson logo
+            $logo_config = $config['universal_nav']['logo'];
             echo '<div class="main-nav__mobile-universal-logo">';
-            echo '<a href="https://patenergy.com/" aria-label="Patterson Companies">';
-            echo '<img src="' . plugins_url('assets/patterson-logo.svg', dirname(__FILE__)) . '" alt="Patterson" width="130" height="22">';
+            echo '<a href="' . esc_url($logo_config['url']) . '" aria-label="' . esc_attr($logo_config['aria_label']) . '">';
+            echo '<img src="' . plugins_url('assets/patterson-logo.svg', dirname(__FILE__)) . '" alt="' . esc_attr($logo_config['alt']) . '" width="' . intval($logo_config['width']) . '" height="' . intval($logo_config['height']) . '">';
             echo '</a>';
             echo '</div>';
             

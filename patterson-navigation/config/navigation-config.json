@@ -1,0 +1,48 @@
+{
+  "universal_nav": {
+    "logo": {
+      "url": "https://patenergy.com/",
+      "aria_label": "Patterson Companies",
+      "alt": "Patterson",
+      "width": 130,
+      "height": 22
+    },
+    "links": [
+      {
+        "title": "About",
+        "url": "https://patenergy.com/about-us/"
+      },
+      {
+        "title": "Our Brands",
+        "url": "https://patenergy.com/"
+      },
+      {
+        "title": "Investors",
+        "url": "https://investor.patenergy.com/overview/"
+      },
+      {
+        "title": "Sustainability",
+        "url": "https://esg.patenergy.com/"
+      },
+      {
+        "title": "Careers",
+        "url": "https://patenergy.com/careers/"
+      }
+    ]
+  },
+  "company_info": {
+    "name": "Patterson-UTI Energy, Inc.",
+    "short_name": "Patterson-UTI",
+    "copyright": "Patterson-UTI"
+  },
+  "social_media": {
+    "linkedin": "https://www.linkedin.com/company/patterson-uti-energy",
+    "facebook": "https://www.facebook.com/PattersonUTI",
+    "youtube": "https://www.youtube.com/user/PattersonUTI"
+  },
+  "contact": {
+    "url": "https://patenergy.com/contact-us/",
+    "label": "Contact"
+  }
+}
+
