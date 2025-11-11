@@ -6,10 +6,22 @@
  * Structure:
  * - .universal-nav (Patterson-specific, always visible)
  * - .main-nav (brand-specific navigation)
+ * 
+ * ============================================
+ * FILE ORGANIZATION:
+ * ============================================
+ * 1. BASE STYLES (shared with WordPress plugin)
+ * 2. NAVIGATION STYLES (shared with WordPress plugin)
+ * 3. DEMO STYLES (prototype only - NOT in WordPress plugin)
+ * ============================================
  */
 
 /* Import additional fonts for dropdown menus */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&family=Roboto:wght@400&display=swap');
+
+/* ============================================================================
+   SHARED STYLES - These styles are used in the WordPress plugin
+   ============================================================================ */
 
 /* ============================================
    BRAND CONFIGURATION
@@ -48,79 +60,6 @@ body {
   inset-block-start: 0;
   z-index: var(--z-index-fixed);
   margin: 0 !important; /* Override WordPress block theme layout margins */
-}
-
-/* ============================================
-   DEMO HERO SECTION (for prototype only)
-   Each site will have their own hero component
-   ============================================ */
-
-.hero-section {
-  position: relative;
-  min-block-size: 100vh;
-  background-image: url('../assets/hero-bg.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: oklch(0.15 0 0 / 0.6);
-  z-index: 0;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  min-block-size: 100vh;
-  padding-block: var(--space-20);
-  padding-block-start: calc(134px + var(--space-20)); /* Account for nav height */
-}
-
-.hero-content__container {
-  max-width: var(--container-max-width);
-  margin-inline: auto;
-  padding-inline: var(--container-padding-inline);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-  max-inline-size: 800px;
-}
-
-.hero-content__badge {
-  background: var(--primary-color);
-  color: var(--color-text-inverse);
-  font-family: var(--font-heading);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: var(--space-3) var(--space-6);
-  display: inline-block;
-  align-self: flex-start;
-}
-
-.hero-content__title {
-  color: var(--color-text-inverse);
-  font-family: var(--font-heading);
-  font-size: clamp(3rem, 5vw + 1rem, 6.25rem);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-  letter-spacing: -0.03em;
-  margin: 0;
-}
-
-.hero-content__description {
-  color: var(--color-text-inverse);
-  font-family: var(--font-body);
-  font-size: var(--font-size-xl);
-  line-height: var(--line-height-relaxed);
-  margin: 0;
 }
 
 /* SVG Icons */
@@ -1045,5 +984,89 @@ p:has(> .skip-link) {
 /* Body scroll lock when mobile menu is open */
 body.mobile-menu-open {
   overflow: hidden;
+}
+
+/* ============================================================================
+   DEMO-ONLY STYLES - These styles are NOT in the WordPress plugin
+   Used for prototype demonstration purposes only
+   ============================================================================ */
+
+/* ============================================
+   DEMO HERO SECTION
+   This is for prototype visualization only
+   Each site will implement their own hero
+   ============================================ */
+
+.hero-section {
+  position: relative;
+  min-block-size: 100vh;
+  background-image: url('../assets/hero-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: oklch(0.15 0 0 / 0.6);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  min-block-size: 100vh;
+  padding-block: var(--space-20);
+  padding-block-start: calc(134px + var(--space-20)); /* Account for nav height */
+  display: flex;
+  align-items: center;
+}
+
+.hero-content__container {
+  /* Match nav-container structure exactly */
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline);
+  inline-size: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.hero-content__badge {
+  background: var(--primary-color);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-3) var(--space-6);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.hero-content__title {
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 5vw + 1rem, 6.25rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.hero-content__description {
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+.hero-content__container .main-nav__cta {
+  align-self: flex-start;
 }
 
