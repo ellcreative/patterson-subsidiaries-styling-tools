@@ -101,9 +101,29 @@ class Patterson_Nav_Renderer {
             'angle-right' => '<svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
             'search' => '<svg class="nav-icon" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/><path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
             'close' => '<svg class="nav-icon" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2L16 16M16 2L2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+            'external' => '<svg class="nav-icon nav-icon--external" aria-hidden="true" width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.9375 1.3125H1.3125V10.9375H10.9375V1.3125ZM12.25 0V1.3125V10.9375V12.25H10.9375H1.3125H0V10.9375V1.3125V0H1.3125H10.9375H12.25ZM8.53125 3.0625H9.1875V3.71875V8.09375V8.75H7.875V8.09375V5.30469L4.18359 8.99609L3.71875 9.46094L2.78906 8.53125L3.25391 8.06641L6.94531 4.375H4.375H3.71875V3.0625H4.375H8.53125Z" fill="currentColor"/></svg>',
         );
         
         return isset($icons[$type]) ? $icons[$type] : '';
+    }
+    
+    /**
+     * Check if a URL is external
+     */
+    private static function is_external_link($url) {
+        // Get the home URL hostname
+        $home_host = parse_url(home_url(), PHP_URL_HOST);
+        
+        // Parse the link URL
+        $link_host = parse_url($url, PHP_URL_HOST);
+        
+        // Relative URLs (no host) are internal
+        if (!$link_host) {
+            return false;
+        }
+        
+        // Compare hostnames (external if different)
+        return $home_host !== $link_host;
     }
     
     /**
@@ -338,10 +358,19 @@ class Patterson_Nav_Renderer {
             foreach ($chunks as $chunk) {
                 echo '<div class="main-nav__dropdown-column">';
                 foreach ($chunk as $child) {
-                    echo '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item">';
+                    $is_external = self::is_external_link($child->url);
+                    
+                    echo '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item"';
+                    if ($is_external) {
+                        echo ' data-external="true"';
+                    }
+                    echo '>';
                     echo '<span class="main-nav__dropdown-item-title">' . esc_html($child->title) . '</span>';
                     if (!empty($child->description)) {
                         echo '<span class="main-nav__dropdown-item-description">' . esc_html($child->description) . '</span>';
+                    }
+                    if ($is_external) {
+                        echo self::get_icon_svg('external');
                     }
                     echo '</a>';
                 }
@@ -453,7 +482,18 @@ class Patterson_Nav_Renderer {
                 
                 echo '<div class="main-nav__mobile-dropdown" id="' . esc_attr($dropdown_id) . '" hidden>';
                 foreach ($children as $child) {
-                    echo '<a href="' . esc_url($child->url) . '">' . esc_html($child->title) . '</a>';
+                    $is_external = self::is_external_link($child->url);
+                    
+                    echo '<a href="' . esc_url($child->url) . '"';
+                    if ($is_external) {
+                        echo ' data-external="true"';
+                    }
+                    echo '>';
+                    echo esc_html($child->title);
+                    if ($is_external) {
+                        echo self::get_icon_svg('external');
+                    }
+                    echo '</a>';
                 }
                 echo '</div>';
             } else {

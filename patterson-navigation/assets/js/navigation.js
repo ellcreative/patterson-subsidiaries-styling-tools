@@ -395,6 +395,76 @@
   }
   
   // ============================================
+  // EXTERNAL LINK DETECTION
+  // ============================================
+  
+  function isExternalLink(url) {
+    try {
+      const linkHost = new URL(url, window.location.href).hostname;
+      const currentHost = window.location.hostname;
+      return linkHost !== currentHost && linkHost !== '';
+    } catch {
+      return false; // Invalid URL
+    }
+  }
+  
+  function getExternalIconSVG() {
+    return `<svg class="nav-icon nav-icon--external" aria-hidden="true" width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.9375 1.3125H1.3125V10.9375H10.9375V1.3125ZM12.25 0V1.3125V10.9375V12.25H10.9375H1.3125H0V10.9375V1.3125V0H1.3125H10.9375H12.25ZM8.53125 3.0625H9.1875V3.71875V8.09375V8.75H7.875V8.09375V5.30469L4.18359 8.99609L3.71875 9.46094L2.78906 8.53125L3.25391 8.06641L6.94531 4.375H4.375H3.71875V3.0625H4.375H8.53125Z" fill="currentColor"/>
+    </svg>`;
+  }
+  
+  function processExternalLinks() {
+    // Process desktop dropdown links
+    const dropdownLinks = document.querySelectorAll('.main-nav__dropdown-item');
+    
+    dropdownLinks.forEach(link => {
+      // Skip if already processed (either by server or previous JS run)
+      if (link.dataset.externalProcessed === 'true' || 
+          link.querySelector('.nav-icon--external')) {
+        return;
+      }
+      
+      // Mark as processed to prevent duplicate runs
+      link.dataset.externalProcessed = 'true';
+      
+      // Check if external
+      if (isExternalLink(link.href)) {
+        link.dataset.external = 'true';
+        
+        // Find the title span to insert after it
+        const titleSpan = link.querySelector('.main-nav__dropdown-item-title');
+        if (titleSpan) {
+          titleSpan.insertAdjacentHTML('beforeend', getExternalIconSVG());
+        } else {
+          // Fallback: add to end of link
+          link.insertAdjacentHTML('beforeend', getExternalIconSVG());
+        }
+      }
+    });
+    
+    // Process mobile dropdown links
+    const mobileLinks = document.querySelectorAll('.main-nav__mobile-dropdown a');
+    
+    mobileLinks.forEach(link => {
+      // Skip if already processed
+      if (link.dataset.externalProcessed === 'true' || 
+          link.querySelector('.nav-icon--external')) {
+        return;
+      }
+      
+      // Mark as processed
+      link.dataset.externalProcessed = 'true';
+      
+      // Check if external
+      if (isExternalLink(link.href)) {
+        link.dataset.external = 'true';
+        link.insertAdjacentHTML('beforeend', getExternalIconSVG());
+      }
+    });
+  }
+  
+  // ============================================
   // INITIALIZATION
   // ============================================
   
@@ -403,6 +473,7 @@
     initMobileMenu();
     initSearch();
     initKeyboardNavigation();
+    processExternalLinks();
     
     console.log('Site Navigation initialized - WCAG 2.2 AA compliant');
   }
