@@ -93,6 +93,7 @@
   --space-8: 1.875rem;   /* 30px */
   --space-10: 2.25rem;   /* 36px */
   --space-12: 2.75rem;   /* 44px */
+  --space-15: 3.5rem;    /* 56px */
   --space-16: 3.625rem;  /* 58px */
   --space-20: 4.5rem;    /* 72px */
   --space-24: 5.5rem;    /* 88px */
@@ -101,8 +102,8 @@
      LAYOUT
      ============================================ */
   
-  --container-max-width: 90rem;      /* 1440px */
-  --container-padding-inline: var(--space-20);
+  --container-max-width: 100rem;      /* 1600px */
+  --container-padding-inline: var(--space-15);
   --container-padding-block: var(--space-8);
   
   /* Breakpoints (for reference in media queries) */
