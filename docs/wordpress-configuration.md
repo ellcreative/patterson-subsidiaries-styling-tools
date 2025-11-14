@@ -146,6 +146,14 @@ The navigation supports enhanced dropdown menus with item descriptions and featu
 3. Check the **"Description"** checkbox
 4. The Patterson custom fields will now appear when you expand menu items
 
+**Note about newly added menu items**: When you first add menu items to your menu, WordPress doesn't properly recognize their hierarchy until after the first save. This means:
+- Newly added items will initially show the "⭐ Enable Featured Content for Mega Menu" checkbox (regardless of whether they're top-level or child items)
+- After saving the menu with your desired structure (dragging items to create parent-child relationships), the correct fields will appear:
+  - **Top-level items** will show "⭐ Enable Featured Content for Mega Menu"
+  - **Child items** (indented) will show "📝 Patterson Nav: Menu Item Description"
+
+This is normal WordPress menu editor behavior, not a bug.
+
 #### Menu Item Descriptions (Child Items Only)
 
 **What**: Short descriptions that appear below menu item titles in dropdown menus
