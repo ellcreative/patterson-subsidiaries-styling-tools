@@ -42,16 +42,11 @@
     
     if (!dropdown) return;
     
-    // Only prevent default if it's not a link or if we're closing
-    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-    const isLink = trigger.tagName === 'A';
+    // Always prevent default when trigger has a dropdown
+    // The user can access the link via the dropdown header if needed
+    event.preventDefault();
     
-    // If it's a link and dropdown is closed, prevent default to open dropdown
-    // If it's not a link (button), always prevent default
-    // If dropdown is already open, allow link navigation
-    if (!isLink || !isExpanded) {
-      event.preventDefault();
-    }
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
     
     // Close currently open dropdown if different
     if (currentOpenDropdown && currentOpenDropdown !== dropdown) {

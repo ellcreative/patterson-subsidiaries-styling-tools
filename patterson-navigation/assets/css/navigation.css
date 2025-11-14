@@ -295,7 +295,8 @@ p:has(> .skip-link) {
 .main-nav__link:hover,
 .main-nav__link:focus-visible,
 .main-nav__link[aria-current="page"],
-.main-nav__link.active {
+.main-nav__link.active,
+.main-nav__link[aria-expanded="true"] {
   opacity: 0.8;
 }
 
