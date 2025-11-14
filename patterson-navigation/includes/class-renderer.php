@@ -283,10 +283,21 @@ class Patterson_Nav_Renderer {
             
             if ($has_children) {
                 $dropdown_id = 'dropdown-' . sanitize_title($item->title);
-                echo '<button class="main-nav__link" aria-expanded="false" aria-controls="' . esc_attr($dropdown_id) . '">';
-                echo esc_html($item->title);
-                echo self::get_icon_svg('angle-down');
-                echo '</button>';
+                $has_url = !empty($item->url) && $item->url !== '#';
+                
+                if ($has_url) {
+                    // Nav item has a link AND children - render as link with dropdown
+                    echo '<a class="main-nav__link" href="' . esc_url($item->url) . '" aria-expanded="false" aria-controls="' . esc_attr($dropdown_id) . '">';
+                    echo esc_html($item->title);
+                    echo self::get_icon_svg('angle-down');
+                    echo '</a>';
+                } else {
+                    // Nav item has no link, just children - render as button
+                    echo '<button class="main-nav__link" aria-expanded="false" aria-controls="' . esc_attr($dropdown_id) . '">';
+                    echo esc_html($item->title);
+                    echo self::get_icon_svg('angle-down');
+                    echo '</button>';
+                }
             } else {
                 echo '<a class="main-nav__link" href="' . esc_url($item->url) . '">';
                 echo esc_html($item->title);
@@ -346,8 +357,19 @@ class Patterson_Nav_Renderer {
             // Left section with menu items
             echo '<div class="main-nav__dropdown-section">';
             echo '<div class="main-nav__dropdown-header">';
-            echo '<span class="main-nav__dropdown-title">' . esc_html($item->title) . '</span>';
-            echo self::get_icon_svg('angle-right');
+            
+            // Check if parent nav item has a URL
+            $has_url = !empty($item->url) && $item->url !== '#';
+            
+            if ($has_url) {
+                // Parent nav item is a link - make dropdown title a link with caret icon
+                echo '<a href="' . esc_url($item->url) . '" class="main-nav__dropdown-title">' . esc_html($item->title) . '</a>';
+                echo self::get_icon_svg('angle-right');
+            } else {
+                // Parent nav item is not a link - keep as span without caret icon
+                echo '<span class="main-nav__dropdown-title">' . esc_html($item->title) . '</span>';
+            }
+            
             echo '</div>';
             
             // Render children in columns (split into 2 columns)
@@ -475,12 +497,23 @@ class Patterson_Nav_Renderer {
             
             if ($has_children) {
                 $dropdown_id = 'mobile-dropdown-' . sanitize_title($item->title);
+                $has_url = !empty($item->url) && $item->url !== '#';
+                
                 echo '<button class="main-nav__mobile-link" aria-expanded="false" aria-controls="' . esc_attr($dropdown_id) . '">';
                 echo esc_html($item->title);
                 echo self::get_icon_svg('angle-down');
                 echo '</button>';
                 
                 echo '<div class="main-nav__mobile-dropdown" id="' . esc_attr($dropdown_id) . '" hidden>';
+                
+                // If parent nav item has a URL, add it as the first link in the mobile dropdown
+                if ($has_url) {
+                    echo '<a href="' . esc_url($item->url) . '" class="main-nav__mobile-dropdown-title">';
+                    echo esc_html($item->title);
+                    echo '</a>';
+                }
+                
+                // Render children
                 foreach ($children as $child) {
                     $is_external = self::is_external_link($child->url);
                     

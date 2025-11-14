@@ -453,6 +453,33 @@ p:has(> .skip-link) {
   letter-spacing: 0.05em;
 }
 
+/* When dropdown title is a link */
+a.main-nav__dropdown-title {
+  text-decoration: none;
+  position: relative;
+}
+
+a.main-nav__dropdown-title::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -2px;
+  inset-inline-start: 0;
+  inline-size: 0;
+  block-size: 2px;
+  background-color: var(--primary-color);
+  transition: inline-size 0.3s ease;
+}
+
+a.main-nav__dropdown-title:hover::after,
+a.main-nav__dropdown-title:focus-visible::after {
+  inline-size: 100%;
+}
+
+a.main-nav__dropdown-title:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
 .main-nav__dropdown-columns {
   display: flex;
   gap: 24px;
@@ -880,6 +907,22 @@ p:has(> .skip-link) {
   .main-nav__mobile-dropdown a:hover .nav-icon--external,
   .main-nav__mobile-dropdown a:focus-visible .nav-icon--external {
     opacity: 1;
+  }
+  
+  /* Mobile dropdown title (when nav item is a link) */
+  .main-nav__mobile-dropdown-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    border-block-end: 1px solid var(--color-border-secondary);
+    margin-block-end: var(--space-2);
+    padding-block-end: var(--space-2);
+  }
+  
+  .main-nav__mobile-dropdown-title:hover,
+  .main-nav__mobile-dropdown-title:focus-visible {
+    background: var(--color-background-tertiary);
   }
   
   .main-nav__mobile-cta {

@@ -6,10 +6,22 @@
  * Structure:
  * - .universal-nav (Patterson-specific, always visible)
  * - .main-nav (brand-specific navigation)
+ * 
+ * ============================================
+ * FILE ORGANIZATION:
+ * ============================================
+ * 1. BASE STYLES (shared with WordPress plugin)
+ * 2. NAVIGATION STYLES (shared with WordPress plugin)
+ * 3. DEMO STYLES (prototype only - NOT in WordPress plugin)
+ * ============================================
  */
 
 /* Import additional fonts for dropdown menus */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&family=Roboto:wght@400&display=swap');
+
+/* ============================================================================
+   SHARED STYLES - These styles are used in the WordPress plugin
+   ============================================================================ */
 
 /* ============================================
    BRAND CONFIGURATION
@@ -441,6 +453,33 @@ p:has(> .skip-link) {
   letter-spacing: 0.05em;
 }
 
+/* When dropdown title is a link */
+a.main-nav__dropdown-title {
+  text-decoration: none;
+  position: relative;
+}
+
+a.main-nav__dropdown-title::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -2px;
+  inset-inline-start: 0;
+  inline-size: 0;
+  block-size: 2px;
+  background-color: var(--primary-color);
+  transition: inline-size 0.3s ease;
+}
+
+a.main-nav__dropdown-title:hover::after,
+a.main-nav__dropdown-title:focus-visible::after {
+  inline-size: 100%;
+}
+
+a.main-nav__dropdown-title:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
 .main-nav__dropdown-columns {
   display: flex;
   gap: 24px;
@@ -870,6 +909,22 @@ p:has(> .skip-link) {
     opacity: 1;
   }
   
+  /* Mobile dropdown title (when nav item is a link) */
+  .main-nav__mobile-dropdown-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    border-block-end: 1px solid var(--color-border-secondary);
+    margin-block-end: var(--space-2);
+    padding-block-end: var(--space-2);
+  }
+  
+  .main-nav__mobile-dropdown-title:hover,
+  .main-nav__mobile-dropdown-title:focus-visible {
+    background: var(--color-background-tertiary);
+  }
+  
   .main-nav__mobile-cta {
     padding: var(--space-4);
     border-block-start: 1px solid var(--color-border-default);
@@ -1017,5 +1072,89 @@ p:has(> .skip-link) {
 /* Body scroll lock when mobile menu is open */
 body.mobile-menu-open {
   overflow: hidden;
+}
+
+/* ============================================================================
+   DEMO-ONLY STYLES - These styles are NOT in the WordPress plugin
+   Used for prototype demonstration purposes only
+   ============================================================================ */
+
+/* ============================================
+   DEMO HERO SECTION
+   This is for prototype visualization only
+   Each site will implement their own hero
+   ============================================ */
+
+.hero-section {
+  position: relative;
+  min-block-size: 100vh;
+  background-image: url('../assets/hero-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: oklch(0.15 0 0 / 0.6);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  min-block-size: 100vh;
+  padding-block: var(--space-20);
+  padding-block-start: calc(134px + var(--space-20)); /* Account for nav height */
+  display: flex;
+  align-items: center;
+}
+
+.hero-content__container {
+  /* Match nav-container structure exactly */
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-inline);
+  inline-size: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.hero-content__badge {
+  background: var(--primary-color);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-3) var(--space-6);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.hero-content__title {
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 5vw + 1rem, 6.25rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.hero-content__description {
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+.hero-content__container .main-nav__cta {
+  align-self: flex-start;
 }
 

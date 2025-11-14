@@ -61,8 +61,9 @@
         <!-- Desktop Menu Items -->
         <ul class="main-nav__menu" role="list">
           <li class="main-nav__item">
-            <button 
+            <a 
               class="main-nav__link" 
+              href="/drilling-services"
               aria-expanded="false"
               aria-controls="dropdown-drilling-services"
             >
@@ -70,7 +71,7 @@
               <svg class="nav-icon" aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </button>
+            </a>
           </li>
           <li class="main-nav__item">
             <a class="main-nav__link" href="/drilling-products">Drilling Products</a>
@@ -142,7 +143,7 @@
           <!-- Left: Menu Items -->
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
-              <span class="main-nav__dropdown-title">Drilling Services</span>
+              <a href="/drilling-services" class="main-nav__dropdown-title">Drilling Services</a>
               <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -210,9 +211,6 @@
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
               <span class="main-nav__dropdown-title">Completion Solutions</span>
-              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
             </div>
 
             <div class="main-nav__dropdown-columns">
@@ -274,9 +272,6 @@
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
               <span class="main-nav__dropdown-title">Power Services</span>
-              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
             </div>
 
             <div class="main-nav__dropdown-columns">
@@ -334,9 +329,6 @@
           <div class="main-nav__dropdown-section">
             <div class="main-nav__dropdown-header">
               <span class="main-nav__dropdown-title">Performance Optimization</span>
-              <svg class="nav-icon" aria-hidden="true" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
             </div>
 
             <div class="main-nav__dropdown-columns">
@@ -428,6 +420,7 @@
             </svg>
           </button>
           <div class="main-nav__mobile-dropdown" id="mobile-dropdown-drilling-services" hidden>
+            <a href="/drilling-services" class="main-nav__mobile-dropdown-title">Drilling Services</a>
             <a href="#contract-drilling">Contract Drilling</a>
             <a href="#directional-drilling">Directional Drilling</a>
             <a href="#wellbore-guidance">Wellbore Guidance & Navigation</a>
