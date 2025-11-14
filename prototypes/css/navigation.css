@@ -42,6 +42,24 @@
   box-sizing: border-box;
 }
 
+/* ============================================
+   FOCUS STYLE RESETS
+   Remove theme/browser focus styles to ensure
+   our focus-visible styles work correctly
+   ============================================ */
+
+/* Remove all default focus outlines on navigation elements */
+.site-navigation *:focus {
+  outline: none;
+}
+
+/* Remove any box-shadow focus styles that themes might add */
+.site-navigation a:focus,
+.site-navigation button:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -99,8 +117,9 @@ p:has(> .skip-link) {
 .skip-link:focus-visible {
   inset-block-start: var(--space-4);
   inset-inline-start: var(--space-4);
-  outline: 2px solid var(--color-text-inverse);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-text-inverse) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
 }
 
 .nav-container {
@@ -189,8 +208,9 @@ p:has(> .skip-link) {
 }
 
 .universal-nav__menu a:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 4px;
+  outline: 2px solid currentColor !important;
+  outline-offset: 4px !important;
+  box-shadow: none !important;
 }
 
 /* ============================================
@@ -301,8 +321,9 @@ p:has(> .skip-link) {
 }
 
 .main-nav__link:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 4px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: 4px !important;
+  box-shadow: none !important;
 }
 
 .main-nav__link[aria-expanded="true"] .main-nav__icon {
@@ -346,8 +367,9 @@ p:has(> .skip-link) {
 }
 
 .main-nav__search:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 4px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: 4px !important;
+  box-shadow: none !important;
 }
 
 .main-nav__cta {
@@ -374,8 +396,9 @@ p:has(> .skip-link) {
 }
 
 .main-nav__cta:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 4px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: 4px !important;
+  box-shadow: none !important;
 }
 
 /* ============================================
@@ -477,8 +500,9 @@ a.main-nav__dropdown-title:focus-visible::after {
 }
 
 a.main-nav__dropdown-title:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 4px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: 4px !important;
+  box-shadow: none !important;
 }
 
 .main-nav__dropdown-columns {
@@ -492,6 +516,13 @@ a.main-nav__dropdown-title:focus-visible {
   flex-direction: column;
   gap: var(--nav-dropdown-column-gap);
   inline-size: var(--nav-dropdown-column-width);
+}
+
+/* Hide any empty paragraph tags that might be inserted by WordPress/theme filters */
+.main-nav__dropdown-column p:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
 }
 
 .main-nav__dropdown-item {
@@ -520,8 +551,9 @@ a.main-nav__dropdown-title:focus-visible {
 }
 
 .main-nav__dropdown-item:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: -2px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: -2px !important;
+  box-shadow: none !important;
 }
 
 .main-nav__dropdown-item-title {
@@ -578,8 +610,9 @@ a.main-nav__dropdown-title:focus-visible {
 }
 
 .main-nav__dropdown-subitem:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: -2px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: -2px !important;
+  box-shadow: none !important;
 }
 
 .main-nav__dropdown-subitem .main-nav__dropdown-item-title {
@@ -685,8 +718,9 @@ a.main-nav__dropdown-title:focus-visible {
 }
 
 .main-nav__dropdown-featured-content a:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 4px;
+  outline: 2px solid var(--primary-color) !important;
+  outline-offset: 4px !important;
+  box-shadow: none !important;
 }
 
 /* ============================================
@@ -731,8 +765,9 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-toggle:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 4px;
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: 4px !important;
+    box-shadow: none !important;
   }
   
   /* Hamburger icon */
@@ -842,8 +877,9 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-close:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: -2px;
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: -2px !important;
+    box-shadow: none !important;
   }
   
   .main-nav__mobile-search {
@@ -891,8 +927,9 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-link:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: -2px;
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: -2px !important;
+    box-shadow: none !important;
   }
   
   @media (prefers-reduced-motion: no-preference) {
@@ -939,8 +976,9 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-dropdown a:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: -2px;
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: -2px !important;
+    box-shadow: none !important;
   }
   
   /* Mobile dropdown external link icons - positioned top right */
@@ -1056,8 +1094,9 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-universal-menu a:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 4px;
+    outline: 2px solid currentColor !important;
+    outline-offset: 4px !important;
+    box-shadow: none !important;
   }
   
   /* Backdrop */

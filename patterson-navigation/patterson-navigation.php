@@ -83,10 +83,11 @@ class Patterson_Navigation {
         }
         
         // Add shortcode for rendering navigation
-        add_shortcode('patterson_navigation', array('Patterson_Nav_Renderer', 'render_navigation'));
+        add_shortcode('patterson_navigation', array($this, 'render_navigation_shortcode'));
         
-        // Prevent wpautop from adding <p> tags around shortcode output
-        add_filter('the_content', array($this, 'remove_wpautop_for_shortcode'), 9);
+        // Clean up any empty paragraphs that might be inserted by wpautop or theme filters
+        // Run at priority 999 to ensure it runs after most other filters
+        add_filter('the_content', array($this, 'cleanup_navigation_paragraphs'), 999);
         
         // Add theme support check
         add_action('after_setup_theme', array($this, 'check_theme_support'));
@@ -164,29 +165,38 @@ class Patterson_Navigation {
     }
     
     /**
-     * Remove wpautop from content containing our shortcode
-     * This prevents WordPress from wrapping our navigation in <p> tags
+     * Shortcode wrapper to prevent wpautop from adding paragraph tags
      */
-    public function remove_wpautop_for_shortcode($content) {
-        if (has_shortcode($content, 'patterson_navigation')) {
-            // Remove wpautop filter temporarily
-            remove_filter('the_content', 'wpautop');
-            
-            // Re-add it after our shortcode runs
-            add_filter('the_content', 'wpautop', 99);
-            add_filter('the_content', array($this, 'restore_wpautop'), 100);
-        }
-        return $content;
+    public function render_navigation_shortcode($atts = array()) {
+        // Get the navigation output
+        $output = Patterson_Nav_Renderer::render_navigation($atts);
+        
+        // Remove any empty paragraph tags that WordPress might have inserted
+        // This handles both wpautop and theme filters that add unwanted tags
+        $output = preg_replace('/<p>\s*<\/p>/', '', $output);
+        $output = preg_replace('/<p[^>]*>\s*<\/p>/', '', $output);
+        
+        // Also use shortcode_unautop to clean up any other autop artifacts
+        $output = shortcode_unautop($output);
+        
+        return $output;
     }
     
     /**
-     * Restore wpautop for future content
+     * Clean up empty paragraphs from content containing navigation
+     * This runs after all other content filters to catch any stray <p> tags
      */
-    public function restore_wpautop($content) {
-        // Ensure wpautop is back on for subsequent content
-        if (!has_filter('the_content', 'wpautop')) {
-            add_filter('the_content', 'wpautop');
+    public function cleanup_navigation_paragraphs($content) {
+        // Only process if content contains our navigation
+        if (strpos($content, 'class="site-navigation"') === false) {
+            return $content;
         }
+        
+        // Remove empty paragraph tags within navigation sections
+        // Match <p> tags that contain only whitespace
+        $content = preg_replace('/<p>\s*<\/p>/i', '', $content);
+        $content = preg_replace('/<p[^>]*>\s*<\/p>/i', '', $content);
+        
         return $content;
     }
 }

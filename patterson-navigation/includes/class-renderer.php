@@ -401,51 +401,56 @@ class Patterson_Nav_Renderer {
             $chunk_size = ceil(count($children_array) / 2);
             $chunks = array_chunk($children_array, $chunk_size);
             
-            echo '<div class="main-nav__dropdown-columns">';
+            // Build entire columns section as a single string to prevent wpautop
+            $columns_html = '<div class="main-nav__dropdown-columns">';
             foreach ($chunks as $chunk) {
-                echo '<div class="main-nav__dropdown-column">';
+                $columns_html .= '<div class="main-nav__dropdown-column">';
                 foreach ($chunk as $child_data) {
                     $child = $child_data['item'];
                     $grandchildren = $child_data['children'];
                     $is_external = self::is_external_link($child->url);
                     
-                    echo '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item"';
+                    // Build the dropdown item
+                    $columns_html .= '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item"';
                     if ($is_external) {
-                        echo ' data-external="true"';
+                        $columns_html .= ' data-external="true"';
                     }
-                    echo '>';
-                    echo '<span class="main-nav__dropdown-item-title">' . esc_html($child->title) . '</span>';
+                    $columns_html .= '>';
+                    $columns_html .= '<span class="main-nav__dropdown-item-title">' . esc_html($child->title) . '</span>';
                     if (!empty($child->description)) {
-                        echo '<span class="main-nav__dropdown-item-description">' . esc_html($child->description) . '</span>';
+                        $columns_html .= '<span class="main-nav__dropdown-item-description">' . esc_html($child->description) . '</span>';
                     }
                     if ($is_external) {
-                        echo self::get_icon_svg('external');
+                        $columns_html .= self::get_icon_svg('external');
                     }
-                    echo '</a>';
+                    $columns_html .= '</a>';
                     
                     // Render 3rd level items if they exist
                     if (!empty($grandchildren)) {
-                        echo '<div class="main-nav__dropdown-subitems">';
+                        $columns_html .= '<div class="main-nav__dropdown-subitems">';
                         foreach ($grandchildren as $grandchild) {
                             $is_external_sub = self::is_external_link($grandchild->url);
                             
-                            echo '<a href="' . esc_url($grandchild->url) . '" class="main-nav__dropdown-subitem"';
+                            $columns_html .= '<a href="' . esc_url($grandchild->url) . '" class="main-nav__dropdown-subitem"';
                             if ($is_external_sub) {
-                                echo ' data-external="true"';
+                                $columns_html .= ' data-external="true"';
                             }
-                            echo '>';
-                            echo '<span class="main-nav__dropdown-item-title">' . esc_html($grandchild->title) . '</span>';
+                            $columns_html .= '>';
+                            $columns_html .= '<span class="main-nav__dropdown-item-title">' . esc_html($grandchild->title) . '</span>';
                             if ($is_external_sub) {
-                                echo self::get_icon_svg('external');
+                                $columns_html .= self::get_icon_svg('external');
                             }
-                            echo '</a>';
+                            $columns_html .= '</a>';
                         }
-                        echo '</div>';
+                        $columns_html .= '</div>';
                     }
                 }
-                echo '</div>';
+                $columns_html .= '</div>';
             }
-            echo '</div>'; // .main-nav__dropdown-columns
+            $columns_html .= '</div>'; // .main-nav__dropdown-columns
+            
+            // Echo the complete columns HTML in one go
+            echo $columns_html;
             
             echo '</div>'; // .main-nav__dropdown-section
             

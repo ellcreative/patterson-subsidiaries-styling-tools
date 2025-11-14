@@ -34,6 +34,7 @@ patterson-subsidiaries-styling-tools/
 
 - **[Installation Guide](docs/installation.md)** - Complete setup for classical and block themes
 - **[Configuration Reference](docs/wordpress-configuration.md)** - All plugin settings and menu configuration
+- **[Theme Compatibility](docs/wordpress-theme-compatibility.md)** - Preventing theme focus style conflicts
 - **[Design Tokens README](design-tokens/README.md)** - Customizing colors, spacing, and typography
 
 ## Requirements

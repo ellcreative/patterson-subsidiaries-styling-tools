@@ -2,6 +2,10 @@
 
 Complete reference for all Patterson Navigation plugin settings.
 
+## Additional Documentation
+
+- [WordPress Theme Compatibility](wordpress-theme-compatibility.md) - How to prevent theme focus style conflicts
+
 ## Admin Settings
 
 Navigate to **WordPress Admin** → **Patterson Nav**
