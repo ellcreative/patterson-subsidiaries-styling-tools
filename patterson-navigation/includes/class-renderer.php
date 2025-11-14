@@ -321,8 +321,16 @@ class Patterson_Nav_Renderer {
             return;
         }
         
-        // Group items
+        // Group items - build 3-level tree structure
         $menu_tree = array();
+        $all_items_by_id = array();
+        
+        // First pass: index all items by ID
+        foreach ($menu_items as $item) {
+            $all_items_by_id[$item->ID] = $item;
+        }
+        
+        // Second pass: build parent items
         foreach ($menu_items as $item) {
             if ($item->menu_item_parent == 0) {
                 $menu_tree[$item->ID] = array(
@@ -332,9 +340,25 @@ class Patterson_Nav_Renderer {
             }
         }
         
+        // Third pass: add 2nd level children to parents
         foreach ($menu_items as $item) {
             if ($item->menu_item_parent != 0 && isset($menu_tree[$item->menu_item_parent])) {
-                $menu_tree[$item->menu_item_parent]['children'][] = $item;
+                $menu_tree[$item->menu_item_parent]['children'][$item->ID] = array(
+                    'item' => $item,
+                    'children' => array()
+                );
+            }
+        }
+        
+        // Fourth pass: add 3rd level children to 2nd level items
+        foreach ($menu_items as $item) {
+            if ($item->menu_item_parent != 0) {
+                // Check if this item's parent is a 2nd level item
+                foreach ($menu_tree as $parent_id => $parent_data) {
+                    if (isset($parent_data['children'][$item->menu_item_parent])) {
+                        $menu_tree[$parent_id]['children'][$item->menu_item_parent]['children'][] = $item;
+                    }
+                }
             }
         }
         
@@ -373,13 +397,16 @@ class Patterson_Nav_Renderer {
             echo '</div>';
             
             // Render children in columns (split into 2 columns)
-            $chunk_size = ceil(count($children) / 2);
-            $chunks = array_chunk($children, $chunk_size);
+            $children_array = array_values($children);
+            $chunk_size = ceil(count($children_array) / 2);
+            $chunks = array_chunk($children_array, $chunk_size);
             
             echo '<div class="main-nav__dropdown-columns">';
             foreach ($chunks as $chunk) {
                 echo '<div class="main-nav__dropdown-column">';
-                foreach ($chunk as $child) {
+                foreach ($chunk as $child_data) {
+                    $child = $child_data['item'];
+                    $grandchildren = $child_data['children'];
                     $is_external = self::is_external_link($child->url);
                     
                     echo '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item"';
@@ -395,6 +422,26 @@ class Patterson_Nav_Renderer {
                         echo self::get_icon_svg('external');
                     }
                     echo '</a>';
+                    
+                    // Render 3rd level items if they exist
+                    if (!empty($grandchildren)) {
+                        echo '<div class="main-nav__dropdown-subitems">';
+                        foreach ($grandchildren as $grandchild) {
+                            $is_external_sub = self::is_external_link($grandchild->url);
+                            
+                            echo '<a href="' . esc_url($grandchild->url) . '" class="main-nav__dropdown-subitem"';
+                            if ($is_external_sub) {
+                                echo ' data-external="true"';
+                            }
+                            echo '>';
+                            echo '<span class="main-nav__dropdown-item-title">' . esc_html($grandchild->title) . '</span>';
+                            if ($is_external_sub) {
+                                echo self::get_icon_svg('external');
+                            }
+                            echo '</a>';
+                        }
+                        echo '</div>';
+                    }
                 }
                 echo '</div>';
             }
