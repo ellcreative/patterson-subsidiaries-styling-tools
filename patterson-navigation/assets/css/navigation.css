@@ -325,9 +325,8 @@ p:has(> .skip-link) {
 
 .main-nav__brand-logo svg {
   display: block;
-  block-size: auto;
-  max-block-size: 24px;
-  inline-size: auto; /* Maintain aspect ratio */
+  block-size: 24px;
+  inline-size: auto; /* Maintain aspect ratio based on viewBox */
 }
 
 /* Fallback for img tags (if any) */
@@ -832,8 +831,9 @@ a.main-nav__dropdown-title:focus-visible {
     margin-inline-end: auto;
   }
   
+  .main-nav__brand-logo svg,
   .main-nav__brand-logo img {
-    max-block-size: 20px;
+    block-size: 20px;
   }
   
   /* Show mobile toggle */

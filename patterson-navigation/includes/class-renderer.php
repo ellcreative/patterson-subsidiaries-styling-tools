@@ -119,6 +119,14 @@ class Patterson_Nav_Renderer {
             return;
         }
         
+        // Clean up SVG attributes that interfere with CSS sizing
+        // Remove width, height, and style attributes from the <svg> tag
+        // Keep viewBox which is essential for proper scaling
+        $svg_content = preg_replace('/(<svg[^>]*)\s+width\s*=\s*["\'][^"\']*["\']/i', '$1', $svg_content);
+        $svg_content = preg_replace('/(<svg[^>]*)\s+height\s*=\s*["\'][^"\']*["\']/i', '$1', $svg_content);
+        $svg_content = preg_replace('/(<svg[^>]*)\s+style\s*=\s*["\'][^"\']*["\']/i', '$1', $svg_content);
+        $svg_content = preg_replace('/(<svg[^>]*)\s+preserveAspectRatio\s*=\s*["\'][^"\']*["\']/i', '$1', $svg_content);
+        
         ?>
         <div class="main-nav__brand-logo">
             <a href="<?php echo esc_url(home_url('/')); ?>" 

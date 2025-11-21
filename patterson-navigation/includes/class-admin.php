@@ -41,6 +41,14 @@ class Patterson_Nav_Admin {
             'sanitize_callback' => array($this, 'sanitize_settings')
         ));
         
+        // Subsidiary Configuration Section (at top - most important)
+        add_settings_section(
+            'patterson_nav_subsidiary',
+            __('Subsidiary Configuration', 'patterson-nav'),
+            array($this, 'render_subsidiary_section'),
+            'patterson-navigation'
+        );
+        
         // Main Nav Section
         add_settings_section(
             'patterson_nav_main',
@@ -54,14 +62,6 @@ class Patterson_Nav_Admin {
             'patterson_nav_design',
             __('Design & Branding', 'patterson-nav'),
             array($this, 'render_design_section'),
-            'patterson-navigation'
-        );
-        
-        // Subsidiary Configuration Section
-        add_settings_section(
-            'patterson_nav_subsidiary',
-            __('Subsidiary Configuration', 'patterson-nav'),
-            array($this, 'render_subsidiary_section'),
             'patterson-navigation'
         );
         
