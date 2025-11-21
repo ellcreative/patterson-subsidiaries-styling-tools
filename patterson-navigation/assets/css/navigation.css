@@ -92,12 +92,13 @@ body {
   pointer-events: none;
 }
 
+/* Enable transitions only after scroll behavior is ready */
 @media (prefers-reduced-motion: no-preference) {
-  .site-navigation {
+  .site-navigation.scroll-behavior-ready {
     transition: inset-block-start 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  .site-navigation .universal-nav {
+  .site-navigation.scroll-behavior-ready .universal-nav {
     transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
@@ -163,6 +164,7 @@ p:has(> .skip-link) {
   block-size: 46px;
   display: flex;
   align-items: center;
+  opacity: 1; /* Explicitly set default - visible on page load */
 }
 
 .universal-nav .nav-container {

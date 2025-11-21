@@ -477,12 +477,20 @@
     
     let lastScrollTop = 0;
     let ticking = false;
+    let hasScrolledOnce = false;
     
     function updateNavigationOnScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       
-      // Add 'scrolled' class when scrolled past 10px
-      if (scrollTop > 10) {
+      // Mark that user has scrolled at least once
+      if (!hasScrolledOnce) {
+        hasScrolledOnce = true;
+        // Enable transitions now that user is scrolling
+        siteNav.classList.add('scroll-behavior-ready');
+      }
+      
+      // Add 'scrolled' class when scrolled past 1px
+      if (scrollTop > 1) {
         siteNav.classList.add('scrolled');
       } else {
         siteNav.classList.remove('scrolled');
@@ -499,10 +507,14 @@
       }
     }
     
-    window.addEventListener('scroll', requestTick, { passive: true });
+    // Reset scroll to top on page load to ensure universal nav is fully visible
+    // This prevents browser scroll restoration from cutting off the nav
+    if (window.pageYOffset > 0 || document.documentElement.scrollTop > 0) {
+      window.scrollTo(0, 0);
+    }
     
-    // Run once on load in case page is already scrolled
-    updateNavigationOnScroll();
+    // Set up scroll listener
+    window.addEventListener('scroll', requestTick, { passive: true });
   }
   
   // ============================================
