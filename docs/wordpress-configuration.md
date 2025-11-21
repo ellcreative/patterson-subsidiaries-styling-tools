@@ -84,28 +84,48 @@ When you select a subsidiary preset, the following settings are automatically co
 - **Description**: Shows your brand logo before the navigation menu items
 - **Visibility**: Custom mode only
 
-#### Brand Logo URL
-- **Type**: Media Upload
+#### Brand Logo SVG Code
+- **Type**: Textarea
 - **Default**: Empty
-- **Description**: Upload or select your brand logo from the media library
-- **Recommended Format**: SVG or PNG with transparent background
-- **Recommended Size**: 198px × 24px
-- **Note**: Click "Upload Logo" to open the media library
+- **Description**: Paste your complete SVG code for the brand logo
 - **Visibility**: Custom mode only (when "Enable Brand Logo" is checked)
+- **Important Requirements**:
+  - Must be valid SVG code
+  - Replace the **main color** (typically white) with `currentColor` for dark mode support
+  - Keep accent/brand colors as defined values (e.g., `#06929F`)
+  - Include a `viewBox` attribute for proper scaling
+  - **Do not** upload as a file - paste the actual SVG code
+  
+**Why `currentColor`?**
+Using `currentColor` for the main logo color allows it to automatically adapt when Navigation Mode is set to Dark Mode. The logo will be white in Light Mode and dark in Dark Mode.
 
-#### Logo Width (px)
-- **Type**: Number
-- **Default**: 198
-- **Range**: 1-500
-- **Description**: The width of your logo in pixels
-- **Visibility**: Custom mode only (when "Enable Brand Logo" is checked)
+**Example - Before:**
+```svg
+<svg viewBox="0 0 200 24" fill="none">
+  <path fill="#ffffff" d="..." />
+  <path fill="#06929F" d="..." />
+</svg>
+```
 
-#### Logo Height (px)
-- **Type**: Number
-- **Default**: 24
-- **Range**: 1-500
-- **Description**: The height of your logo in pixels
-- **Visibility**: Custom mode only (when "Enable Brand Logo" is checked)
+**Example - After (ready for dark mode):**
+```svg
+<svg viewBox="0 0 200 24" fill="none">
+  <path fill="currentColor" d="..." />
+  <path fill="#06929F" d="..." />
+</svg>
+```
+
+**What to Replace:**
+- `fill="#fff"` → `fill="currentColor"`
+- `fill="#ffffff"` → `fill="currentColor"`  
+- `fill="white"` → `fill="currentColor"`
+- `stroke="#fff"` → `stroke="currentColor"`
+
+**What to Keep:**
+- Brand/accent colors like `#06929F`, `#037D3F`, etc.
+- Any multi-color elements or graphics
+
+**Security Note:** The plugin automatically sanitizes SVG code to remove scripts, event handlers, and unsafe content.
 
 ### Search Settings
 
@@ -155,6 +175,25 @@ When you select a subsidiary preset, the following settings are automatically co
   - 1280px - If you have fewer menu items
   - 1600px - If you have many menu items or longer text
 - **How it works**: When a custom breakpoint is set (different from 1420px), the plugin generates inline CSS to override the default breakpoint
+
+### Navigation Mode
+- **Type**: Radio Buttons
+- **Default**: Light Mode
+- **Options**: 
+  - **Light Mode**: White text on dark overlay (default)
+  - **Dark Mode**: Dark text on light overlay
+- **Description**: Choose the color scheme for the main navigation
+- **What Changes in Dark Mode**:
+  - Main navigation text changes from white to dark
+  - Brand logo changes color (via `currentColor` in SVG)
+  - Navigation icons (carets, search) change to dark
+  - Scrolled overlay becomes light semi-transparent
+  - Border adjusts for visibility on light background
+- **What Stays The Same**:
+  - Universal nav (top bar) remains dark - this is Patterson branding
+  - CTA button keeps its primary color
+  - Accent colors in logos are preserved
+- **Note**: Can be overridden per-page using shortcode or PHP function parameters
 
 ### Brand Primary Color
 - **Type**: Color Picker
@@ -212,6 +251,51 @@ You can override the default main navigation overlay background color (visible w
 ```php
 <?php patterson_nav(array('overlay_bg' => 'oklch(0.1 0 0 / 0.8)')); ?>
 ```
+
+### Dark Mode Per Page/Template
+
+You can enable dark mode for specific pages or templates, overriding the admin setting.
+
+#### Using Shortcode
+
+```php
+[patterson_navigation mode="dark"]
+[patterson_navigation mode="light"]
+```
+
+#### Using PHP Function
+
+```php
+<?php patterson_nav(array('mode' => 'dark')); ?>
+<?php patterson_nav(array('mode' => 'light')); ?>
+```
+
+#### Combined with Custom Overlay
+
+```php
+<?php patterson_nav(array(
+    'mode' => 'dark',
+    'overlay_bg' => 'oklch(0.98 0 0 / 0.9)'
+)); ?>
+```
+
+#### When to Use Dark Mode
+
+**Best for:**
+- Light hero images/backgrounds
+- Pages with light color schemes
+- Sites with light brand aesthetics
+- Better readability against light backgrounds
+
+**Light mode best for:**
+- Dark hero images/backgrounds (default)
+- Dramatic, bold designs
+- High contrast needed
+
+**Priority Order:**
+1. Shortcode/function `mode` parameter (highest)
+2. Admin "Navigation Mode" setting
+3. Default: Light mode
 
 #### Supported Color Formats
 
@@ -354,6 +438,16 @@ Featured Link URL: /products/new-drill-system
 - **Consistent branding**: Presets ensure consistent colors, fonts, and logos across Patterson subsidiaries
 - **Custom only when needed**: Use Custom mode only for new subsidiaries or special cases
 - **Test fonts**: After selecting a subsidiary, verify that the Adobe Typekit fonts load correctly
+- **Dark mode ready**: All preset subsidiary logos are pre-configured with `currentColor` for automatic dark mode support
+
+### Navigation Mode & Dark Mode
+- **Test both modes**: Always test your navigation in both Light and Dark modes
+- **Check logo visibility**: Ensure your logo is visible in both modes (use `currentColor` for main color)
+- **Verify contrast**: Ensure text remains readable (minimum 4.5:1 contrast ratio for WCAG AA)
+- **Hero backgrounds matter**: Choose Light mode for dark heroes, Dark mode for light heroes
+- **Consider brand guidelines**: Some brands may have specific requirements for light vs. dark treatments
+- **CTA button**: Ensure CTA button has sufficient contrast in both modes
+- **Test scrolled state**: The overlay background changes when scrolled - test readability in both states
 
 ### Menu Structure
 - **Universal Nav**: 4-6 items (About, Brands, Investors, Careers, etc.)
@@ -388,4 +482,13 @@ Featured Link URL: /products/new-drill-system
 - **Use OKLCH when possible**: Provides better color control and perceptual uniformity
 - **Don't overdo transparency**: Too transparent (<0.6 opacity) may reduce text legibility
 - **Document custom values**: If using custom overlay colors, document them in your theme for future reference
+
+### Custom Logo SVG Preparation
+- **Use `currentColor` for main elements**: Replace white/main colors with `currentColor` to support both light and dark modes
+- **Preserve accent colors**: Keep brand colors and accents as defined hex/OKLCH values
+- **Include viewBox**: Always include a `viewBox` attribute for proper scaling
+- **Optimize SVG**: Remove unnecessary elements, comments, and metadata before pasting
+- **Test in both modes**: Preview your logo in both Light and Dark navigation modes
+- **Fallback consideration**: If your logo won't work in dark mode, consider only using Light mode
+- **Multi-color logos**: For complex multi-color logos, use `currentColor` strategically on main shapes only
 

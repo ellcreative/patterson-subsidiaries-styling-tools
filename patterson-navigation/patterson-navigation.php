@@ -246,16 +246,24 @@ register_deactivation_hook(__FILE__, function() {
  * 
  * Usage: 
  *   patterson_nav();
- *   patterson_nav(array('overlay_bg' => 'oklch(0.2 0 0 / 0.9)'));
+ *   patterson_nav(array('mode' => 'dark'));
+ *   patterson_nav(array('overlay_bg' => 'oklch(0.2 0 0 / 0.9)', 'mode' => 'dark'));
  * 
  * @param array $args Optional. Array of arguments.
  *                    'overlay_bg' - Custom background color for the main nav overlay (OKLCH, hex, or any valid CSS color).
+ *                    'mode' - Navigation mode: 'light' or 'dark'.
  */
 function patterson_nav($args = array()) {
     $atts = '';
+    
     if (!empty($args['overlay_bg'])) {
-        $atts = ' overlay_bg="' . esc_attr($args['overlay_bg']) . '"';
+        $atts .= ' overlay_bg="' . esc_attr($args['overlay_bg']) . '"';
     }
+    
+    if (!empty($args['mode'])) {
+        $atts .= ' mode="' . esc_attr($args['mode']) . '"';
+    }
+    
     echo do_shortcode('[patterson_navigation' . $atts . ']');
 }
 

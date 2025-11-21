@@ -97,6 +97,39 @@ class Patterson_Nav_Renderer {
     }
     
     /**
+     * Render brand logo (inline SVG)
+     */
+    private static function render_brand_logo($options) {
+        $svg_content = '';
+        
+        // Check if custom SVG code exists
+        if (!empty($options['brand_logo_svg'])) {
+            // Custom mode - use pasted SVG code
+            $svg_content = $options['brand_logo_svg'];
+        } elseif (!empty($options['brand_logo_url'])) {
+            // Preset mode - inline from file
+            $logo_path = str_replace(PATTERSON_NAV_PLUGIN_URL, PATTERSON_NAV_PLUGIN_DIR, $options['brand_logo_url']);
+            
+            if (file_exists($logo_path)) {
+                $svg_content = file_get_contents($logo_path);
+            }
+        }
+        
+        if (empty($svg_content)) {
+            return;
+        }
+        
+        ?>
+        <div class="main-nav__brand-logo">
+            <a href="<?php echo esc_url(home_url('/')); ?>" 
+               aria-label="<?php echo esc_attr(get_bloginfo('name') . ' ' . __('Home', 'patterson-nav')); ?>">
+                <?php echo $svg_content; // Already sanitized ?>
+            </a>
+        </div>
+        <?php
+    }
+    
+    /**
      * Get SVG icon
      */
     private static function get_icon_svg($type = 'angle-down') {
@@ -135,14 +168,20 @@ class Patterson_Nav_Renderer {
      * 
      * @param array $atts Optional attributes.
      *                    'overlay_bg' - Custom background color for the main nav overlay.
+     *                    'mode' - Navigation mode: 'light' or 'dark'.
      */
     public static function render_navigation($atts = array()) {
         $options = get_option('patterson_nav_settings');
         
         // Parse shortcode attributes
         $atts = shortcode_atts(array(
-            'overlay_bg' => ''
+            'overlay_bg' => '',
+            'mode' => ''
         ), $atts, 'patterson_navigation');
+        
+        // Determine mode (shortcode > admin setting > default)
+        $nav_mode = !empty($atts['mode']) ? $atts['mode'] : 
+                    (isset($options['nav_mode']) ? $options['nav_mode'] : 'light');
         
         // Ensure assets are enqueued (for block themes and shortcode usage)
         self::enqueue_assets();
@@ -162,6 +201,9 @@ class Patterson_Nav_Renderer {
         // Custom overlay background color from shortcode/function parameter
         if (!empty($atts['overlay_bg'])) {
             $css_props[] = '--color-background-overlay: ' . esc_attr($atts['overlay_bg']);
+        } elseif ($nav_mode === 'dark') {
+            // Use light overlay for dark mode (if no custom overlay specified)
+            $css_props[] = '--color-background-overlay: oklch(0.95 0 0 / 0.85)';
         }
         
         if (!empty($css_props)) {
@@ -186,18 +228,9 @@ class Patterson_Nav_Renderer {
                 <div class="nav-container">
                     <?php self::render_universal_nav(); ?>
                 </div>
-            </nav><nav class="main-nav" aria-label="<?php esc_attr_e('Main navigation', 'patterson-nav'); ?>"><div class="nav-container"><?php 
-                    if (!empty($options['brand_logo_enabled']) && !empty($options['brand_logo_url'])) : 
-                ?><div class="main-nav__brand-logo">
-                            <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name') . ' ' . __('Home', 'patterson-nav')); ?>">
-                                <img 
-                                    src="<?php echo esc_url($options['brand_logo_url']); ?>" 
-                                    alt="<?php echo esc_attr(get_bloginfo('name')); ?>" 
-                                    width="<?php echo !empty($options['brand_logo_width']) ? esc_attr($options['brand_logo_width']) : '198'; ?>" 
-                                    height="<?php echo !empty($options['brand_logo_height']) ? esc_attr($options['brand_logo_height']) : '24'; ?>"
-                                >
-                            </a>
-                        </div><?php 
+            </nav><nav class="main-nav <?php echo $nav_mode === 'dark' ? 'main-nav--dark-mode' : ''; ?>" aria-label="<?php esc_attr_e('Main navigation', 'patterson-nav'); ?>"><div class="nav-container"><?php 
+                    if (!empty($options['brand_logo_enabled'])) : 
+                        self::render_brand_logo($options);
                     endif; 
                     ?><button 
                         class="main-nav__mobile-toggle" 

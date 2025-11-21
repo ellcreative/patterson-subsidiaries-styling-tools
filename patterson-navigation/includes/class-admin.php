@@ -97,23 +97,9 @@ class Patterson_Nav_Admin {
                 'class' => 'custom-only-field'
             ),
             array(
-                'id' => 'brand_logo_url',
-                'title' => __('Brand Logo URL', 'patterson-nav'),
-                'callback' => 'render_media_field',
-                'section' => 'patterson_nav_main',
-                'class' => 'brand-logo-field custom-only-field'
-            ),
-            array(
-                'id' => 'brand_logo_width',
-                'title' => __('Logo Width (px)', 'patterson-nav'),
-                'callback' => 'render_number_field',
-                'section' => 'patterson_nav_main',
-                'class' => 'brand-logo-field custom-only-field'
-            ),
-            array(
-                'id' => 'brand_logo_height',
-                'title' => __('Logo Height (px)', 'patterson-nav'),
-                'callback' => 'render_number_field',
+                'id' => 'brand_logo_svg',
+                'title' => __('Brand Logo SVG Code', 'patterson-nav'),
+                'callback' => 'render_svg_textarea_field',
                 'section' => 'patterson_nav_main',
                 'class' => 'brand-logo-field custom-only-field'
             ),
@@ -153,6 +139,12 @@ class Patterson_Nav_Admin {
                 'id' => 'mobile_breakpoint',
                 'title' => __('Mobile Breakpoint (px)', 'patterson-nav'),
                 'callback' => 'render_number_field',
+                'section' => 'patterson_nav_design'
+            ),
+            array(
+                'id' => 'nav_mode',
+                'title' => __('Navigation Mode', 'patterson-nav'),
+                'callback' => 'render_nav_mode_field',
                 'section' => 'patterson_nav_design'
             ),
             array(
@@ -245,6 +237,89 @@ class Patterson_Nav_Admin {
         <p class="description">
             <?php esc_html_e('Enter your Adobe Typekit project ID (e.g., akz7boc). Find this in your Typekit kit settings.', 'patterson-nav'); ?>
         </p>
+        <?php
+    }
+    
+    public function render_nav_mode_field($args) {
+        $options = get_option('patterson_nav_settings');
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : 'light';
+        ?>
+        <fieldset>
+            <label>
+                <input type="radio" 
+                       name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+                       value="light" 
+                       <?php checked($value, 'light'); ?>>
+                <span><?php esc_html_e('Light Mode', 'patterson-nav'); ?></span>
+            </label>
+            <br>
+            <label style="margin-top: 8px; display: inline-block;">
+                <input type="radio" 
+                       name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+                       value="dark" 
+                       <?php checked($value, 'dark'); ?>>
+                <span><?php esc_html_e('Dark Mode', 'patterson-nav'); ?></span>
+            </label>
+        </fieldset>
+        <p class="description">
+            <?php esc_html_e('Light mode uses white text on dark overlay (default). Dark mode uses dark text on light overlay.', 'patterson-nav'); ?>
+        </p>
+        <?php
+    }
+    
+    public function render_svg_textarea_field($args) {
+        $options = get_option('patterson_nav_settings');
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        $row_class = isset($args['class']) ? ' class="' . esc_attr($args['class']) . '"' : '';
+        ?>
+        <div<?php echo $row_class; ?>>
+            <div class="patterson-nav-svg-instructions" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin-bottom: 12px;">
+                <p style="margin: 0 0 8px 0; font-weight: 600; color: #856404;">
+                    ⚠️ <?php esc_html_e('Important: Preparing your SVG for dark mode', 'patterson-nav'); ?>
+                </p>
+                <p style="margin: 0; color: #856404;">
+                    <?php esc_html_e('Replace the MAIN color (typically white) with "currentColor" in your SVG. This allows the logo to adapt to light and dark modes.', 'patterson-nav'); ?>
+                </p>
+                <p style="margin: 8px 0 0 0; color: #856404;">
+                    <strong><?php esc_html_e('Replace main color only:', 'patterson-nav'); ?></strong><br>
+                    <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">fill="#fff"</code> → 
+                    <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">fill="currentColor"</code><br>
+                    <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">stroke="white"</code> → 
+                    <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">stroke="currentColor"</code>
+                </p>
+                <p style="margin: 8px 0 0 0; color: #856404;">
+                    <strong><?php esc_html_e('Keep accent/support colors as-is:', 'patterson-nav'); ?></strong><br>
+                    <code style="background: #fff; padding: 2px 6px; border-radius: 3px;">fill="#06929F"</code> ← <?php esc_html_e('Leave these unchanged', 'patterson-nav'); ?>
+                </p>
+            </div>
+            
+            <textarea 
+                name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+                rows="10" 
+                class="large-text code"
+                style="font-family: monospace; font-size: 12px;"
+                placeholder='<svg viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill="currentColor" d="M10 5 L20 15..." />
+  <path fill="#06929F" d="M30 10..." />
+</svg>'><?php echo esc_textarea($value); ?></textarea>
+            
+            <p class="description">
+                <?php esc_html_e('Paste your complete SVG code. Keep accent colors as defined values - only the main color should use currentColor.', 'patterson-nav'); ?>
+            </p>
+            
+            <?php if (!empty($value)) : ?>
+                <div style="margin-top: 12px; padding: 12px; background: #f0f0f1; border-radius: 4px;">
+                    <p style="margin: 0 0 8px 0; font-weight: 600;">
+                        <?php esc_html_e('Preview:', 'patterson-nav'); ?>
+                    </p>
+                    <div style="background: white; padding: 20px; border-radius: 4px; display: inline-block;">
+                        <div style="width: 200px;">
+                            <?php echo wp_kses_post($value); ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
         <?php
     }
     
@@ -400,6 +475,48 @@ class Patterson_Nav_Admin {
     }
     
     /**
+     * Sanitize SVG code (security only, preserve colors)
+     */
+    private function sanitize_svg($svg) {
+        if (empty($svg)) {
+            return '';
+        }
+        
+        // Remove any script tags
+        $svg = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi', '', $svg);
+        
+        // Remove any event handlers (onclick, onload, etc.)
+        $svg = preg_replace('/\s*on\w+\s*=\s*["\'][^"\']*["\']/gi', '', $svg);
+        
+        // Remove any javascript: protocols
+        $svg = preg_replace('/javascript:/gi', '', $svg);
+        
+        // Remove any <style> tags with javascript
+        $svg = preg_replace('/<style[^>]*>.*?<\/style>/gis', '', $svg);
+        
+        // Remove any <link> tags
+        $svg = preg_replace('/<link[^>]*>/gi', '', $svg);
+        
+        // DO NOT auto-replace colors - let users control which colors use currentColor
+        // This preserves brand accent colors
+        
+        // Ensure viewBox exists (required for proper scaling)
+        if (!preg_match('/viewBox\s*=/', $svg)) {
+            // Try to extract width/height to create viewBox
+            preg_match('/width\s*=\s*["\']([^"\']+)["\']/', $svg, $width_match);
+            preg_match('/height\s*=\s*["\']([^"\']+)["\']/', $svg, $height_match);
+            
+            if (!empty($width_match[1]) && !empty($height_match[1])) {
+                $width = preg_replace('/[^0-9.]/', '', $width_match[1]);
+                $height = preg_replace('/[^0-9.]/', '', $height_match[1]);
+                $svg = str_replace('<svg ', '<svg viewBox="0 0 ' . $width . ' ' . $height . '" ', $svg);
+            }
+        }
+        
+        return $svg;
+    }
+    
+    /**
      * Sanitize settings
      */
     public function sanitize_settings($input) {
@@ -415,27 +532,18 @@ class Patterson_Nav_Admin {
             if (isset($presets[$preset])) {
                 // Override with preset values
                 $sanitized['brand_logo_enabled'] = 1;
-                $sanitized['brand_logo_url'] = $presets[$preset]['logo_url'];
-                $sanitized['brand_logo_width'] = $presets[$preset]['logo_width'];
-                $sanitized['brand_logo_height'] = $presets[$preset]['logo_height'];
+                $sanitized['brand_logo_url'] = $presets[$preset]['logo_url']; // Keep for file path
+                $sanitized['brand_logo_svg'] = ''; // Presets use files, not custom SVG
                 $sanitized['brand_color'] = $presets[$preset]['color'];
                 $sanitized['typekit_code'] = $presets[$preset]['typekit'];
             }
         } else {
             // Custom mode - use submitted values
             $sanitized['brand_logo_enabled'] = isset($input['brand_logo_enabled']) ? 1 : 0;
+            $sanitized['brand_logo_svg'] = isset($input['brand_logo_svg']) ? $this->sanitize_svg($input['brand_logo_svg']) : '';
+            $sanitized['brand_logo_url'] = ''; // Not used in custom mode
             $sanitized['brand_color'] = isset($input['brand_color']) ? sanitize_text_field($input['brand_color']) : '';
             $sanitized['typekit_code'] = isset($input['typekit_code']) ? sanitize_text_field($input['typekit_code']) : '';
-            $sanitized['brand_logo_url'] = isset($input['brand_logo_url']) ? esc_url_raw($input['brand_logo_url']) : '';
-            
-            // Number fields - only save if brand logo is enabled and values provided
-            if (!empty($sanitized['brand_logo_enabled'])) {
-                $sanitized['brand_logo_width'] = isset($input['brand_logo_width']) && $input['brand_logo_width'] ? absint($input['brand_logo_width']) : 198;
-                $sanitized['brand_logo_height'] = isset($input['brand_logo_height']) && $input['brand_logo_height'] ? absint($input['brand_logo_height']) : 24;
-            } else {
-                $sanitized['brand_logo_width'] = '';
-                $sanitized['brand_logo_height'] = '';
-            }
         }
         
         // Other checkbox fields
@@ -449,6 +557,9 @@ class Patterson_Nav_Admin {
         foreach ($text_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? sanitize_text_field($input[$field]) : '';
         }
+        
+        // Navigation mode
+        $sanitized['nav_mode'] = isset($input['nav_mode']) && in_array($input['nav_mode'], array('light', 'dark')) ? $input['nav_mode'] : 'light';
         
         // Mobile breakpoint
         $sanitized['mobile_breakpoint'] = isset($input['mobile_breakpoint']) && $input['mobile_breakpoint'] ? absint($input['mobile_breakpoint']) : 1420;

@@ -244,6 +244,7 @@ p:has(> .skip-link) {
 .main-nav {
   background: transparent;
   border-block-end: 1px solid oklch(1 0 0 / 0.6);
+  color: var(--color-text-inverse); /* White text by default */
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -267,6 +268,35 @@ p:has(> .skip-link) {
   }
 }
 
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+.main-nav--dark-mode {
+  color: var(--color-text-primary); /* Dark text */
+  border-block-end: 1px solid oklch(0 0 0 / 0.1); /* Darker border for light bg */
+}
+
+/* Ensure all elements inherit the dark color */
+.main-nav--dark-mode .main-nav__link,
+.main-nav--dark-mode .main-nav__brand-logo,
+.main-nav--dark-mode .main-nav__search {
+  color: inherit;
+}
+
+/* SVG logos and icons use currentColor, so they inherit automatically */
+.main-nav--dark-mode .main-nav__brand-logo svg,
+.main-nav--dark-mode .nav-icon {
+  /* currentColor handles this automatically */
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .site-navigation.scrolled .main-nav--dark-mode {
+    background: oklch(0.95 0 0 / 0.95);
+  }
+}
+
 .main-nav .nav-container {
   display: flex;
   align-items: center;
@@ -283,14 +313,24 @@ p:has(> .skip-link) {
   display: flex;
   align-items: center;
   margin-inline-end: clamp(0, 3vw, 3rem);
+  color: inherit; /* Inherit from .main-nav for dark mode support */
 }
 
 .main-nav__brand-logo a {
   display: block;
   line-height: 0;
   padding-inline-end: var(--space-4);
+  color: inherit;
 }
 
+.main-nav__brand-logo svg {
+  display: block;
+  block-size: auto;
+  max-block-size: 24px;
+  inline-size: auto; /* Maintain aspect ratio */
+}
+
+/* Fallback for img tags (if any) */
 .main-nav__brand-logo img {
   display: block;
   block-size: auto;
