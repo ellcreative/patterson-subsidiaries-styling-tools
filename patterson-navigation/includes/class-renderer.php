@@ -132,9 +132,17 @@ class Patterson_Nav_Renderer {
     
     /**
      * Render the navigation
+     * 
+     * @param array $atts Optional attributes.
+     *                    'overlay_bg' - Custom background color for the main nav overlay.
      */
     public static function render_navigation($atts = array()) {
         $options = get_option('patterson_nav_settings');
+        
+        // Parse shortcode attributes
+        $atts = shortcode_atts(array(
+            'overlay_bg' => ''
+        ), $atts, 'patterson_navigation');
         
         // Ensure assets are enqueued (for block themes and shortcode usage)
         self::enqueue_assets();
@@ -149,6 +157,11 @@ class Patterson_Nav_Renderer {
         $css_props = array();
         if (isset($options['brand_color']) && $options['brand_color']) {
             $css_props[] = '--primary-color: ' . esc_attr($options['brand_color']);
+        }
+        
+        // Custom overlay background color from shortcode/function parameter
+        if (!empty($atts['overlay_bg'])) {
+            $css_props[] = '--color-background-overlay: ' . esc_attr($atts['overlay_bg']);
         }
         
         if (!empty($css_props)) {

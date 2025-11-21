@@ -25,6 +25,47 @@ Navigate to **WordPress Admin** → **Patterson Nav**
 - **Description**: Select which WordPress menu to display in the universal navigation bar
 - **Note**: Create a menu in Appearance → Menus first
 
+## Subsidiary Configuration
+
+### Subsidiary
+- **Type**: Dropdown Select
+- **Default**: Custom
+- **Options**: 
+  - Ulterra
+  - NexTier
+  - Superior QC
+  - Custom
+- **Description**: Select which Patterson subsidiary this site represents. Preset configurations automatically apply the correct branding, colors, fonts, and logos.
+
+#### Subsidiary Presets
+
+When you select a subsidiary preset, the following settings are automatically configured:
+
+**Ulterra**
+- Brand Logo: Enabled (Ulterra logo)
+- Brand Color: `#06929F` (Teal)
+- Typekit Font: `eyo6evt`
+- Logo Dimensions: 198px × 24px
+
+**NexTier**
+- Brand Logo: Enabled (NexTier logo)
+- Brand Color: `#037D3F` (Green)
+- Typekit Font: `bqc1fxq`
+- Logo Dimensions: 198px × 24px
+
+**Superior QC**
+- Brand Logo: Enabled (Superior QC logo)
+- Brand Color: `#DF181D` (Red)
+- Typekit Font: `afd5ryn`
+- Logo Dimensions: 198px × 24px
+
+**Custom**
+- Allows manual configuration of all branding settings
+- Shows all customization fields for complete control
+- Use this option for subsidiaries not listed or for unique configurations
+
+**Note**: When a preset subsidiary is selected, the brand logo, color, and typekit fields are automatically configured and hidden. Switch to "Custom" to manually override any values.
+
 ## Main Navigation Settings
 
 ### Main Nav Menu
@@ -35,10 +76,13 @@ Navigate to **WordPress Admin** → **Patterson Nav**
 
 ### Brand Logo Settings
 
+**Note**: These fields are only visible when "Custom" is selected in Subsidiary Configuration.
+
 #### Enable Brand Logo
 - **Type**: Checkbox
 - **Default**: Unchecked
 - **Description**: Shows your brand logo before the navigation menu items
+- **Visibility**: Custom mode only
 
 #### Brand Logo URL
 - **Type**: Media Upload
@@ -47,18 +91,21 @@ Navigate to **WordPress Admin** → **Patterson Nav**
 - **Recommended Format**: SVG or PNG with transparent background
 - **Recommended Size**: 198px × 24px
 - **Note**: Click "Upload Logo" to open the media library
+- **Visibility**: Custom mode only (when "Enable Brand Logo" is checked)
 
 #### Logo Width (px)
 - **Type**: Number
 - **Default**: 198
 - **Range**: 1-500
 - **Description**: The width of your logo in pixels
+- **Visibility**: Custom mode only (when "Enable Brand Logo" is checked)
 
 #### Logo Height (px)
 - **Type**: Number
 - **Default**: 24
 - **Range**: 1-500
 - **Description**: The height of your logo in pixels
+- **Visibility**: Custom mode only (when "Enable Brand Logo" is checked)
 
 ### Search Settings
 
@@ -118,6 +165,21 @@ Navigate to **WordPress Admin** → **Patterson Nav**
   - Active navigation states
   - Hover effects
 - **Format**: Hex color code (e.g., #06929f)
+- **Visibility**: Custom mode only
+- **Note**: Automatically set when using subsidiary presets
+
+### Adobe Typekit Code
+- **Type**: Text Field
+- **Default**: akz7boc (Patterson default)
+- **Description**: Your Adobe Typekit project ID for custom fonts
+- **Example**: `eyo6evt`, `bqc1fxq`, `afd5ryn`
+- **Visibility**: Custom mode only
+- **Note**: Automatically set when using subsidiary presets
+- **How to Find**: 
+  1. Log in to Adobe Fonts (fonts.adobe.com)
+  2. Go to your Web Projects
+  3. Find your project and copy the Project ID
+  4. The ID appears in the embed code: `https://use.typekit.net/[PROJECT_ID].css`
 
 ### Load Design Tokens File
 - **Type**: Checkbox
@@ -130,6 +192,87 @@ Navigate to **WordPress Admin** → **Patterson Nav**
 - **Description**: URL to your design tokens CSS file
 - **Example**: `/wp-content/themes/yourtheme/assets/css/tokens.css`
 - **Note**: Only loads if "Load Design Tokens File" is enabled
+
+## Advanced Usage
+
+### Customizing Main Nav Overlay Background
+
+You can override the default main navigation overlay background color (visible when scrolled) using either the shortcode or PHP function.
+
+**Default Overlay Color**: `oklch(0.15 0 0 / 0.63)` - Semi-transparent dark overlay
+
+#### Using Shortcode
+
+```php
+[patterson_navigation overlay_bg="oklch(0.1 0 0 / 0.8)"]
+```
+
+#### Using PHP Function
+
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.1 0 0 / 0.8)')); ?>
+```
+
+#### Supported Color Formats
+
+You can use any valid CSS color format:
+
+**OKLCH (Recommended)**
+```php
+overlay_bg="oklch(0.1 0 0 / 0.8)"
+```
+
+**Hex Colors**
+```php
+overlay_bg="#000000"
+```
+
+**RGB/RGBA**
+```php
+overlay_bg="rgba(0, 0, 0, 0.8)"
+```
+
+**HSL/HSLA**
+```php
+overlay_bg="hsla(0, 0%, 0%, 0.8)"
+```
+
+#### Use Cases
+
+**Darker overlay for better contrast**
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.05 0 0 / 0.9)')); ?>
+```
+
+**Lighter overlay for subtle effect**
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.3 0 0 / 0.5)')); ?>
+```
+
+**Brand-colored overlay**
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.2 0.15 250 / 0.85)')); ?>
+```
+
+**No override (use default)**
+```php
+<?php patterson_nav(); ?>
+[patterson_navigation]
+```
+
+#### When to Use
+
+- **Different hero images**: Some hero backgrounds may need darker or lighter overlays for better readability
+- **Brand requirements**: Match the overlay to your brand's specific style guidelines
+- **Accessibility**: Adjust overlay opacity to ensure sufficient contrast for text elements
+- **Template variations**: Different page templates can have different overlay styles
+
+#### Important Notes
+
+- The overlay background only appears when the page is scrolled (when `.scrolled` class is applied)
+- The universal nav (top bar) is not affected by this setting
+- Changes apply only to the specific page/template where the navigation is rendered
+- The setting does not persist across pages - set it per template as needed
 
 ## Menu Configuration
 
@@ -206,6 +349,12 @@ Featured Link URL: /products/new-drill-system
 
 ## Best Practices
 
+### Subsidiary Configuration
+- **Use presets when available**: Ulterra, NexTier, and Superior QC have optimized brand configurations
+- **Consistent branding**: Presets ensure consistent colors, fonts, and logos across Patterson subsidiaries
+- **Custom only when needed**: Use Custom mode only for new subsidiaries or special cases
+- **Test fonts**: After selecting a subsidiary, verify that the Adobe Typekit fonts load correctly
+
 ### Menu Structure
 - **Universal Nav**: 4-6 items (About, Brands, Investors, Careers, etc.)
 - **Main Nav**: 5-7 top-level items with dropdowns
@@ -231,4 +380,12 @@ Featured Link URL: /products/new-drill-system
 - Test search functionality after configuration
 - Ensure search modal/overlay has appropriate z-index
 - Consider using a dedicated search plugin for better UX
+
+### Overlay Background Customization
+- **Test with actual hero images**: View the scrolled nav against your real page backgrounds
+- **Maintain contrast**: Ensure text remains readable (white text needs dark overlay, minimum 4.5:1 contrast)
+- **Consistency across templates**: Use similar overlay settings across your site unless there's a specific reason to vary
+- **Use OKLCH when possible**: Provides better color control and perceptual uniformity
+- **Don't overdo transparency**: Too transparent (<0.6 opacity) may reduce text legibility
+- **Document custom values**: If using custom overlay colors, document them in your theme for future reference
 

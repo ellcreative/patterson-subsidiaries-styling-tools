@@ -243,8 +243,19 @@ register_deactivation_hook(__FILE__, function() {
 
 /**
  * Helper function to render navigation
+ * 
+ * Usage: 
+ *   patterson_nav();
+ *   patterson_nav(array('overlay_bg' => 'oklch(0.2 0 0 / 0.9)'));
+ * 
+ * @param array $args Optional. Array of arguments.
+ *                    'overlay_bg' - Custom background color for the main nav overlay (OKLCH, hex, or any valid CSS color).
  */
-function patterson_nav() {
-    echo do_shortcode('[patterson_navigation]');
+function patterson_nav($args = array()) {
+    $atts = '';
+    if (!empty($args['overlay_bg'])) {
+        $atts = ' overlay_bg="' . esc_attr($args['overlay_bg']) . '"';
+    }
+    echo do_shortcode('[patterson_navigation' . $atts . ']');
 }
 
