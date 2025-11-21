@@ -80,6 +80,28 @@ body {
   margin: 0 !important; /* Override WordPress block theme layout margins */
 }
 
+/* Scroll behavior: sticky navigation */
+.site-navigation.scrolled {
+  position: fixed;
+  inset-block-start: -46px; /* Negative offset to hide universal nav (46px height) */
+  inset-inline: 0;
+}
+
+.site-navigation.scrolled .universal-nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-navigation {
+    transition: inset-block-start 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .site-navigation .universal-nav {
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
 /* SVG Icons */
 .nav-icon {
   display: inline-block;
@@ -220,6 +242,27 @@ p:has(> .skip-link) {
 .main-nav {
   background: transparent;
   border-block-end: 1px solid oklch(1 0 0 / 0.6);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .main-nav {
+    transition: background-color var(--transition-speed-default) var(--transition-easing-default),
+                box-shadow var(--transition-speed-default) var(--transition-easing-default);
+  }
+}
+
+.site-navigation.scrolled .main-nav {
+  background: var(--color-background-overlay);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  box-shadow: var(--shadow-md);
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .site-navigation.scrolled .main-nav {
+    background: oklch(0.15 0 0 / 0.95);
+  }
 }
 
 .main-nav .nav-container {

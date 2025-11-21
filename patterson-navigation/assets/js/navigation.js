@@ -468,6 +468,44 @@
   }
   
   // ============================================
+  // SCROLL BEHAVIOR
+  // ============================================
+  
+  function initScrollBehavior() {
+    const siteNav = document.getElementById('site-navigation');
+    if (!siteNav) return;
+    
+    let lastScrollTop = 0;
+    let ticking = false;
+    
+    function updateNavigationOnScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Add 'scrolled' class when scrolled past 10px
+      if (scrollTop > 10) {
+        siteNav.classList.add('scrolled');
+      } else {
+        siteNav.classList.remove('scrolled');
+      }
+      
+      lastScrollTop = scrollTop;
+      ticking = false;
+    }
+    
+    function requestTick() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateNavigationOnScroll);
+        ticking = true;
+      }
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Run once on load in case page is already scrolled
+    updateNavigationOnScroll();
+  }
+  
+  // ============================================
   // INITIALIZATION
   // ============================================
   
@@ -477,6 +515,7 @@
     initSearch();
     initKeyboardNavigation();
     processExternalLinks();
+    initScrollBehavior();
     
     console.log('Site Navigation initialized - WCAG 2.2 AA compliant');
   }
