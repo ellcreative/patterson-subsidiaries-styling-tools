@@ -53,9 +53,14 @@ class Patterson_Nav_Renderer {
     private static function enqueue_assets() {
         // Enqueue Adobe Typekit fonts (required for Patterson brand fonts)
         if (!wp_style_is('patterson-typekit', 'enqueued')) {
+            $options = get_option('patterson_nav_settings');
+            $typekit_code = isset($options['typekit_code']) && !empty($options['typekit_code']) 
+                ? $options['typekit_code'] 
+                : 'akz7boc'; // Fallback to Patterson default
+            
             wp_enqueue_style(
                 'patterson-typekit',
-                'https://use.typekit.net/akz7boc.css',
+                'https://use.typekit.net/' . esc_attr($typekit_code) . '.css',
                 array(),
                 null
             );

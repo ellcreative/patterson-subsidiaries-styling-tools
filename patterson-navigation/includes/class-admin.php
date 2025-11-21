@@ -57,6 +57,14 @@ class Patterson_Nav_Admin {
             'patterson-navigation'
         );
         
+        // Subsidiary Configuration Section
+        add_settings_section(
+            'patterson_nav_subsidiary',
+            __('Subsidiary Configuration', 'patterson-nav'),
+            array($this, 'render_subsidiary_section'),
+            'patterson-navigation'
+        );
+        
         // Add fields
         $this->add_settings_fields();
     }
@@ -66,6 +74,14 @@ class Patterson_Nav_Admin {
      */
     private function add_settings_fields() {
         $fields = array(
+            // Subsidiary Configuration
+            array(
+                'id' => 'subsidiary_preset',
+                'title' => __('Subsidiary', 'patterson-nav'),
+                'callback' => 'render_subsidiary_select_field',
+                'section' => 'patterson_nav_subsidiary'
+            ),
+            
             // Main Nav
             array(
                 'id' => 'main_nav_menu',
@@ -77,28 +93,29 @@ class Patterson_Nav_Admin {
                 'id' => 'brand_logo_enabled',
                 'title' => __('Enable Brand Logo', 'patterson-nav'),
                 'callback' => 'render_checkbox_field',
-                'section' => 'patterson_nav_main'
+                'section' => 'patterson_nav_main',
+                'class' => 'custom-only-field'
             ),
             array(
                 'id' => 'brand_logo_url',
                 'title' => __('Brand Logo URL', 'patterson-nav'),
                 'callback' => 'render_media_field',
                 'section' => 'patterson_nav_main',
-                'class' => 'brand-logo-field'
+                'class' => 'brand-logo-field custom-only-field'
             ),
             array(
                 'id' => 'brand_logo_width',
                 'title' => __('Logo Width (px)', 'patterson-nav'),
                 'callback' => 'render_number_field',
                 'section' => 'patterson_nav_main',
-                'class' => 'brand-logo-field'
+                'class' => 'brand-logo-field custom-only-field'
             ),
             array(
                 'id' => 'brand_logo_height',
                 'title' => __('Logo Height (px)', 'patterson-nav'),
                 'callback' => 'render_number_field',
                 'section' => 'patterson_nav_main',
-                'class' => 'brand-logo-field'
+                'class' => 'brand-logo-field custom-only-field'
             ),
             array(
                 'id' => 'search_enabled',
@@ -142,7 +159,15 @@ class Patterson_Nav_Admin {
                 'id' => 'brand_color',
                 'title' => __('Brand Primary Color', 'patterson-nav'),
                 'callback' => 'render_color_field',
-                'section' => 'patterson_nav_design'
+                'section' => 'patterson_nav_design',
+                'class' => 'custom-only-field'
+            ),
+            array(
+                'id' => 'typekit_code',
+                'title' => __('Adobe Typekit Code', 'patterson-nav'),
+                'callback' => 'render_typekit_field',
+                'section' => 'patterson_nav_design',
+                'class' => 'custom-only-field'
             ),
         );
         
@@ -176,12 +201,58 @@ class Patterson_Nav_Admin {
         echo '<p><strong>' . esc_html__('Mobile Breakpoint:', 'patterson-nav') . '</strong> ' . esc_html__('The viewport width (in pixels) at which the navigation switches to the mobile hamburger menu.', 'patterson-nav') . '</p>';
     }
     
+    public function render_subsidiary_section() {
+        echo '<p>' . esc_html__('Select which Patterson subsidiary this site represents. Preset configurations will automatically apply the correct branding, colors, and fonts. Choose "Custom" for complete control.', 'patterson-nav') . '</p>';
+    }
+    
     /**
      * Render field types
      */
+    public function render_subsidiary_select_field($args) {
+        $options = get_option('patterson_nav_settings');
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : 'custom';
+        
+        $subsidiaries = array(
+            'ulterra' => 'Ulterra',
+            'nextier' => 'NexTier',
+            'superior-qc' => 'Superior QC',
+            'custom' => 'Custom'
+        );
+        ?>
+        <select name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+                id="subsidiary_preset_select">
+            <?php foreach ($subsidiaries as $key => $label) : ?>
+                <option value="<?php echo esc_attr($key); ?>" <?php selected($value, $key); ?>>
+                    <?php echo esc_html($label); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <p class="description">
+            <?php esc_html_e('Select a subsidiary for automatic branding configuration, or choose "Custom" to configure manually.', 'patterson-nav'); ?>
+        </p>
+        <?php
+    }
+    
+    public function render_typekit_field($args) {
+        $options = get_option('patterson_nav_settings');
+        $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        ?>
+        <input type="text" 
+               name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
+               value="<?php echo esc_attr($value); ?>" 
+               class="regular-text"
+               placeholder="akz7boc">
+        <p class="description">
+            <?php esc_html_e('Enter your Adobe Typekit project ID (e.g., akz7boc). Find this in your Typekit kit settings.', 'patterson-nav'); ?>
+        </p>
+        <?php
+    }
+    
     public function render_checkbox_field($args) {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : false;
+        
+        $row_class = isset($args['class']) ? ' class="' . esc_attr($args['class']) . '"' : '';
         
         // Add data attribute for JS toggle
         $data_attr = '';
@@ -189,7 +260,7 @@ class Patterson_Nav_Admin {
             $data_attr = 'id="brand_logo_enabled_checkbox"';
         }
         ?>
-        <label>
+        <label<?php echo $row_class; ?>>
             <input type="checkbox" 
                    name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
                    value="1" 
@@ -227,11 +298,14 @@ class Patterson_Nav_Admin {
     public function render_color_field($args) {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : '#e51b24';
+        $row_class = isset($args['class']) ? ' class="' . esc_attr($args['class']) . '"' : '';
         ?>
+        <span<?php echo $row_class; ?>>
         <input type="text" 
                name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
                value="<?php echo esc_attr($value); ?>" 
                class="patterson-nav-color-picker">
+        </span>
         <?php
     }
     
@@ -331,30 +405,52 @@ class Patterson_Nav_Admin {
     public function sanitize_settings($input) {
         $sanitized = array();
         
-        // Checkbox fields
-        $checkbox_fields = array('search_enabled', 'cta_enabled', 'brand_logo_enabled');
+        // Subsidiary preset
+        $sanitized['subsidiary_preset'] = isset($input['subsidiary_preset']) ? sanitize_text_field($input['subsidiary_preset']) : 'custom';
+        
+        // Auto-populate values based on subsidiary preset
+        $preset = $sanitized['subsidiary_preset'];
+        if ($preset !== 'custom') {
+            $presets = $this->get_subsidiary_presets();
+            if (isset($presets[$preset])) {
+                // Override with preset values
+                $sanitized['brand_logo_enabled'] = 1;
+                $sanitized['brand_logo_url'] = $presets[$preset]['logo_url'];
+                $sanitized['brand_logo_width'] = $presets[$preset]['logo_width'];
+                $sanitized['brand_logo_height'] = $presets[$preset]['logo_height'];
+                $sanitized['brand_color'] = $presets[$preset]['color'];
+                $sanitized['typekit_code'] = $presets[$preset]['typekit'];
+            }
+        } else {
+            // Custom mode - use submitted values
+            $sanitized['brand_logo_enabled'] = isset($input['brand_logo_enabled']) ? 1 : 0;
+            $sanitized['brand_color'] = isset($input['brand_color']) ? sanitize_text_field($input['brand_color']) : '';
+            $sanitized['typekit_code'] = isset($input['typekit_code']) ? sanitize_text_field($input['typekit_code']) : '';
+            $sanitized['brand_logo_url'] = isset($input['brand_logo_url']) ? esc_url_raw($input['brand_logo_url']) : '';
+            
+            // Number fields - only save if brand logo is enabled and values provided
+            if (!empty($sanitized['brand_logo_enabled'])) {
+                $sanitized['brand_logo_width'] = isset($input['brand_logo_width']) && $input['brand_logo_width'] ? absint($input['brand_logo_width']) : 198;
+                $sanitized['brand_logo_height'] = isset($input['brand_logo_height']) && $input['brand_logo_height'] ? absint($input['brand_logo_height']) : 24;
+            } else {
+                $sanitized['brand_logo_width'] = '';
+                $sanitized['brand_logo_height'] = '';
+            }
+        }
+        
+        // Other checkbox fields
+        $checkbox_fields = array('search_enabled', 'cta_enabled');
         foreach ($checkbox_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? 1 : 0;
         }
         
         // Text fields
-        $text_fields = array('cta_text', 'cta_url', 'brand_color');
+        $text_fields = array('cta_text', 'cta_url');
         foreach ($text_fields as $field) {
             $sanitized[$field] = isset($input[$field]) ? sanitize_text_field($input[$field]) : '';
         }
         
-        // URL fields
-        $sanitized['brand_logo_url'] = isset($input['brand_logo_url']) ? esc_url_raw($input['brand_logo_url']) : '';
-        
-        // Number fields - only save if brand logo is enabled and values provided
-        if (!empty($sanitized['brand_logo_enabled'])) {
-            $sanitized['brand_logo_width'] = isset($input['brand_logo_width']) && $input['brand_logo_width'] ? absint($input['brand_logo_width']) : 198;
-            $sanitized['brand_logo_height'] = isset($input['brand_logo_height']) && $input['brand_logo_height'] ? absint($input['brand_logo_height']) : 24;
-        } else {
-            // Don't set values when logo is disabled (leave them undefined)
-            $sanitized['brand_logo_width'] = '';
-            $sanitized['brand_logo_height'] = '';
-        }
+        // Mobile breakpoint
         $sanitized['mobile_breakpoint'] = isset($input['mobile_breakpoint']) && $input['mobile_breakpoint'] ? absint($input['mobile_breakpoint']) : 1420;
         
         // Textarea fields
@@ -364,6 +460,35 @@ class Patterson_Nav_Admin {
         $sanitized['main_nav_menu'] = isset($input['main_nav_menu']) ? absint($input['main_nav_menu']) : 0;
         
         return $sanitized;
+    }
+    
+    /**
+     * Get subsidiary preset configurations
+     */
+    private function get_subsidiary_presets() {
+        return array(
+            'ulterra' => array(
+                'logo_url' => PATTERSON_NAV_PLUGIN_URL . 'assets/logos/ulterra.svg',
+                'logo_width' => 198,
+                'logo_height' => 24,
+                'color' => '#06929F',
+                'typekit' => 'eyo6evt'
+            ),
+            'nextier' => array(
+                'logo_url' => PATTERSON_NAV_PLUGIN_URL . 'assets/logos/nextier.svg',
+                'logo_width' => 198,
+                'logo_height' => 24,
+                'color' => '#037D3F',
+                'typekit' => 'bqc1fxq'
+            ),
+            'superior-qc' => array(
+                'logo_url' => PATTERSON_NAV_PLUGIN_URL . 'assets/logos/superiorQC.svg',
+                'logo_width' => 198,
+                'logo_height' => 24,
+                'color' => '#DF181D',
+                'typekit' => 'afd5ryn'
+            )
+        );
     }
     
     /**
@@ -421,8 +546,32 @@ class Patterson_Nav_Admin {
                 // Color picker
                 $(".patterson-nav-color-picker").wpColorPicker();
                 
-                // Toggle brand logo fields
+                // Toggle fields based on subsidiary preset
+                function toggleSubsidiaryFields() {
+                    var preset = $("#subsidiary_preset_select").val();
+                    var isCustom = preset === "custom";
+                    
+                    // Show/hide custom-only fields
+                    $(".custom-only-field").closest("tr").toggle(isCustom);
+                    
+                    // Disable hidden fields to prevent HTML5 validation issues
+                    if (isCustom) {
+                        $(".custom-only-field input, .custom-only-field textarea, .custom-only-field select").prop("disabled", false);
+                    } else {
+                        $(".custom-only-field input, .custom-only-field textarea, .custom-only-field select").prop("disabled", true);
+                    }
+                    
+                    // If custom mode, also toggle brand logo fields based on checkbox
+                    if (isCustom) {
+                        toggleBrandLogoFields();
+                    }
+                }
+                
+                // Toggle brand logo fields (only in custom mode)
                 function toggleBrandLogoFields() {
+                    var preset = $("#subsidiary_preset_select").val();
+                    if (preset !== "custom") return; // Only applies in custom mode
+                    
                     var isChecked = $("#brand_logo_enabled_checkbox").is(":checked");
                     $(".brand-logo-field").closest("tr").toggle(isChecked);
                     
@@ -435,9 +584,14 @@ class Patterson_Nav_Admin {
                 }
                 
                 // Initial state
-                toggleBrandLogoFields();
+                toggleSubsidiaryFields();
                 
-                // On change
+                // On subsidiary change
+                $("#subsidiary_preset_select").on("change", function() {
+                    toggleSubsidiaryFields();
+                });
+                
+                // On brand logo checkbox change
                 $("#brand_logo_enabled_checkbox").on("change", function() {
                     toggleBrandLogoFields();
                 });
