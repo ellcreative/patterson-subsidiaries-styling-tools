@@ -35,7 +35,6 @@ class Patterson_Nav_Renderer {
                         ),
                         'links' => array(
                             array('title' => 'About', 'url' => 'https://patenergy.com/about-us/'),
-                            array('title' => 'Our Brands', 'url' => 'https://patenergy.com/'),
                             array('title' => 'Investors', 'url' => 'https://investor.patenergy.com/overview/'),
                             array('title' => 'Sustainability', 'url' => 'https://esg.patenergy.com/'),
                             array('title' => 'Careers', 'url' => 'https://patenergy.com/careers/')

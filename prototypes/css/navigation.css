@@ -1254,17 +1254,11 @@ body.mobile-menu-open {
   gap: var(--space-8);
 }
 
-.hero-content__badge {
-  background: var(--primary-color);
-  color: var(--color-text-inverse);
-  font-family: var(--font-heading);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: var(--space-3) var(--space-6);
-  display: inline-block;
-  align-self: flex-start;
+.hero-content__logo {
+  display: block;
+  block-size: auto;
+  max-inline-size: 260px;
+  inline-size: 100%;
 }
 
 .hero-content__title {
