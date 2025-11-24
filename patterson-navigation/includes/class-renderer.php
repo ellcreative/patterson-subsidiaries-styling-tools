@@ -255,7 +255,10 @@ class Patterson_Nav_Renderer {
                         endif;
                         
                         if (!empty($options['cta_enabled']) && !empty($options['cta_text'])) : 
-                            ?><a href="<?php echo esc_url($options['cta_url']); ?>" class="main-nav__cta"><?php echo esc_html($options['cta_text']); ?></a><?php 
+                            ?><a href="<?php echo esc_url($options['cta_url']); ?>" class="c-button c-button--primary">
+                                <span><?php echo esc_html($options['cta_text']); ?></span>
+                                <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
+                            </a><?php 
                         endif; 
                     ?></div></div>
             </nav><?php 
@@ -653,8 +656,9 @@ class Patterson_Nav_Renderer {
         // CTA in mobile
         if (!empty($options['cta_enabled']) && !empty($options['cta_text'])) {
             echo '<div class="main-nav__mobile-cta">';
-            echo '<a href="' . esc_url($options['cta_url']) . '" class="main-nav__cta">';
-            echo esc_html($options['cta_text']);
+            echo '<a href="' . esc_url($options['cta_url']) . '" class="c-button c-button--primary">';
+            echo '<span>' . esc_html($options['cta_text']) . '</span>';
+            echo '<i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>';
             echo '</a>';
             echo '</div>';
         }
