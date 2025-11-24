@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patterson Navigation - Prototype</title>
   <link rel="stylesheet" href="https://use.typekit.net/akz7boc.css">
-  <link rel="stylesheet" href="../design-tokens/tokens.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+  <link rel="stylesheet" href="../design-tokens/tokens.css?v=5">
   <link rel="stylesheet" href="css/navigation.css">
 </head>
 <body>
@@ -517,13 +518,55 @@
       <img src="assets/patterson-logo.svg" alt="Patterson" class="hero-content__logo" width="260" height="44">
       <h1 class="hero-content__title">Energizing Progress</h1>
       <p class="hero-content__description">Patterson-UTI inspires innovation and talent to safely and responsibly provide energy to the world.</p>
-      <a href="#learn-more" class="main-nav__cta">Learn More</a>
+      <a href="#learn-more" class="c-button c-button--primary" style="align-self: flex-start;">
+        <span>Learn More</span>
+        <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
+      </a>
     </div>
   </div>
 
   </div><!-- End hero-section -->
 
-  <div style="height: 100vh;background-color:white;"></div>
+  <!-- Button Showcase Section -->
+  <section style="background-color: white; min-block-size: 100vh; display: flex; align-items: center;">
+    <div class="nav-container" style="inline-size: 100%;">
+      <div style="display: flex; flex-direction: column; gap: var(--space-8);">
+        <h2 style="font-family: var(--font-heading); font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); color: var(--color-text-primary);">Button Styles</h2>
+        
+        <!-- Primary Buttons -->
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: var(--font-size-lg); font-weight: var(--font-weight-medium); margin-block-end: 1rem; color: var(--color-text-secondary);">Primary</h3>
+          <button class="c-button c-button--primary">
+            <span>Learn More</span>
+            <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Secondary Buttons -->
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: var(--font-size-lg); font-weight: var(--font-weight-medium); margin-block-end: 1rem; color: var(--color-text-secondary);">Secondary</h3>
+          <button class="c-button c-button--secondary">
+            <span>Learn More</span>
+            <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Tertiary Buttons -->
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: var(--font-size-lg); font-weight: var(--font-weight-medium); margin-block-end: 1rem; color: var(--color-text-secondary);">Tertiary</h3>
+          <button class="c-button c-button--tertiary">
+            <span>Learn More</span>
+            <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">
+          <strong>Hover or tab-focus</strong> the buttons to see the arrow icon appear and colors change.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <div style="height: 100vh;background-color:black;"></div>
 
   <!-- Placeholder for main content - sites will add their own content here -->
