@@ -67,6 +67,7 @@
   --font-size-4xl: 2.125rem;    /* 34px */
   
   /* Line Heights */
+  --line-height-super-tight: 0.75;
   --line-height-tight: 1.2;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.625;

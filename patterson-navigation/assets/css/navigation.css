@@ -1314,7 +1314,7 @@ body.mobile-menu-open {
   font-family: var(--font-heading);
   font-size: clamp(3rem, 5vw + 1rem, 6.25rem);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
+  line-height: var(--line-height-super-tight);
   letter-spacing: -0.03em;
   margin: 0;
 }
