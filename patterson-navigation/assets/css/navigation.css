@@ -312,7 +312,7 @@ p:has(> .skip-link) {
 .main-nav__brand-logo {
   display: flex;
   align-items: center;
-  margin-inline-end: clamp(0, 3vw, 3rem);
+  margin-inline-end: var(--space-4);
   color: inherit; /* Inherit from .main-nav for dark mode support */
 }
 
@@ -1261,7 +1261,7 @@ body.mobile-menu-open {
 .hero-section {
   position: relative;
   min-block-size: 100vh;
-  background-image: url('../assets/hero-bg.webp');
+  background-image: url('../hero-bg.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

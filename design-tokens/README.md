@@ -2,27 +2,35 @@
 
 Single source of truth for design tokens across all Patterson subsidiary sites.
 
+## Location
+
+The tokens file is located at:
+```
+patterson-navigation/assets/css/tokens.css
+```
+
+This file is included automatically when using the Patterson Navigation plugin.
+
 ## Usage
 
-Include `tokens.css` in your site - it works for all environments:
-- ✅ WordPress (with or without preprocessors)
-- ✅ Craft CMS (with or without build tools)
-- ✅ Sites with Sass/SCSS
-- ✅ Sites with vanilla CSS
+The Patterson Navigation plugin automatically enqueues the tokens.css file.
 
-### HTML
+### For non-WordPress projects
+Include the tokens file directly:
+
+#### HTML
 ```html
-<link rel="stylesheet" href="path/to/tokens.css">
+<link rel="stylesheet" href="path/to/patterson-navigation/assets/css/tokens.css">
 ```
 
-### CSS
+#### CSS
 ```css
-@import url('path/to/tokens.css');
+@import url('path/to/patterson-navigation/assets/css/tokens.css');
 ```
 
-### Sass/SCSS
+#### Sass/SCSS
 ```scss
-@import 'path/to/tokens.css';
+@import 'path/to/patterson-navigation/assets/css/tokens.css';
 ```
 
 ## Customization Per Site

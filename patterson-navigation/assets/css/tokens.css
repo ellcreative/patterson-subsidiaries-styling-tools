@@ -219,9 +219,8 @@
      ============================================ */
   
   /* Button Sizing */
-  --button-height: 3.75rem;                    /* 60px */
-  --button-padding-inline: 1.875rem;           /* 30px */
-  --button-padding-block: 1.875rem;            /* 30px */
+  --button-padding-inline: 2rem;               /* 32px */
+  --button-padding-block: 0.85rem;             /* 13.6px */
   --button-icon-gap: 0.9375rem;                /* 15px */
   
   /* Button Typography */
@@ -321,7 +320,6 @@ a.c-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-block-size: var(--button-height);
   padding-inline: var(--button-padding-inline);
   padding-block: var(--button-padding-block);
   
@@ -411,7 +409,6 @@ a.c-button[aria-disabled="true"] {
   border: 0;
   border-block-end: var(--button-border-width) solid var(--button-tertiary-border);
   padding-block: 0.625rem; /* 10px - smaller vertical padding for tertiary */
-  min-block-size: auto;
 }
 
 .c-button--tertiary:hover,
