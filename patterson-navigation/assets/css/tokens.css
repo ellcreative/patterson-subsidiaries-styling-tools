@@ -428,27 +428,25 @@ a.c-button[aria-disabled="true"] {
 /* ============================================
    BUTTON WITH ICON
    
-   Usage with Font Awesome:
+   Usage with embedded SVG:
    <button class="c-button c-button--primary">
      <span>Learn More</span>
-     <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
+     <svg class="nav-icon" aria-hidden="true" width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+       <path d="M8.33398 6.80664L7.57031 7.57031L2.25781 12.8828L1.52734 13.6465L0 12.1191L0.763672 11.3887L5.3125 6.80664L0.763672 2.25781L0 1.49414L1.52734 0L2.25781 0.763672L7.57031 6.07617L8.33398 6.80664Z" fill="currentColor"/>
+     </svg>
    </button>
    
-   Or for links:
-   <a href="#" class="c-button c-button--secondary">
-     <span>Learn More</span>
-     <i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i>
-   </a>
+   The icon uses currentColor so it automatically matches text color.
+   Icon is hidden by default and appears smoothly on hover/focus.
    ============================================ */
 
-.c-button .fa-angle-right,
-.c-button [class*="fa-angle-right"] {
-  font-size: var(--button-icon-size);
+.c-button .nav-icon {
+  inline-size: var(--button-icon-size);
+  block-size: var(--button-icon-size);
 }
 
 /* Hide icon by default, show on hover */
-.c-button .fa-angle-right,
-.c-button [class*="fa-angle-right"] {
+.c-button .nav-icon {
   opacity: 0;
   inline-size: 0;
   margin-inline-start: 0;
@@ -458,18 +456,15 @@ a.c-button[aria-disabled="true"] {
               margin-inline-start var(--transition-speed-default) var(--transition-easing-default);
 }
 
-.c-button:hover .fa-angle-right,
-.c-button:hover [class*="fa-angle-right"],
-.c-button:focus-visible .fa-angle-right,
-.c-button:focus-visible [class*="fa-angle-right"] {
+.c-button:hover .nav-icon,
+.c-button:focus-visible .nav-icon {
   opacity: 1;
   inline-size: var(--button-icon-size);
   margin-inline-start: var(--button-icon-gap);
 }
 
 /* Always show icon variant - add class "c-button--icon-visible" to always show the icon */
-.c-button--icon-visible .fa-angle-right,
-.c-button--icon-visible [class*="fa-angle-right"] {
+.c-button--icon-visible .nav-icon {
   opacity: 1 !important;
   inline-size: var(--button-icon-size) !important;
 }

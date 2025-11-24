@@ -119,19 +119,11 @@ class Patterson_Navigation {
             null
         );
         
-        // Enqueue Font Awesome (required for button icons)
-        wp_enqueue_style(
-            'patterson-fontawesome',
-            'https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css',
-            array(),
-            '6.5.1'
-        );
-        
         // Enqueue design tokens (required)
         wp_enqueue_style(
             'patterson-nav-tokens',
             PATTERSON_NAV_PLUGIN_URL . 'assets/css/tokens.css',
-            array('patterson-typekit', 'patterson-fontawesome'),
+            array('patterson-typekit'),
             PATTERSON_NAV_VERSION
         );
         
