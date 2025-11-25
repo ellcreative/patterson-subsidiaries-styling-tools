@@ -228,7 +228,7 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
   - Scrolled overlay becomes light semi-transparent
   - Border adjusts for visibility on light background
 - **What Stays The Same**:
-  - Universal nav (top bar) remains dark - this is Patterson branding
+  - Universal nav (top bar) always remains black with white text - this is Patterson branding and never changes
   - CTA button keeps its primary color
   - Accent colors in logos are preserved
 - **Note**: Can be overridden per-page using shortcode or PHP function parameters

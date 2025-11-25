@@ -158,7 +158,9 @@ p:has(> .skip-link) {
    ============================================ */
 
 .universal-nav {
-  background: var(--color-background-overlay);
+  /* Universal nav always has dark background and white text - Patterson branding */
+  background: oklch(0.15 0 0 / 0.63);
+  color: var(--color-white);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   block-size: 46px;
@@ -211,7 +213,8 @@ p:has(> .skip-link) {
 }
 
 .universal-nav__menu a {
-  color: var(--color-text-inverse);
+  /* Universal nav links always white - Patterson branding */
+  color: var(--color-white);
   font-family: var(--font-heading);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
@@ -1109,7 +1112,9 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-universal {
-    background: var(--color-background-overlay);
+    /* Mobile universal nav always has dark background and white text - Patterson branding */
+    background: oklch(0.15 0 0 / 0.63);
+    color: var(--color-white);
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
     padding: var(--space-4);
@@ -1157,7 +1162,8 @@ a.main-nav__dropdown-title:focus-visible {
   }
   
   .main-nav__mobile-universal-menu a {
-    color: var(--color-text-inverse);
+    /* Mobile universal nav links always white - Patterson branding */
+    color: var(--color-white);
     font-family: var(--font-heading);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
