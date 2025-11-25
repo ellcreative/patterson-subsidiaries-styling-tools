@@ -2,6 +2,35 @@
 
 Complete reference for all Patterson Navigation plugin settings.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Admin Settings](#admin-settings)
+  - [Universal Navigation Settings](#universal-navigation-settings)
+  - [Subsidiary Configuration](#subsidiary-configuration)
+  - [Main Navigation Settings](#main-navigation-settings)
+  - [Brand Logo Settings](#brand-logo-settings)
+  - [Search Settings](#search-settings)
+  - [CTA Button Settings](#cta-button-settings)
+  - [Design & Branding Settings](#design--branding-settings)
+- [Advanced Usage: Per-Page Overrides](#advanced-usage-per-page-overrides)
+  - [Navigation Mode Override](#navigation-mode-override)
+  - [Overlay Background Override](#overlay-background-override)
+  - [Brand Logo Override](#brand-logo-override)
+  - [Combining Multiple Parameters](#combining-multiple-parameters)
+- [Menu Configuration](#menu-configuration)
+  - [Enable Custom Fields](#enable-custom-fields-in-menu-editor)
+  - [Menu Item Descriptions](#menu-item-descriptions-child-items-only)
+  - [Featured Content](#featured-content-top-level-items-only)
+- [Best Practices](#best-practices)
+- [Additional Documentation](#additional-documentation)
+
+## Overview
+
+The Patterson Navigation plugin provides a universal Patterson Companies navigation bar plus customizable brand-specific main navigation with support for mega-menus, mobile menus, and extensive accessibility features.
+
+**Note**: The universal navigation (Patterson Companies top bar) is always present and cannot be disabled.
+
 ## Additional Documentation
 
 - [WordPress Theme Compatibility](wordpress-theme-compatibility.md) - How to prevent theme focus style conflicts
@@ -10,24 +39,21 @@ Complete reference for all Patterson Navigation plugin settings.
 
 Navigate to **WordPress Admin** → **Patterson Nav**
 
-## General Settings
+### Universal Navigation Settings
 
-### Enable Universal Nav
-- **Type**: Checkbox
-- **Default**: Unchecked
-- **Description**: Enables the Patterson Companies universal navigation bar that appears above the main navigation
+The universal navigation displays the Patterson Companies branding and links above the main navigation.
 
-## Universal Navigation Settings
+#### Universal Nav Menu
 
-### Universal Nav Menu
 - **Type**: Menu Selector
 - **Default**: None
 - **Description**: Select which WordPress menu to display in the universal navigation bar
-- **Note**: Create a menu in Appearance → Menus first
+- **Note**: Create a menu in Appearance → Menus first. The universal nav bar itself is always visible - this setting controls which menu items appear in it.
 
-## Subsidiary Configuration
+### Subsidiary Configuration
 
-### Subsidiary
+#### Subsidiary
+
 - **Type**: Dropdown Select
 - **Default**: Custom
 - **Options**: 
@@ -66,9 +92,10 @@ When you select a subsidiary preset, the following settings are automatically co
 
 **Note**: When a preset subsidiary is selected, the brand logo, color, and typekit fields are automatically configured and hidden. Switch to "Custom" to manually override any values.
 
-## Main Navigation Settings
+### Main Navigation Settings
 
-### Main Nav Menu
+#### Main Nav Menu
+
 - **Type**: Menu Selector
 - **Default**: None
 - **Description**: Select which WordPress menu to use for the main navigation
@@ -79,12 +106,14 @@ When you select a subsidiary preset, the following settings are automatically co
 **Note**: These fields are only visible when "Custom" is selected in Subsidiary Configuration.
 
 #### Enable Brand Logo
+
 - **Type**: Checkbox
 - **Default**: Unchecked
 - **Description**: Shows your brand logo before the navigation menu items
 - **Visibility**: Custom mode only
 
 #### Brand Logo SVG Code
+
 - **Type**: Textarea
 - **Default**: Empty
 - **Description**: Paste your complete SVG code for the brand logo
@@ -100,6 +129,7 @@ When you select a subsidiary preset, the following settings are automatically co
 Using `currentColor` for the main logo color allows it to automatically adapt when Navigation Mode is set to Dark Mode. The logo will be white in Light Mode and dark in Dark Mode.
 
 **Example - Before:**
+
 ```svg
 <svg viewBox="0 0 200 24" fill="none">
   <path fill="#ffffff" d="..." />
@@ -108,6 +138,7 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 ```
 
 **Example - After (ready for dark mode):**
+
 ```svg
 <svg viewBox="0 0 200 24" fill="none">
   <path fill="currentColor" d="..." />
@@ -130,11 +161,13 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 ### Search Settings
 
 #### Enable Search
+
 - **Type**: Checkbox
 - **Default**: Unchecked
 - **Description**: Shows a search button in the navigation
 
 #### Search Code/Shortcode
+
 - **Type**: Textarea
 - **Default**: Empty
 - **Description**: Enter a shortcode (e.g., `[search_form]`) or custom HTML/JavaScript code
@@ -146,25 +179,29 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 ### CTA Button Settings
 
 #### Enable CTA Button
+
 - **Type**: Checkbox
 - **Default**: Unchecked
 - **Description**: Shows a call-to-action button in the navigation
 
 #### CTA Button Text
+
 - **Type**: Text
 - **Default**: Empty
 - **Description**: The text to display on the CTA button
 - **Example**: "Contact", "Get Started", "Request Demo"
 
 #### CTA Button URL
+
 - **Type**: Text
 - **Default**: Empty
 - **Description**: The URL the CTA button links to
 - **Example**: `/contact`, `https://yoursite.com/demo`
 
-## Design & Branding Settings
+### Design & Branding Settings
 
-### Mobile Breakpoint (px)
+#### Mobile Breakpoint (px)
+
 - **Type**: Number
 - **Default**: 1420
 - **Range**: 320-2000
@@ -176,7 +213,8 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
   - 1600px - If you have many menu items or longer text
 - **How it works**: When a custom breakpoint is set (different from 1420px), the plugin generates inline CSS to override the default breakpoint
 
-### Navigation Mode
+#### Navigation Mode
+
 - **Type**: Radio Buttons
 - **Default**: Light Mode
 - **Options**: 
@@ -194,8 +232,18 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
   - CTA button keeps its primary color
   - Accent colors in logos are preserved
 - **Note**: Can be overridden per-page using shortcode or PHP function parameters
+- **When to Use Dark Mode**:
+  - Light hero images/backgrounds
+  - Pages with light color schemes
+  - Sites with light brand aesthetics
+  - Better readability against light backgrounds
+- **Light Mode Best For**:
+  - Dark hero images/backgrounds (default)
+  - Dramatic, bold designs
+  - High contrast needed
 
-### Brand Primary Color
+#### Brand Primary Color
+
 - **Type**: Color Picker
 - **Default**: #e51b24 (Patterson Red)
 - **Description**: Your brand's primary color used for:
@@ -207,7 +255,8 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 - **Visibility**: Custom mode only
 - **Note**: Automatically set when using subsidiary presets
 
-### Adobe Typekit Code
+#### Adobe Typekit Code
+
 - **Type**: Text Field
 - **Default**: akz7boc (Patterson default)
 - **Description**: Your Adobe Typekit project ID for custom fonts
@@ -220,68 +269,137 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
   3. Find your project and copy the Project ID
   4. The ID appears in the embed code: `https://use.typekit.net/[PROJECT_ID].css`
 
-### Load Design Tokens File
+#### Load Design Tokens File
+
 - **Type**: Checkbox
 - **Default**: Unchecked
 - **Description**: Loads an external design tokens CSS file
 
-### Design Tokens URL
+#### Design Tokens URL
+
 - **Type**: Text
 - **Default**: Empty
 - **Description**: URL to your design tokens CSS file
 - **Example**: `/wp-content/themes/yourtheme/assets/css/tokens.css`
 - **Note**: Only loads if "Load Design Tokens File" is enabled
 
-## Advanced Usage
+## Advanced Usage: Per-Page Overrides
 
-### Customizing Main Nav Overlay Background
+You can override specific navigation settings on individual pages or templates using shortcode attributes or PHP function parameters. These overrides take priority over admin settings and only apply to the specific page where the navigation is rendered.
 
-You can override the default main navigation overlay background color (visible when scrolled) using either the shortcode or PHP function.
+### Navigation Mode Override
 
-**Default Overlay Color**: `oklch(0.15 0 0 / 0.63)` - Semi-transparent dark overlay
+Override the navigation color scheme (light/dark mode) for specific pages or templates.
 
-#### Using Shortcode
-
-```php
-[patterson_navigation overlay_bg="oklch(0.1 0 0 / 0.8)"]
-```
-
-#### Using PHP Function
-
-```php
-<?php patterson_nav(array('overlay_bg' => 'oklch(0.1 0 0 / 0.8)')); ?>
-```
-
-### Dark Mode Per Page/Template
-
-You can enable dark mode for specific pages or templates, overriding the admin setting.
-
-#### Using Shortcode
+**Using Shortcode:**
 
 ```php
 [patterson_navigation mode="dark"]
 [patterson_navigation mode="light"]
 ```
 
-#### Using PHP Function
+**Using PHP Function:**
 
 ```php
 <?php patterson_nav(array('mode' => 'dark')); ?>
 <?php patterson_nav(array('mode' => 'light')); ?>
 ```
 
-#### Combined with Custom Overlay
+**Priority Order:**
+1. Shortcode/function `mode` parameter (highest)
+2. Admin "Navigation Mode" setting
+3. Default: Light mode
+
+### Overlay Background Override
+
+Override the main navigation overlay background color that appears when the page is scrolled.
+
+**Default Overlay Color**: `oklch(0.15 0 0 / 0.63)` - Semi-transparent dark overlay
+
+**Using Shortcode:**
 
 ```php
-<?php patterson_nav(array(
-    'mode' => 'dark',
-    'overlay_bg' => 'oklch(0.98 0 0 / 0.9)'
-)); ?>
+[patterson_navigation overlay_bg="oklch(0.1 0 0 / 0.8)"]
 ```
 
-### Custom Brand Logo Per Page/Template
+**Using PHP Function:**
 
-You can override the brand logo for specific pages or templates by providing a custom SVG file path or URL.
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.1 0 0 / 0.8)')); ?>
+```
+
+#### Supported Color Formats
+
+You can use any valid CSS color format:
+
+**OKLCH (Recommended)**
+
+```php
+overlay_bg="oklch(0.1 0 0 / 0.8)"
+```
+
+**Hex Colors**
+
+```php
+overlay_bg="#000000"
+```
+
+**RGB/RGBA**
+
+```php
+overlay_bg="rgba(0, 0, 0, 0.8)"
+```
+
+**HSL/HSLA**
+
+```php
+overlay_bg="hsla(0, 0%, 0%, 0.8)"
+```
+
+#### Use Cases
+
+**Darker overlay for better contrast:**
+
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.05 0 0 / 0.9)')); ?>
+```
+
+**Lighter overlay for subtle effect:**
+
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.3 0 0 / 0.5)')); ?>
+```
+
+**Brand-colored overlay:**
+
+```php
+<?php patterson_nav(array('overlay_bg' => 'oklch(0.2 0.15 250 / 0.85)')); ?>
+```
+
+**No override (use default):**
+
+```php
+<?php patterson_nav(); ?>
+[patterson_navigation]
+```
+
+#### When to Use
+
+- **Different hero images**: Some hero backgrounds may need darker or lighter overlays for better readability
+- **Brand requirements**: Match the overlay to your brand's specific style guidelines
+- **Accessibility**: Adjust overlay opacity to ensure sufficient contrast for text elements
+- **Template variations**: Different page templates can have different overlay styles
+
+#### Important Notes
+
+- The overlay background only appears when the page is scrolled (when `.scrolled` class is applied)
+- The universal nav (top bar) is not affected by this setting
+- Changes apply only to the specific page/template where the navigation is rendered
+- The setting does not persist across pages - set it per template as needed
+
+### Brand Logo Override
+
+Override the brand logo for specific pages or templates by providing a custom SVG file path or URL.
 
 **What it does**: Replaces the admin-configured brand logo with a custom SVG file
 
@@ -292,49 +410,43 @@ You can override the brand logo for specific pages or templates by providing a c
 - Event-specific pages
 - Seasonal variations of your logo
 
-#### Using Shortcode
+**Using Shortcode:**
 
 ```php
 [patterson_navigation brand_logo_url="/wp-content/uploads/special-logo.svg"]
 ```
 
-#### Using PHP Function
+**Using PHP Function:**
 
-**Absolute URL (full site URL)**
+**Absolute URL (full site URL):**
+
 ```php
 <?php patterson_nav(array(
     'brand_logo_url' => 'https://yoursite.com/wp-content/uploads/special-logo.svg'
 )); ?>
 ```
 
-**Relative path from WordPress root**
+**Relative path from WordPress root:**
+
 ```php
 <?php patterson_nav(array(
     'brand_logo_url' => '/wp-content/uploads/special-logo.svg'
 )); ?>
 ```
 
-**Theme directory path**
+**Theme directory path:**
+
 ```php
 <?php patterson_nav(array(
     'brand_logo_url' => get_template_directory_uri() . '/assets/logos/campaign-logo.svg'
 )); ?>
 ```
 
-**Plugin path (if logo is in your plugin)**
+**Plugin path (if logo is in your plugin):**
+
 ```php
 <?php patterson_nav(array(
     'brand_logo_url' => plugins_url('assets/logo.svg', __FILE__)
-)); ?>
-```
-
-#### Combined with Other Parameters
-
-```php
-<?php patterson_nav(array(
-    'mode' => 'dark',
-    'overlay_bg' => 'oklch(0.95 0 0 / 0.9)',
-    'brand_logo_url' => get_template_directory_uri() . '/assets/logos/dark-logo.svg'
 )); ?>
 ```
 
@@ -356,84 +468,25 @@ The plugin intelligently handles multiple path formats:
 - **Per-page only**: The override applies only to the specific page/template where it's used
 - **Does not require admin logo**: You can use this parameter even if brand logo is disabled in admin settings
 
-#### When to Use Dark Mode
+### Combining Multiple Parameters
 
-**Best for:**
-- Light hero images/backgrounds
-- Pages with light color schemes
-- Sites with light brand aesthetics
-- Better readability against light backgrounds
+You can combine multiple override parameters in a single navigation call:
 
-**Light mode best for:**
-- Dark hero images/backgrounds (default)
-- Dramatic, bold designs
-- High contrast needed
+**Shortcode (limited combinations):**
 
-**Priority Order:**
-1. Shortcode/function `mode` parameter (highest)
-2. Admin "Navigation Mode" setting
-3. Default: Light mode
-
-#### Supported Color Formats
-
-You can use any valid CSS color format:
-
-**OKLCH (Recommended)**
 ```php
-overlay_bg="oklch(0.1 0 0 / 0.8)"
+[patterson_navigation mode="dark" overlay_bg="oklch(0.95 0 0 / 0.9)" brand_logo_url="/wp-content/uploads/dark-logo.svg"]
 ```
 
-**Hex Colors**
+**PHP Function (recommended for multiple parameters):**
+
 ```php
-overlay_bg="#000000"
+<?php patterson_nav(array(
+    'mode' => 'dark',
+    'overlay_bg' => 'oklch(0.95 0 0 / 0.9)',
+    'brand_logo_url' => get_template_directory_uri() . '/assets/logos/dark-logo.svg'
+)); ?>
 ```
-
-**RGB/RGBA**
-```php
-overlay_bg="rgba(0, 0, 0, 0.8)"
-```
-
-**HSL/HSLA**
-```php
-overlay_bg="hsla(0, 0%, 0%, 0.8)"
-```
-
-#### Use Cases
-
-**Darker overlay for better contrast**
-```php
-<?php patterson_nav(array('overlay_bg' => 'oklch(0.05 0 0 / 0.9)')); ?>
-```
-
-**Lighter overlay for subtle effect**
-```php
-<?php patterson_nav(array('overlay_bg' => 'oklch(0.3 0 0 / 0.5)')); ?>
-```
-
-**Brand-colored overlay**
-```php
-<?php patterson_nav(array('overlay_bg' => 'oklch(0.2 0.15 250 / 0.85)')); ?>
-```
-
-**No override (use default)**
-```php
-<?php patterson_nav(); ?>
-[patterson_navigation]
-```
-
-#### When to Use
-
-- **Different hero images**: Some hero backgrounds may need darker or lighter overlays for better readability
-- **Brand requirements**: Match the overlay to your brand's specific style guidelines
-- **Accessibility**: Adjust overlay opacity to ensure sufficient contrast for text elements
-- **Template variations**: Different page templates can have different overlay styles
-
-#### Important Notes
-
-- The overlay background only appears when the page is scrolled (when `.scrolled` class is applied)
-- The universal nav (top bar) is not affected by this setting
-- Changes apply only to the specific page/template where the navigation is rendered
-- The setting does not persist across pages - set it per template as needed
 
 ## Menu Configuration
 
@@ -441,7 +494,7 @@ overlay_bg="hsla(0, 0%, 0%, 0.8)"
 
 The navigation supports enhanced dropdown menus with item descriptions and featured content sections.
 
-#### Enable Custom Fields in Menu Editor
+### Enable Custom Fields in Menu Editor
 
 **Important**: Before you can see the custom fields, you must enable them:
 
@@ -458,7 +511,7 @@ The navigation supports enhanced dropdown menus with item descriptions and featu
 
 This is normal WordPress menu editor behavior, not a bug.
 
-#### Menu Item Descriptions (Child Items Only)
+### Menu Item Descriptions (Child Items Only)
 
 **What**: Short descriptions that appear below menu item titles in dropdown menus
 
@@ -470,13 +523,14 @@ This is normal WordPress menu editor behavior, not a bug.
 3. Enter a short description (1-2 sentences)
 4. Save the menu
 
-**Example**:
+**Example:**
+
 ```
 Menu Item: Dashboard
 Description: Access real-time insights and analytics
 ```
 
-#### Featured Content (Top-Level Items Only)
+### Featured Content (Top-Level Items Only)
 
 **What**: A featured content section that appears on the right side of mega-menu dropdowns
 
@@ -500,7 +554,8 @@ Description: Access real-time insights and analytics
 - Descriptions should be 2-3 sentences max
 - Use descriptive link text (not just "More" or "Learn More")
 
-**Example**:
+**Example:**
+
 ```
 Featured Title: New Product Launch
 Featured Description: Discover our latest innovation in drilling technology with enhanced performance and reliability.
@@ -511,6 +566,7 @@ Featured Link URL: /products/new-drill-system
 ## Best Practices
 
 ### Subsidiary Configuration
+
 - **Use presets when available**: Ulterra, NexTier, and Superior QC have optimized brand configurations
 - **Consistent branding**: Presets ensure consistent colors, fonts, and logos across Patterson subsidiaries
 - **Custom only when needed**: Use Custom mode only for new subsidiaries or special cases
@@ -518,6 +574,7 @@ Featured Link URL: /products/new-drill-system
 - **Dark mode ready**: All preset subsidiary logos are pre-configured with `currentColor` for automatic dark mode support
 
 ### Navigation Mode & Dark Mode
+
 - **Test both modes**: Always test your navigation in both Light and Dark modes
 - **Check logo visibility**: Ensure your logo is visible in both modes (use `currentColor` for main color)
 - **Verify contrast**: Ensure text remains readable (minimum 4.5:1 contrast ratio for WCAG AA)
@@ -527,32 +584,38 @@ Featured Link URL: /products/new-drill-system
 - **Test scrolled state**: The overlay background changes when scrolled - test readability in both states
 
 ### Menu Structure
+
 - **Universal Nav**: 4-6 items (About, Brands, Investors, Careers, etc.)
 - **Main Nav**: 5-7 top-level items with dropdowns
 - **Dropdown Items**: 4-10 items per dropdown (automatically split into 2 columns)
 
 ### Brand Logo
+
 - Use SVG format for best quality
 - Optimize file size (aim for <50KB)
 - Ensure logo has sufficient contrast on dark overlay
 - Test logo at different viewport sizes
 
 ### Mobile Breakpoint
+
 - Test with your actual menu items
 - Consider logo width + all menu items + search + CTA
 - If items wrap or overlap on desktop, increase breakpoint
 - Test on real devices, not just browser resize
 
 ### Colors
+
 - Ensure sufficient contrast with white text (WCAG AA: 4.5:1 minimum)
 - Test CTA button visibility against various hero backgrounds
 
 ### Search Integration
+
 - Test search functionality after configuration
 - Ensure search modal/overlay has appropriate z-index
 - Consider using a dedicated search plugin for better UX
 
 ### Overlay Background Customization
+
 - **Test with actual hero images**: View the scrolled nav against your real page backgrounds
 - **Maintain contrast**: Ensure text remains readable (white text needs dark overlay, minimum 4.5:1 contrast)
 - **Consistency across templates**: Use similar overlay settings across your site unless there's a specific reason to vary
@@ -561,6 +624,7 @@ Featured Link URL: /products/new-drill-system
 - **Document custom values**: If using custom overlay colors, document them in your theme for future reference
 
 ### Custom Logo SVG Preparation
+
 - **Use `currentColor` for main elements**: Replace white/main colors with `currentColor` to support both light and dark modes
 - **Preserve accent colors**: Keep brand colors and accents as defined hex/OKLCH values
 - **Include viewBox**: Always include a `viewBox` attribute for proper scaling
@@ -568,4 +632,3 @@ Featured Link URL: /products/new-drill-system
 - **Test in both modes**: Preview your logo in both Light and Dark navigation modes
 - **Fallback consideration**: If your logo won't work in dark mode, consider only using Light mode
 - **Multi-color logos**: For complex multi-color logos, use `currentColor` strategically on main shapes only
-
