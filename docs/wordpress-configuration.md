@@ -279,6 +279,83 @@ You can enable dark mode for specific pages or templates, overriding the admin s
 )); ?>
 ```
 
+### Custom Brand Logo Per Page/Template
+
+You can override the brand logo for specific pages or templates by providing a custom SVG file path or URL.
+
+**What it does**: Replaces the admin-configured brand logo with a custom SVG file
+
+**When to use**:
+- Landing pages with special branding
+- Campaign-specific pages
+- Microsites within your main site
+- Event-specific pages
+- Seasonal variations of your logo
+
+#### Using Shortcode
+
+```php
+[patterson_navigation brand_logo_url="/wp-content/uploads/special-logo.svg"]
+```
+
+#### Using PHP Function
+
+**Absolute URL (full site URL)**
+```php
+<?php patterson_nav(array(
+    'brand_logo_url' => 'https://yoursite.com/wp-content/uploads/special-logo.svg'
+)); ?>
+```
+
+**Relative path from WordPress root**
+```php
+<?php patterson_nav(array(
+    'brand_logo_url' => '/wp-content/uploads/special-logo.svg'
+)); ?>
+```
+
+**Theme directory path**
+```php
+<?php patterson_nav(array(
+    'brand_logo_url' => get_template_directory_uri() . '/assets/logos/campaign-logo.svg'
+)); ?>
+```
+
+**Plugin path (if logo is in your plugin)**
+```php
+<?php patterson_nav(array(
+    'brand_logo_url' => plugins_url('assets/logo.svg', __FILE__)
+)); ?>
+```
+
+#### Combined with Other Parameters
+
+```php
+<?php patterson_nav(array(
+    'mode' => 'dark',
+    'overlay_bg' => 'oklch(0.95 0 0 / 0.9)',
+    'brand_logo_url' => get_template_directory_uri() . '/assets/logos/dark-logo.svg'
+)); ?>
+```
+
+#### Supported Path Formats
+
+The plugin intelligently handles multiple path formats:
+
+1. **Full URLs** - `https://yoursite.com/wp-content/uploads/logo.svg`
+2. **Site-relative paths** - `/wp-content/uploads/logo.svg`
+3. **WordPress function paths** - `get_template_directory_uri() . '/assets/logo.svg'`
+4. **Plugin-relative URLs** - Plugin URLs are automatically converted to file paths
+
+#### Important Notes
+
+- **SVG format required**: Only SVG files are supported for proper inline rendering
+- **File must exist**: The file path must point to an actual file on the server
+- **Dark mode compatibility**: Ensure your custom logo uses `currentColor` for main elements if you use dark mode
+- **Priority**: The shortcode/function parameter takes highest priority over admin settings
+- **Per-page only**: The override applies only to the specific page/template where it's used
+- **Does not require admin logo**: You can use this parameter even if brand logo is disabled in admin settings
+
 #### When to Use Dark Mode
 
 **Best for:**

@@ -118,16 +118,44 @@ class Patterson_Nav_Renderer {
     
     /**
      * Render brand logo (inline SVG)
+     * 
+     * @param array  $options        Plugin settings from database
+     * @param string $override_url   Optional URL/path override from shortcode/function
      */
-    private static function render_brand_logo($options) {
+    private static function render_brand_logo($options, $override_url = '') {
         $svg_content = '';
         
-        // Check if custom SVG code exists
-        if (!empty($options['brand_logo_svg'])) {
+        // Priority 1: Override from shortcode/function parameter
+        if (!empty($override_url)) {
+            $logo_path = $override_url;
+            
+            // Convert URL to file path if it starts with the site URL or plugin URL
+            $site_url = site_url();
+            $plugin_url = PATTERSON_NAV_PLUGIN_URL;
+            
+            if (strpos($logo_path, $site_url) === 0) {
+                $logo_path = str_replace($site_url, ABSPATH, $logo_path);
+            } elseif (strpos($logo_path, $plugin_url) === 0) {
+                $logo_path = str_replace($plugin_url, PATTERSON_NAV_PLUGIN_DIR, $logo_path);
+            }
+            
+            // Handle relative paths - check in theme directory first, then absolute
+            if (!file_exists($logo_path) && strpos($logo_path, '/') === 0) {
+                // Try as absolute path from WordPress root
+                $logo_path = ABSPATH . ltrim($logo_path, '/');
+            }
+            
+            if (file_exists($logo_path)) {
+                $svg_content = file_get_contents($logo_path);
+            }
+        }
+        // Priority 2: Custom SVG code from admin settings
+        elseif (!empty($options['brand_logo_svg'])) {
             // Custom mode - use pasted SVG code
             $svg_content = $options['brand_logo_svg'];
-        } elseif (!empty($options['brand_logo_url'])) {
-            // Preset mode - inline from file
+        }
+        // Priority 3: Preset mode - inline from file (admin settings)
+        elseif (!empty($options['brand_logo_url'])) {
             $logo_path = str_replace(PATTERSON_NAV_PLUGIN_URL, PATTERSON_NAV_PLUGIN_DIR, $options['brand_logo_url']);
             
             if (file_exists($logo_path)) {
@@ -193,6 +221,7 @@ class Patterson_Nav_Renderer {
      * @param array $atts Optional attributes.
      *                    'overlay_bg' - Custom background color for the main nav overlay.
      *                    'mode' - Navigation mode: 'light' or 'dark'.
+     *                    'brand_logo_url' - URL or path to a custom brand logo SVG file.
      */
     public static function render_navigation($atts = array()) {
         $options = get_option('patterson_nav_settings');
@@ -200,7 +229,8 @@ class Patterson_Nav_Renderer {
         // Parse shortcode attributes
         $atts = shortcode_atts(array(
             'overlay_bg' => '',
-            'mode' => ''
+            'mode' => '',
+            'brand_logo_url' => ''
         ), $atts, 'patterson_navigation');
         
         // Determine mode (shortcode > admin setting > default)
@@ -253,8 +283,8 @@ class Patterson_Nav_Renderer {
                     <?php self::render_universal_nav(); ?>
                 </div>
             </nav><nav class="main-nav <?php echo $nav_mode === 'dark' ? 'main-nav--dark-mode' : ''; ?>" aria-label="<?php esc_attr_e('Main navigation', 'patterson-nav'); ?>"><div class="nav-container"><?php 
-                    if (!empty($options['brand_logo_enabled'])) : 
-                        self::render_brand_logo($options);
+                    if (!empty($options['brand_logo_enabled']) || !empty($atts['brand_logo_url'])) : 
+                        self::render_brand_logo($options, $atts['brand_logo_url']);
                     endif; 
                     ?><button 
                         class="main-nav__mobile-toggle" 

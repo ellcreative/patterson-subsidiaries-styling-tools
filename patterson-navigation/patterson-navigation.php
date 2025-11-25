@@ -248,10 +248,12 @@ register_deactivation_hook(__FILE__, function() {
  *   patterson_nav();
  *   patterson_nav(array('mode' => 'dark'));
  *   patterson_nav(array('overlay_bg' => 'oklch(0.2 0 0 / 0.9)', 'mode' => 'dark'));
+ *   patterson_nav(array('brand_logo_url' => '/wp-content/uploads/custom-logo.svg'));
  * 
  * @param array $args Optional. Array of arguments.
  *                    'overlay_bg' - Custom background color for the main nav overlay (OKLCH, hex, or any valid CSS color).
  *                    'mode' - Navigation mode: 'light' or 'dark'.
+ *                    'brand_logo_url' - URL or path to a custom brand logo SVG file.
  */
 function patterson_nav($args = array()) {
     $atts = '';
@@ -262,6 +264,10 @@ function patterson_nav($args = array()) {
     
     if (!empty($args['mode'])) {
         $atts .= ' mode="' . esc_attr($args['mode']) . '"';
+    }
+    
+    if (!empty($args['brand_logo_url'])) {
+        $atts .= ' brand_logo_url="' . esc_attr($args['brand_logo_url']) . '"';
     }
     
     echo do_shortcode('[patterson_navigation' . $atts . ']');
