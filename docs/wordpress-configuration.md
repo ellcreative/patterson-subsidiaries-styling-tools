@@ -263,6 +263,7 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 - **Example**: `eyo6evt`, `bqc1fxq`, `afd5ryn`
 - **Visibility**: Custom mode only
 - **Note**: Automatically set when using subsidiary presets
+- **Reference**: See [Brand Typography section in Design Tokens README](../design-tokens/README.md#brand-typography) for complete list of Typekit links and codes for each subsidiary
 - **How to Find**: 
   1. Log in to Adobe Fonts (fonts.adobe.com)
   2. Go to your Web Projects

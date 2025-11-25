@@ -2,6 +2,44 @@
 
 Single source of truth for design tokens across all Patterson subsidiary sites.
 
+## Brand Typography
+
+Each Patterson subsidiary uses Adobe Typekit for custom fonts. Include the appropriate link in your site's `<head>` section:
+
+### Patterson UTI
+
+```html
+<link rel="stylesheet" href="https://use.typekit.net/peq2jlg.css">
+```
+
+**Typekit Code**: `peq2jlg`
+
+### Nextier
+
+```html
+<link rel="stylesheet" href="https://use.typekit.net/bqc1fxq.css">
+```
+
+**Typekit Code**: `bqc1fxq`
+
+### Ulterra
+
+```html
+<link rel="stylesheet" href="https://use.typekit.net/eyo6evt.css">
+```
+
+**Typekit Code**: `eyo6evt`
+
+### SuperiorQC
+
+```html
+<link rel="stylesheet" href="https://use.typekit.net/afd5ryn.css">
+```
+
+**Typekit Code**: `afd5ryn`
+
+**Note**: The Patterson Navigation plugin automatically loads the correct Typekit file based on your subsidiary configuration. Only include these manually if you're implementing brand styles outside of the plugin.
+
 ## Location
 
 The tokens file is located at:
