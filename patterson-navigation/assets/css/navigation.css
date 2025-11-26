@@ -1264,7 +1264,7 @@ body.mobile-menu-open {
    Each site will implement their own hero
    ============================================ */
 
-.hero-section {
+.demo-hero-section {
   position: relative;
   min-block-size: 100vh;
   background-image: url('../hero-bg.webp');
@@ -1273,7 +1273,7 @@ body.mobile-menu-open {
   background-repeat: no-repeat;
 }
 
-.hero-section::before {
+.demo-hero-section::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1281,7 +1281,7 @@ body.mobile-menu-open {
   z-index: 0;
 }
 
-.hero-content {
+.demo-hero-content {
   position: relative;
   z-index: 1;
   min-block-size: 100vh;
@@ -1291,7 +1291,7 @@ body.mobile-menu-open {
   align-items: center;
 }
 
-.hero-content__container {
+.demo-hero-content__container {
   /* Match nav-container structure exactly */
   max-width: var(--container-max-width);
   margin-inline: auto;
@@ -1302,7 +1302,7 @@ body.mobile-menu-open {
   gap: var(--space-8);
 }
 
-.hero-content__badge {
+.demo-hero-content__badge {
   background: var(--primary-color);
   color: var(--color-text-inverse);
   font-family: var(--font-heading);
@@ -1315,7 +1315,7 @@ body.mobile-menu-open {
   align-self: flex-start;
 }
 
-.hero-content__title {
+.demo-hero-content__title {
   color: var(--color-text-inverse);
   font-family: var(--font-heading);
   font-size: clamp(3rem, 5vw + 1rem, 6.25rem);
@@ -1325,7 +1325,7 @@ body.mobile-menu-open {
   margin: 0;
 }
 
-.hero-content__description {
+.demo-hero-content__description {
   color: var(--color-text-inverse);
   font-family: var(--font-body);
   font-size: var(--font-size-xl);
@@ -1333,7 +1333,7 @@ body.mobile-menu-open {
   margin: 0;
 }
 
-.hero-content__container .main-nav__cta {
+.demo-hero-content__container .main-nav__cta {
   align-self: flex-start;
 }
 
