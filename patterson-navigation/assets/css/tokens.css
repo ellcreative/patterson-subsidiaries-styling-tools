@@ -367,7 +367,7 @@ a.c-button[aria-disabled="true"] {
 .c-button--primary {
   background-color: var(--button-primary-bg);
   color: var(--button-primary-text);
-  border: 0;
+  border: var(--button-border-width) solid transparent;
 }
 
 .c-button--primary:hover,
@@ -407,8 +407,8 @@ a.c-button[aria-disabled="true"] {
 .c-button--tertiary {
   background-color: var(--button-tertiary-bg);
   color: var(--button-tertiary-text);
-  border: 0;
-  border-block-end: var(--button-border-width) solid var(--button-tertiary-border);
+  border: var(--button-border-width) solid transparent;
+  border-block-end-color: var(--button-tertiary-border);
   padding-block: 0.625rem; /* 10px - smaller vertical padding for tertiary */
 }
 
