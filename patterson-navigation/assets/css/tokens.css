@@ -130,7 +130,7 @@
   
   /* Navigation Spacing */
   --nav-dropdown-section-padding: 3.75rem;      /* 60px */
-  --nav-dropdown-header-gap: 3.0625rem;         /* 49px */
+  --nav-dropdown-header-gap: 1.53125rem;        /* 24.5px */
   --nav-dropdown-header-width: 18.375rem;       /* 294px */
   --nav-dropdown-column-gap: 1.25rem;           /* 20px */
   --nav-dropdown-column-width: 19.8125rem;      /* 317px */
