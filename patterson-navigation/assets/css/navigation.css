@@ -744,6 +744,7 @@ a.main-nav__dropdown-title:focus-visible {
   min-block-size: var(--nav-dropdown-featured-min-height);
   background: var(--nav-dropdown-featured-bg);
   border-inline-start: 2px solid var(--nav-dropdown-featured-border);
+  border-inline-end: 2px solid var(--nav-dropdown-featured-border);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
