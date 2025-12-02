@@ -253,7 +253,8 @@ p:has(> .skip-link) {
 @media (prefers-reduced-motion: no-preference) {
   .main-nav {
     transition: background-color var(--transition-speed-default) var(--transition-easing-default),
-                box-shadow var(--transition-speed-default) var(--transition-easing-default);
+                box-shadow var(--transition-speed-default) var(--transition-easing-default),
+                border-color var(--transition-speed-default) var(--transition-easing-default);
   }
 }
 
@@ -262,6 +263,7 @@ p:has(> .skip-link) {
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   box-shadow: var(--shadow-md);
+  border-block-end-color: oklch(1 0 0 / 0.2);
 }
 
 /* Fallback for browsers without backdrop-filter */
@@ -291,6 +293,10 @@ p:has(> .skip-link) {
 .main-nav--dark-mode .main-nav__brand-logo svg,
 .main-nav--dark-mode .nav-icon {
   /* currentColor handles this automatically */
+}
+
+.site-navigation.scrolled .main-nav--dark-mode {
+  border-block-end-color: oklch(0 0 0 / 0.05);
 }
 
 /* Fallback for browsers without backdrop-filter */
