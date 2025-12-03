@@ -16,6 +16,45 @@ class Patterson_Nav_Admin {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+        
+        // Clear mobile rules cache when settings are updated
+        add_action('update_option_patterson_nav_settings', array($this, 'clear_mobile_rules_cache'));
+        
+        // Handle manual cache clear
+        add_action('admin_init', array($this, 'handle_manual_cache_clear'));
+    }
+    
+    /**
+     * Handle manual cache clear button
+     */
+    public function handle_manual_cache_clear() {
+        if (isset($_GET['patterson_nav_clear_cache']) && 
+            isset($_GET['_wpnonce']) && 
+            wp_verify_nonce($_GET['_wpnonce'], 'patterson_nav_clear_cache')) {
+            
+            $this->clear_mobile_rules_cache();
+            
+            // Redirect to remove query params
+            wp_redirect(admin_url('admin.php?page=patterson-navigation&cache_cleared=1'));
+            exit;
+        }
+        
+        // Show success message after redirect
+        if (isset($_GET['cache_cleared']) && $_GET['cache_cleared'] === '1') {
+            add_action('admin_notices', function() {
+                echo '<div class="notice notice-success is-dismissible">';
+                echo '<p><strong>Patterson Navigation:</strong> Mobile styles cache cleared successfully!</p>';
+                echo '</div>';
+            });
+        }
+    }
+    
+    /**
+     * Clear mobile rules cache
+     * Called when plugin settings are updated or plugin is activated/updated
+     */
+    public function clear_mobile_rules_cache() {
+        delete_transient('patterson_nav_mobile_rules');
     }
     
     /**
@@ -631,6 +670,17 @@ class Patterson_Nav_Admin {
                 <pre><code>&lt;?php patterson_nav(); ?&gt;</code></pre>
                 <p><?php esc_html_e('Or use the shortcode:', 'patterson-nav'); ?></p>
                 <pre><code>[patterson_navigation]</code></pre>
+                
+                <hr style="margin: 30px 0;">
+                
+                <h2><?php esc_html_e('Cache Management', 'patterson-nav'); ?></h2>
+                <p><?php esc_html_e('If mobile styles are not updating, clear the cache:', 'patterson-nav'); ?></p>
+                <p>
+                    <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=patterson-navigation&patterson_nav_clear_cache=1'), 'patterson_nav_clear_cache'); ?>" 
+                       class="button button-secondary">
+                        <?php esc_html_e('Clear Mobile Styles Cache', 'patterson-nav'); ?>
+                    </a>
+                </p>
             </div>
         </div>
         <?php

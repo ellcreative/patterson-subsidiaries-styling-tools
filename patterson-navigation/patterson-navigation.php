@@ -232,6 +232,9 @@ register_activation_hook(__FILE__, function() {
     );
     
     add_option('patterson_nav_settings', $default_options);
+    
+    // Clear mobile rules cache on activation
+    delete_transient('patterson_nav_mobile_rules');
 });
 
 /**

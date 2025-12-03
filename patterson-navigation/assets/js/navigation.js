@@ -359,7 +359,9 @@
   // ============================================
   
   function handleResize() {
-    const mobileBreakpoint = 1024;
+    // Read breakpoint from data attribute (set by PHP based on plugin settings)
+    const siteNav = document.getElementById('site-navigation');
+    const mobileBreakpoint = siteNav ? parseInt(siteNav.dataset.mobileBreakpoint, 10) : 1420;
     
     if (window.innerWidth > mobileBreakpoint) {
       // Close mobile menu if open

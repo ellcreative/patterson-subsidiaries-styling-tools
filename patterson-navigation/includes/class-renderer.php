@@ -10,6 +10,35 @@ if (!defined('ABSPATH')) {
 class Patterson_Nav_Renderer {
     
     /**
+     * Get mobile CSS rules from partial file (cached)
+     */
+    private static function get_mobile_rules() {
+        $transient_key = 'patterson_nav_mobile_rules';
+        
+        // Try to get from cache
+        $rules = get_transient($transient_key);
+        
+        if ($rules === false) {
+            // Not in cache, read from file
+            $file_path = PATTERSON_NAV_PLUGIN_DIR . 'assets/css/partials/mobile-rules.css';
+            
+            if (file_exists($file_path)) {
+                $rules = file_get_contents($file_path);
+                
+                // Only cache if we got content
+                if (!empty($rules)) {
+                    // Cache indefinitely (cleared on plugin update or settings change)
+                    set_transient($transient_key, $rules, 0);
+                }
+            } else {
+                $rules = '';
+            }
+        }
+        
+        return $rules;
+    }
+    
+    /**
      * Get navigation configuration from JSON file
      */
     private static function get_config() {
@@ -240,11 +269,8 @@ class Patterson_Nav_Renderer {
         // Ensure assets are enqueued (for block themes and shortcode usage)
         self::enqueue_assets();
         
-        // Start output buffering
-        ob_start();
-        
-        // Add inline styles for site customizations
-        echo '<style>';
+        // Build inline styles for site customizations
+        $inline_styles = '';
         
         // CSS custom properties
         $css_props = array();
@@ -261,24 +287,32 @@ class Patterson_Nav_Renderer {
         }
         
         if (!empty($css_props)) {
-            echo ':root { ' . implode('; ', $css_props) . '; }';
+            $inline_styles .= ':root { ' . implode('; ', $css_props) . '; }';
         }
         
-        // Mobile breakpoint override
+        // Mobile breakpoint - always inject mobile rules with breakpoint value
         $breakpoint = isset($options['mobile_breakpoint']) && $options['mobile_breakpoint'] ? absint($options['mobile_breakpoint']) : 1420;
-        if ($breakpoint !== 1420) {
-            // Override default breakpoint with custom value
-            echo '@media (max-width: ' . $breakpoint . 'px) {';
-            echo '.universal-nav__menu, .main-nav__menu, .main-nav__actions { display: none; }';
-            echo '.main-nav__brand-logo { margin-inline-end: auto; }';
-            echo '.main-nav__brand-logo img { max-block-size: 20px; }';
-            echo '.main-nav__mobile-toggle { display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; padding: var(--space-2); inline-size: 44px; block-size: 44px; }';
-            echo '}';
+        
+        // Get mobile CSS rules from partial file (cached)
+        $mobile_rules = self::get_mobile_rules();
+        
+        if (!empty($mobile_rules)) {
+            // Wrap mobile rules with media query at the configured breakpoint
+            $inline_styles .= '@media (max-width: ' . esc_attr($breakpoint) . 'px) {';
+            $inline_styles .= $mobile_rules;
+            $inline_styles .= '}';
         }
         
-        echo '</style>';
+        // Add inline styles to wp_head instead of outputting in content
+        // This prevents wpautop from mangling the CSS
+        if (!empty($inline_styles)) {
+            wp_add_inline_style('patterson-nav-styles', $inline_styles);
+        }
         
-        ?><a href="#main-content" class="skip-link"><?php esc_html_e('Skip to main content', 'patterson-nav'); ?></a><div class="site-navigation" id="site-navigation"><nav class="universal-nav" aria-label="<?php esc_attr_e('Utility navigation', 'patterson-nav'); ?>">
+        // Start output buffering for HTML
+        ob_start();
+        
+        ?><a href="#main-content" class="skip-link"><?php esc_html_e('Skip to main content', 'patterson-nav'); ?></a><div class="site-navigation" id="site-navigation" data-mobile-breakpoint="<?php echo esc_attr($breakpoint); ?>"><nav class="universal-nav" aria-label="<?php esc_attr_e('Utility navigation', 'patterson-nav'); ?>">
                 <div class="nav-container">
                     <?php self::render_universal_nav(); ?>
                 </div>
