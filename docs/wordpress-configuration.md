@@ -13,6 +13,7 @@ Complete reference for all Patterson Navigation plugin settings.
   - [Search Settings](#search-settings)
   - [CTA Button Settings](#cta-button-settings)
   - [Design & Branding Settings](#design--branding-settings)
+- [Cache Management](#cache-management)
 - [Advanced Usage: Per-Page Overrides](#advanced-usage-per-page-overrides)
   - [Navigation Mode Override](#navigation-mode-override)
   - [Overlay Background Override](#overlay-background-override)
@@ -211,7 +212,12 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
   - 1420px - Default, works well for most sites
   - 1280px - If you have fewer menu items
   - 1600px - If you have many menu items or longer text
-- **How it works**: When a custom breakpoint is set (different from 1420px), the plugin generates inline CSS to override the default breakpoint
+- **How it works**: 
+  - Mobile styles are stored in `assets/css/partials/mobile-rules.css` (single source of truth)
+  - The plugin dynamically wraps these rules with `@media (max-width: {breakpoint}px)`
+  - CSS is cached using WordPress transients for optimal performance
+  - Cache automatically clears when settings are saved or plugin is activated
+- **Cache Management**: If mobile styles aren't updating after changes, use the "Clear Mobile Styles Cache" button at the bottom of the settings page
 
 #### Navigation Mode
 
@@ -283,6 +289,32 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 - **Description**: URL to your design tokens CSS file
 - **Example**: `/wp-content/themes/yourtheme/assets/css/tokens.css`
 - **Note**: Only loads if "Load Design Tokens File" is enabled
+
+## Cache Management
+
+The plugin uses WordPress transients to cache mobile navigation styles for optimal performance.
+
+### When Cache is Automatically Cleared
+
+The mobile styles cache is automatically cleared when:
+- Plugin settings are saved
+- Plugin is activated or updated
+- Manual cache clear button is used
+
+### Manual Cache Clearing
+
+If you experience issues with mobile styles not updating:
+
+1. Go to **WordPress Admin** → **Patterson Nav** → Settings
+2. Scroll to the bottom of the page
+3. Click the **"Clear Mobile Styles Cache"** button
+4. Refresh your website to see the updated styles
+
+### What Gets Cached
+
+- Mobile navigation CSS rules from `assets/css/partials/mobile-rules.css`
+- Cached indefinitely until settings change or manual clear
+- Uses WordPress transients API for compatibility with object caching
 
 ## Advanced Usage: Per-Page Overrides
 
@@ -603,6 +635,8 @@ Featured Link URL: /products/new-drill-system
 - Consider logo width + all menu items + search + CTA
 - If items wrap or overlap on desktop, increase breakpoint
 - Test on real devices, not just browser resize
+- If changes don't appear immediately, clear the mobile styles cache
+- Remember that mobile styles are cached for performance - cache clears automatically when settings are saved
 
 ### Colors
 

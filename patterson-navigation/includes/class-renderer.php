@@ -269,7 +269,11 @@ class Patterson_Nav_Renderer {
         // Ensure assets are enqueued (for block themes and shortcode usage)
         self::enqueue_assets();
         
+        // Start output buffering for HTML
+        ob_start();
+        
         // Build inline styles for site customizations
+        // Output as a single-line <style> tag to prevent wpautop from mangling it
         $inline_styles = '';
         
         // CSS custom properties
@@ -303,14 +307,12 @@ class Patterson_Nav_Renderer {
             $inline_styles .= '}';
         }
         
-        // Add inline styles to wp_head instead of outputting in content
-        // This prevents wpautop from mangling the CSS
+        // Output inline styles as a single-line tag to prevent wpautop
+        // Remove line breaks and extra whitespace to make it a single line
         if (!empty($inline_styles)) {
-            wp_add_inline_style('patterson-nav-styles', $inline_styles);
+            $inline_styles = preg_replace('/\s+/', ' ', $inline_styles);
+            echo '<style>' . $inline_styles . '</style>';
         }
-        
-        // Start output buffering for HTML
-        ob_start();
         
         ?><a href="#main-content" class="skip-link"><?php esc_html_e('Skip to main content', 'patterson-nav'); ?></a><div class="site-navigation" id="site-navigation" data-mobile-breakpoint="<?php echo esc_attr($breakpoint); ?>"><nav class="universal-nav" aria-label="<?php esc_attr_e('Utility navigation', 'patterson-nav'); ?>">
                 <div class="nav-container">
