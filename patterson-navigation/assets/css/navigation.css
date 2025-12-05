@@ -119,7 +119,7 @@ p:has(> .skip-link) {
 
 .skip-link {
   position: absolute;
-  inset-block-start: -9999px;
+  inset-block-start: 0;
   inset-inline-start: 0;
   z-index: 9999;
   padding: var(--space-4) var(--space-6);
@@ -129,9 +129,23 @@ p:has(> .skip-link) {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
+  /* Modern skip link clipping - prevents flash during resize */
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+  inline-size: 1px;
+  block-size: 1px;
 }
 
 .skip-link:focus-visible {
+  /* Remove clipping when focused */
+  clip: auto;
+  clip-path: none;
+  overflow: visible;
+  white-space: normal;
+  inline-size: auto;
+  block-size: auto;
   inset-block-start: var(--space-4);
   inset-inline-start: var(--space-4);
   outline: 2px solid var(--color-text-inverse) !important;
