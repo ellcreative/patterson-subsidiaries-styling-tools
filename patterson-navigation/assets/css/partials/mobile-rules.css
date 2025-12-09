@@ -20,10 +20,10 @@
   margin-inline-end: auto;
 }
 
-.main-nav__brand-logo svg,
+/*.main-nav__brand-logo svg,
 .main-nav__brand-logo img {
   block-size: 32px;
-}
+}*/
 
 /* Show mobile toggle */
 .main-nav__mobile-toggle {
