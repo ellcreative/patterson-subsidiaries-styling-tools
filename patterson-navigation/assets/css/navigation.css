@@ -17,7 +17,7 @@
  */
 
 /* Import additional fonts for dropdown menus */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&family=Roboto:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@400&display=swap');
 
 /* ============================================================================
    SHARED STYLES - These styles are used in the WordPress plugin
@@ -938,10 +938,21 @@ body.mobile-menu-open {
 
 .demo-hero-content__description {
   color: var(--color-text-inverse);
-  font-family: var(--font-body);
-  font-size: var(--font-size-xl);
-  line-height: var(--line-height-relaxed);
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  line-height: normal;
+  letter-spacing: -0.0375rem;
   margin: 0;
+  margin-bottom: 2.15rem;
+}
+
+@media (max-width: 768px) {
+  .demo-hero-content__description {
+    font-size: 1rem;
+    letter-spacing: -0.03rem;
+  }
 }
 
 .demo-hero-content__container .main-nav__cta {
