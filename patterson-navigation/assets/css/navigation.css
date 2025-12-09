@@ -915,11 +915,25 @@ body.mobile-menu-open {
 .demo-hero-content__title {
   color: var(--color-text-inverse);
   font-family: var(--font-heading);
-  font-size: clamp(3rem, 5vw + 1rem, 6.25rem);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-super-tight);
-  letter-spacing: -0.03em;
+  font-size: 6.1875rem;
+  font-style: normal;
+  font-weight: var(--font-weight-semibold);
+  line-height: 5.6875rem;
+  letter-spacing: -0.18563rem;
   margin: 0;
+  margin-bottom: 1.7rem;
+}
+
+@media (max-width: 768px) {
+  .demo-hero-content__title {
+    font-size: 3rem;
+    line-height: 2.75rem;
+    letter-spacing: -0.09rem;
+  }
+}
+
+.demo-hero-content__title > p {
+  margin-bottom: 0;
 }
 
 .demo-hero-content__description {
