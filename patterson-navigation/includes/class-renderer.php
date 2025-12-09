@@ -157,7 +157,9 @@ class Patterson_Nav_Renderer {
         // Priority 1: Override from shortcode/function parameter
         if (!empty($override_url)) {
             $logo_path = $override_url;
+            $found = false;
             
+            // Step 1: Try smart path conversion
             // Convert URL to file path if it starts with the site URL or plugin URL
             $site_url = site_url();
             $plugin_url = PATTERSON_NAV_PLUGIN_URL;
@@ -174,8 +176,24 @@ class Patterson_Nav_Renderer {
                 $logo_path = ABSPATH . ltrim($logo_path, '/');
             }
             
+            // Step 2: Try to read from file system (converted path)
             if (file_exists($logo_path)) {
                 $svg_content = file_get_contents($logo_path);
+                $found = true;
+            }
+            
+            // Step 3: Fallback - try original URL as-is (might be an absolute file path)
+            if (!$found && file_exists($override_url)) {
+                $svg_content = file_get_contents($override_url);
+                $found = true;
+            }
+            
+            // Step 4: Last resort - fetch remotely (handles external URLs or CDN-hosted logos)
+            if (!$found) {
+                $response = wp_remote_get($override_url);
+                if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+                    $svg_content = wp_remote_retrieve_body($response);
+                }
             }
         }
         // Priority 2: Custom SVG code from admin settings
