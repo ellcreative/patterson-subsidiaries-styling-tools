@@ -648,8 +648,16 @@ class Patterson_Nav_Renderer {
             return;
         }
         
-        // Group items
+        // Group items - build 3-level tree structure (same as desktop dropdowns)
         $menu_tree = array();
+        $all_items_by_id = array();
+        
+        // First pass: index all items by ID
+        foreach ($menu_items as $item) {
+            $all_items_by_id[$item->ID] = $item;
+        }
+        
+        // Second pass: build parent items
         foreach ($menu_items as $item) {
             if ($item->menu_item_parent == 0) {
                 $menu_tree[$item->ID] = array(
@@ -659,9 +667,25 @@ class Patterson_Nav_Renderer {
             }
         }
         
+        // Third pass: add 2nd level children to parents
         foreach ($menu_items as $item) {
             if ($item->menu_item_parent != 0 && isset($menu_tree[$item->menu_item_parent])) {
-                $menu_tree[$item->menu_item_parent]['children'][] = $item;
+                $menu_tree[$item->menu_item_parent]['children'][$item->ID] = array(
+                    'item' => $item,
+                    'children' => array()
+                );
+            }
+        }
+        
+        // Fourth pass: add 3rd level children to 2nd level items
+        foreach ($menu_items as $item) {
+            if ($item->menu_item_parent != 0) {
+                // Check if this item's parent is a 2nd level item
+                foreach ($menu_tree as $parent_id => $parent_data) {
+                    if (isset($parent_data['children'][$item->menu_item_parent])) {
+                        $menu_tree[$parent_id]['children'][$item->menu_item_parent]['children'][] = $item;
+                    }
+                }
             }
         }
         
@@ -708,23 +732,79 @@ class Patterson_Nav_Renderer {
                     echo '</a>';
                 }
                 
-                // Render children
-                foreach ($children as $child) {
+                // Render 2nd level children
+                foreach ($children as $child_id => $child_data) {
+                    $child = $child_data['item'];
+                    $grandchildren = $child_data['children'];
+                    $has_grandchildren = !empty($grandchildren);
                     $is_external = self::is_external_link($child->url);
                     
-                    echo '<a href="' . esc_url($child->url) . '"';
-                    if ($is_external) {
-                        echo ' data-external="true"';
+                    if ($has_grandchildren) {
+                        // 2nd level item with children - nested accordion
+                        $nested_dropdown_id = 'mobile-dropdown-nested-' . sanitize_title($child->title);
+                        
+                        echo '<button class="main-nav__mobile-link main-nav__mobile-link--nested" ';
+                        echo 'aria-expanded="false" ';
+                        echo 'aria-controls="' . esc_attr($nested_dropdown_id) . '">';
+                        echo esc_html($child->title);
+                        echo self::get_icon_svg('angle-down');
+                        echo '</button>';
+                        
+                        echo '<div class="main-nav__mobile-dropdown main-nav__mobile-dropdown--nested" ';
+                        echo 'id="' . esc_attr($nested_dropdown_id) . '" hidden>';
+                        
+                        // Link to 2nd level item itself (if it has URL)
+                        $child_has_url = !empty($child->url) && $child->url !== '#';
+                        if ($child_has_url) {
+                            echo '<a href="' . esc_url($child->url) . '" ';
+                            echo 'class="main-nav__mobile-subitem main-nav__mobile-subitem--parent"';
+                            if ($is_external) {
+                                echo ' data-external="true"';
+                            }
+                            echo '>';
+                            echo esc_html($child->title);
+                            if ($is_external) {
+                                echo self::get_icon_svg('external');
+                            }
+                            echo '</a>';
+                        }
+                        
+                        // Render 3rd level items
+                        foreach ($grandchildren as $grandchild) {
+                            $is_external_sub = self::is_external_link($grandchild->url);
+                            
+                            echo '<a href="' . esc_url($grandchild->url) . '" ';
+                            echo 'class="main-nav__mobile-subitem"';
+                            if ($is_external_sub) {
+                                echo ' data-external="true"';
+                            }
+                            echo '>';
+                            echo esc_html($grandchild->title);
+                            if ($is_external_sub) {
+                                echo self::get_icon_svg('external');
+                            }
+                            echo '</a>';
+                        }
+                        
+                        echo '</div>'; // .main-nav__mobile-dropdown--nested
+                    } else {
+                        // 2nd level item without children - regular link
+                        echo '<a href="' . esc_url($child->url) . '"';
+                        if ($is_external) {
+                            echo ' data-external="true"';
+                        }
+                        echo '>';
+                        echo esc_html($child->title);
+                        if ($is_external) {
+                            echo self::get_icon_svg('external');
+                        }
+                        echo '</a>';
                     }
-                    echo '>';
-                    echo esc_html($child->title);
-                    if ($is_external) {
-                        echo self::get_icon_svg('external');
-                    }
-                    echo '</a>';
                 }
-                echo '</div>';
+                
+                echo '</div>'; // .main-nav__mobile-dropdown
             } else {
+                // Top-level item without children
                 echo '<a class="main-nav__mobile-link" href="' . esc_url($item->url) . '">';
                 echo esc_html($item->title);
                 echo '</a>';

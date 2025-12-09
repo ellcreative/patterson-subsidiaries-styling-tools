@@ -213,23 +213,39 @@
     // Remove focus trap
     removeFocusTrap();
     
-    // Close all mobile accordions
-    const openAccordions = mobileMenu.querySelectorAll('.main-nav__mobile-link[aria-expanded="true"]');
+    // Close all mobile accordions (including nested ones)
+    const openAccordions = mobileMenu.querySelectorAll('.main-nav__mobile-link[aria-expanded="true"], .main-nav__mobile-link--nested[aria-expanded="true"]');
     openAccordions.forEach(accordion => {
       const dropdownId = accordion.getAttribute('aria-controls');
       const dropdown = document.getElementById(dropdownId);
       if (dropdown) {
         dropdown.hidden = true;
         accordion.setAttribute('aria-expanded', 'false');
+        
+        // Also close any nested accordions within this dropdown
+        const nestedAccordions = dropdown.querySelectorAll('.main-nav__mobile-link--nested[aria-expanded="true"]');
+        nestedAccordions.forEach(nestedAccordion => {
+          const nestedDropdownId = nestedAccordion.getAttribute('aria-controls');
+          const nestedDropdown = document.getElementById(nestedDropdownId);
+          if (nestedDropdown) {
+            nestedDropdown.hidden = true;
+            nestedAccordion.setAttribute('aria-expanded', 'false');
+          }
+        });
       }
     });
   }
   
   function initMobileAccordion() {
-    const accordionTriggers = document.querySelectorAll('.main-nav__mobile-link[aria-controls]');
+    // Handle both top-level and nested accordion triggers
+    const accordionTriggers = document.querySelectorAll(
+      '.main-nav__mobile-link[aria-controls], .main-nav__mobile-link--nested[aria-controls]'
+    );
     
     accordionTriggers.forEach(trigger => {
-      trigger.addEventListener('click', () => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent any default action
+        
         const dropdownId = trigger.getAttribute('aria-controls');
         const dropdown = document.getElementById(dropdownId);
         
@@ -237,9 +253,37 @@
         
         const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
         
+        // Close sibling accordions at the same level (optional - for cleaner UX)
+        const parentContainer = trigger.closest('.main-nav__mobile-items, .main-nav__mobile-dropdown');
+        if (parentContainer) {
+          const siblingTriggers = parentContainer.querySelectorAll(':scope > li > [aria-controls], :scope > [aria-controls]');
+          siblingTriggers.forEach(siblingTrigger => {
+            if (siblingTrigger !== trigger && siblingTrigger.getAttribute('aria-expanded') === 'true') {
+              const siblingDropdownId = siblingTrigger.getAttribute('aria-controls');
+              const siblingDropdown = document.getElementById(siblingDropdownId);
+              if (siblingDropdown) {
+                siblingDropdown.hidden = true;
+                siblingTrigger.setAttribute('aria-expanded', 'false');
+              }
+            }
+          });
+        }
+        
+        // Toggle current accordion
         if (isExpanded) {
           dropdown.hidden = true;
           trigger.setAttribute('aria-expanded', 'false');
+          
+          // Close any nested accordions when parent closes
+          const nestedTriggers = dropdown.querySelectorAll('[aria-controls][aria-expanded="true"]');
+          nestedTriggers.forEach(nestedTrigger => {
+            const nestedDropdownId = nestedTrigger.getAttribute('aria-controls');
+            const nestedDropdown = document.getElementById(nestedDropdownId);
+            if (nestedDropdown) {
+              nestedDropdown.hidden = true;
+              nestedTrigger.setAttribute('aria-expanded', 'false');
+            }
+          });
         } else {
           dropdown.hidden = false;
           trigger.setAttribute('aria-expanded', 'true');
@@ -448,8 +492,8 @@
       }
     });
     
-    // Process mobile dropdown links
-    const mobileLinks = document.querySelectorAll('.main-nav__mobile-dropdown a');
+    // Process mobile dropdown links (2nd and 3rd level)
+    const mobileLinks = document.querySelectorAll('.main-nav__mobile-dropdown a, .main-nav__mobile-subitem');
     
     mobileLinks.forEach(link => {
       // Skip if already processed
