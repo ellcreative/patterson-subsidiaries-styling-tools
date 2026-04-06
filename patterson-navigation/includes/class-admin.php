@@ -22,6 +22,9 @@ class Patterson_Nav_Admin {
         
         // Handle manual cache clear
         add_action('admin_init', array($this, 'handle_manual_cache_clear'));
+        
+        // Allow SVG tags in settings (for multisite and non-admin users)
+        add_filter('wp_kses_allowed_html', array($this, 'allow_svg_in_settings'), 10, 2);
     }
     
     /**
@@ -267,14 +270,19 @@ class Patterson_Nav_Admin {
     public function render_typekit_field($args) {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
+        $is_admin = current_user_can('unfiltered_html');
         ?>
         <input type="text" 
                name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
                value="<?php echo esc_attr($value); ?>" 
                class="regular-text"
-               placeholder="akz7boc">
+               placeholder="akz7boc"
+               <?php if (!$is_admin) echo 'readonly disabled'; ?>>
         <p class="description">
             <?php esc_html_e('Enter your Adobe Typekit project ID (e.g., akz7boc). Find this in your Typekit kit settings.', 'patterson-nav'); ?>
+            <?php if (!$is_admin) : ?>
+                <br><strong style="color: #d63638;"><?php esc_html_e('Administrator only', 'patterson-nav'); ?></strong>
+            <?php endif; ?>
         </p>
         <?php
     }
@@ -310,8 +318,18 @@ class Patterson_Nav_Admin {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : '';
         $row_class = isset($args['class']) ? ' class="' . esc_attr($args['class']) . '"' : '';
+        $is_admin = current_user_can('unfiltered_html');
         ?>
         <div<?php echo $row_class; ?>>
+            <?php if (!$is_admin) : ?>
+                <div class="notice notice-warning inline" style="margin: 0 0 12px 0; padding: 12px;">
+                    <p style="margin: 0;">
+                        <strong><?php esc_html_e('Administrator Required:', 'patterson-nav'); ?></strong>
+                        <?php esc_html_e('Only administrators can modify custom SVG logos for security reasons.', 'patterson-nav'); ?>
+                    </p>
+                </div>
+            <?php endif; ?>
+            
             <div class="patterson-nav-svg-instructions" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin-bottom: 12px;">
                 <p style="margin: 0 0 8px 0; font-weight: 600; color: #856404;">
                     ⚠️ <?php esc_html_e('Important: Preparing your SVG for dark mode', 'patterson-nav'); ?>
@@ -340,7 +358,8 @@ class Patterson_Nav_Admin {
                 placeholder='<svg viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill="currentColor" d="M10 5 L20 15..." />
   <path fill="#06929F" d="M30 10..." />
-</svg>'><?php echo esc_textarea($value); ?></textarea>
+</svg>'
+                <?php if (!$is_admin) echo 'readonly disabled'; ?>><?php echo esc_textarea($value); ?></textarea>
             
             <p class="description">
                 <?php esc_html_e('Paste your complete SVG code. Keep accent colors as defined values - only the main color should use currentColor.', 'patterson-nav'); ?>
@@ -413,12 +432,19 @@ class Patterson_Nav_Admin {
         $options = get_option('patterson_nav_settings');
         $value = isset($options[$args['id']]) ? $options[$args['id']] : '#e51b24';
         $row_class = isset($args['class']) ? ' class="' . esc_attr($args['class']) . '"' : '';
+        $is_admin = current_user_can('unfiltered_html');
         ?>
         <span<?php echo $row_class; ?>>
         <input type="text" 
                name="patterson_nav_settings[<?php echo esc_attr($args['id']); ?>]" 
                value="<?php echo esc_attr($value); ?>" 
-               class="patterson-nav-color-picker">
+               class="patterson-nav-color-picker"
+               <?php if (!$is_admin) echo 'readonly disabled'; ?>>
+        <?php if (!$is_admin) : ?>
+            <p class="description" style="color: #d63638;">
+                <strong><?php esc_html_e('Administrator only', 'patterson-nav'); ?></strong>
+            </p>
+        <?php endif; ?>
         </span>
         <?php
     }
@@ -514,42 +540,234 @@ class Patterson_Nav_Admin {
     }
     
     /**
-     * Sanitize SVG code (security only, preserve colors)
+     * Allow SVG tags in settings form
+     * This ensures SVG content isn't stripped by WordPress KSES filtering
+     */
+    public function allow_svg_in_settings($tags, $context) {
+        // Only apply on our settings page to maintain security elsewhere
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        if (!$screen || $screen->id !== 'toplevel_page_patterson-navigation') {
+            return $tags;
+        }
+        
+        // Add SVG tags and attributes (all lowercase per KSES requirements)
+        $svg_tags = array(
+            'svg' => array(
+                'xmlns' => true,
+                'viewbox' => true,  // lowercase!
+                'width' => true,
+                'height' => true,
+                'fill' => true,
+                'stroke' => true,
+                'preserveaspectratio' => true,
+                'class' => true,
+                'id' => true,
+                'aria-hidden' => true,
+                'role' => true,
+            ),
+            'path' => array(
+                'd' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'stroke-linejoin' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'circle' => array(
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'rect' => array(
+                'x' => true,
+                'y' => true,
+                'width' => true,
+                'height' => true,
+                'rx' => true,
+                'ry' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'ellipse' => array(
+                'cx' => true,
+                'cy' => true,
+                'rx' => true,
+                'ry' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'line' => array(
+                'x1' => true,
+                'y1' => true,
+                'x2' => true,
+                'y2' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'polyline' => array(
+                'points' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'stroke-linejoin' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'polygon' => array(
+                'points' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linejoin' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'g' => array(
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'defs' => array(
+                'id' => true,
+            ),
+            'clippath' => array(
+                'id' => true,
+                'clippathunits' => true,
+            ),
+            'mask' => array(
+                'id' => true,
+                'x' => true,
+                'y' => true,
+                'width' => true,
+                'height' => true,
+                'maskcontentunits' => true,
+                'maskunits' => true,
+            ),
+            'lineargradient' => array(
+                'id' => true,
+                'x1' => true,
+                'y1' => true,
+                'x2' => true,
+                'y2' => true,
+                'gradientunits' => true,
+                'gradienttransform' => true,
+            ),
+            'radialgradient' => array(
+                'id' => true,
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fx' => true,
+                'fy' => true,
+                'gradientunits' => true,
+                'gradienttransform' => true,
+            ),
+            'stop' => array(
+                'offset' => true,
+                'stop-color' => true,
+                'stop-opacity' => true,
+            ),
+            'text' => array(
+                'x' => true,
+                'y' => true,
+                'dx' => true,
+                'dy' => true,
+                'text-anchor' => true,
+                'font-family' => true,
+                'font-size' => true,
+                'font-weight' => true,
+                'fill' => true,
+                'stroke' => true,
+                'opacity' => true,
+                'transform' => true,
+                'class' => true,
+                'id' => true,
+            ),
+            'tspan' => array(
+                'x' => true,
+                'y' => true,
+                'dx' => true,
+                'dy' => true,
+                'text-anchor' => true,
+                'font-family' => true,
+                'font-size' => true,
+                'font-weight' => true,
+                'fill' => true,
+                'class' => true,
+                'id' => true,
+            ),
+        );
+        
+        // Merge with existing allowed tags
+        return array_merge($tags, $svg_tags);
+    }
+    
+    /**
+     * Sanitize SVG code (minimal security filtering)
+     * 
+     * For administrators with unfiltered_html capability,
+     * we apply minimal sanitization to preserve SVG structure from any export tool.
+     * Only obvious XSS vectors are removed.
      */
     private function sanitize_svg($svg) {
         if (empty($svg)) {
             return '';
         }
         
-        // Remove any script tags
-        $svg = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi', '', $svg);
+        // Check if user has unfiltered_html capability (admins on single-site)
+        $can_unfiltered = current_user_can('unfiltered_html');
         
-        // Remove any event handlers (onclick, onload, etc.)
-        $svg = preg_replace('/\s*on\w+\s*=\s*["\'][^"\']*["\']/gi', '', $svg);
-        
-        // Remove any javascript: protocols
-        $svg = preg_replace('/javascript:/gi', '', $svg);
-        
-        // Remove any <style> tags with javascript
-        $svg = preg_replace('/<style[^>]*>.*?<\/style>/gis', '', $svg);
-        
-        // Remove any <link> tags
-        $svg = preg_replace('/<link[^>]*>/gi', '', $svg);
-        
-        // DO NOT auto-replace colors - let users control which colors use currentColor
-        // This preserves brand accent colors
-        
-        // Ensure viewBox exists (required for proper scaling)
-        if (!preg_match('/viewBox\s*=/', $svg)) {
-            // Try to extract width/height to create viewBox
-            preg_match('/width\s*=\s*["\']([^"\']+)["\']/', $svg, $width_match);
-            preg_match('/height\s*=\s*["\']([^"\']+)["\']/', $svg, $height_match);
+        if ($can_unfiltered) {
+            // Minimal sanitization for trusted admins - only remove obvious XSS vectors
+            // Don't touch the SVG structure itself to support all export tools
+            $svg = str_ireplace('<script', '<!-- script removed -->', $svg);
+            $svg = str_ireplace('</script>', '', $svg);
+            $svg = str_ireplace('javascript:', '', $svg);
             
-            if (!empty($width_match[1]) && !empty($height_match[1])) {
-                $width = preg_replace('/[^0-9.]/', '', $width_match[1]);
-                $height = preg_replace('/[^0-9.]/', '', $height_match[1]);
-                $svg = str_replace('<svg ', '<svg viewBox="0 0 ' . $width . ' ' . $height . '" ', $svg);
-            }
+            // Remove inline event handlers (onclick, onload, etc.)
+            $svg = preg_replace('/\son(click|load|error|mouse\w+|key\w+)\s*=\s*["\'][^"\']*["\']/i', '', $svg);
+        } else {
+            // For non-admins, apply stricter sanitization
+            // (Note: Non-admins can't actually change this field due to UI restrictions)
+            $svg = preg_replace('/<script[\s\S]*?<\/script>/i', '', $svg);
+            $svg = preg_replace('/\son\w+\s*=\s*["\'][^"\']*["\']/i', '', $svg);
+            $svg = str_ireplace('javascript:', '', $svg);
+            $svg = preg_replace('/<link[^>]*>/i', '', $svg);
         }
         
         return $svg;
@@ -579,10 +797,24 @@ class Patterson_Nav_Admin {
         } else {
             // Custom mode - use submitted values
             $sanitized['brand_logo_enabled'] = isset($input['brand_logo_enabled']) ? 1 : 0;
-            $sanitized['brand_logo_svg'] = isset($input['brand_logo_svg']) ? $this->sanitize_svg($input['brand_logo_svg']) : '';
+            
+            // Admin-only fields (require unfiltered_html capability)
+            $is_admin = current_user_can('unfiltered_html');
+            
+            if ($is_admin) {
+                // Allow admins to change these sensitive fields
+                $sanitized['brand_logo_svg'] = isset($input['brand_logo_svg']) ? $this->sanitize_svg($input['brand_logo_svg']) : '';
+                $sanitized['brand_color'] = isset($input['brand_color']) ? sanitize_text_field($input['brand_color']) : '';
+                $sanitized['typekit_code'] = isset($input['typekit_code']) ? sanitize_text_field($input['typekit_code']) : '';
+            } else {
+                // Non-admins: preserve existing values, don't allow changes
+                $existing_options = get_option('patterson_nav_settings');
+                $sanitized['brand_logo_svg'] = isset($existing_options['brand_logo_svg']) ? $existing_options['brand_logo_svg'] : '';
+                $sanitized['brand_color'] = isset($existing_options['brand_color']) ? $existing_options['brand_color'] : '';
+                $sanitized['typekit_code'] = isset($existing_options['typekit_code']) ? $existing_options['typekit_code'] : '';
+            }
+            
             $sanitized['brand_logo_url'] = ''; // Not used in custom mode
-            $sanitized['brand_color'] = isset($input['brand_color']) ? sanitize_text_field($input['brand_color']) : '';
-            $sanitized['typekit_code'] = isset($input['typekit_code']) ? sanitize_text_field($input['typekit_code']) : '';
         }
         
         // Other checkbox fields
@@ -608,6 +840,25 @@ class Patterson_Nav_Admin {
         
         // Menu select fields
         $sanitized['main_nav_menu'] = isset($input['main_nav_menu']) ? absint($input['main_nav_menu']) : 0;
+        
+        // Add admin notice about SVG save status (only for admins)
+        if ($is_admin && $sanitized['subsidiary_preset'] === 'custom' && isset($sanitized['brand_logo_enabled']) && $sanitized['brand_logo_enabled']) {
+            if (!empty($sanitized['brand_logo_svg'])) {
+                add_settings_error(
+                    'patterson_nav_settings',
+                    'svg_saved',
+                    sprintf(__('Brand logo SVG saved successfully! (%s characters)', 'patterson-nav'), number_format(strlen($sanitized['brand_logo_svg']))),
+                    'success'
+                );
+            } elseif (isset($input['brand_logo_svg']) && !empty($input['brand_logo_svg'])) {
+                add_settings_error(
+                    'patterson_nav_settings',
+                    'svg_stripped',
+                    __('Warning: Brand logo SVG was submitted but was filtered during sanitization. Please check that your SVG doesn\'t contain script tags or event handlers.', 'patterson-nav'),
+                    'error'
+                );
+            }
+        }
         
         return $sanitized;
     }
@@ -648,9 +899,12 @@ class Patterson_Nav_Admin {
         if (!current_user_can('manage_options')) {
             return;
         }
+        
         ?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+            
+            <?php settings_errors('patterson_nav_settings'); ?>
             
             <div class="patterson-nav-admin-header">
                 <p><?php esc_html_e('Configure the Patterson unified navigation system. Use the shortcode [patterson_navigation] or the function patterson_nav() to display the navigation.', 'patterson-nav'); ?></p>
@@ -715,13 +969,6 @@ class Patterson_Nav_Admin {
                     // Show/hide custom-only fields
                     $(".custom-only-field").closest("tr").toggle(isCustom);
                     
-                    // Disable hidden fields to prevent HTML5 validation issues
-                    if (isCustom) {
-                        $(".custom-only-field input, .custom-only-field textarea, .custom-only-field select").prop("disabled", false);
-                    } else {
-                        $(".custom-only-field input, .custom-only-field textarea, .custom-only-field select").prop("disabled", true);
-                    }
-                    
                     // If custom mode, also toggle brand logo fields based on checkbox
                     if (isCustom) {
                         toggleBrandLogoFields();
@@ -735,13 +982,6 @@ class Patterson_Nav_Admin {
                     
                     var isChecked = $("#brand_logo_enabled_checkbox").is(":checked");
                     $(".brand-logo-field").closest("tr").toggle(isChecked);
-                    
-                    // Disable hidden fields to prevent HTML5 validation issues
-                    if (isChecked) {
-                        $(".brand-logo-field input, .brand-logo-field textarea, .brand-logo-field select").prop("disabled", false);
-                    } else {
-                        $(".brand-logo-field input, .brand-logo-field textarea, .brand-logo-field select").prop("disabled", true);
-                    }
                 }
                 
                 // Initial state
