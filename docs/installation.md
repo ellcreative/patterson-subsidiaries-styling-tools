@@ -146,6 +146,7 @@ Verify the following:
 - [ ] Both universal and main navigation bars visible
 - [ ] Dropdown menus open when clicking parent items
 - [ ] Mobile hamburger menu appears and works (resize browser to <1420px)
+- [ ] Mobile menu closes after choosing a menu link (including same-page `#section` links)
 - [ ] Keyboard navigation works (Tab, Enter, Escape keys)
 - [ ] Brand color appears correctly
 - [ ] Search and CTA button work (if enabled)

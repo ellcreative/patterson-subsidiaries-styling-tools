@@ -16,7 +16,7 @@ See **[Installation Guide](docs/installation.md)** for complete instructions inc
 - ✅ Two-tier navigation (Universal Patterson nav + brand-specific nav)
 - ✅ Mega-menu dropdowns with multi-column layouts and featured content
 - ✅ WCAG 2.2 Level AA accessible with full keyboard and screen reader support
-- ✅ Mobile responsive with hamburger menu
+- ✅ Mobile responsive with hamburger menu (drawer closes when a panel link is activated, e.g. same-page section anchors)
 - ✅ Brand customization via CSS custom properties
 - ✅ WordPress plugin with admin settings UI
 

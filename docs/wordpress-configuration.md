@@ -208,6 +208,7 @@ Using `currentColor` for the main logo color allows it to automatically adapt wh
 - **Range**: 320-2000
 - **Description**: The viewport width (in pixels) at which the navigation switches to the mobile hamburger menu
 - **Note**: At this width and below, the desktop menu is hidden and the hamburger icon appears
+- **Mobile drawer behavior**: Activating any real link inside the mobile panel (main menu, dropdown links, CTA, universal bar) closes the drawer and returns focus to the menu button. Submenus are opened with accordion buttons, not links, so expanding or collapsing a submenu is unchanged.
 - **Recommended**: 
   - 1420px - Default, works well for most sites
   - 1280px - If you have fewer menu items

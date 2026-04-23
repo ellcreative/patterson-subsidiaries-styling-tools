@@ -161,6 +161,17 @@
       }
     });
     
+    // Close when activating a link inside the panel (in-page anchors, CTAs, universal links).
+    // Accordion parents are <button>, not <a>, so they are unaffected.
+    mobileMenu.addEventListener('click', (event) => {
+      if (mobileMenu.hidden) return;
+      if (event.defaultPrevented) return;
+      const link = event.target.closest('a[href]');
+      if (!link || !mobileMenu.contains(link)) return;
+      closeMobileMenu();
+      mobileToggle.focus();
+    });
+    
     // Mobile accordion items
     initMobileAccordion();
   }
