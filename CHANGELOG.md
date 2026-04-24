@@ -4,6 +4,7 @@ History below begins at commit `51409128900581156f45a2db0f22cd1110b72329`. Secti
 
 ## 2026-04-24
 
+- **Patterson Navigation — anchor links:** Clicking menu links that stay on the same page (e.g. `#section` hashes) closes the mobile drawer and the desktop mega-menu panel; listeners use the capture phase so theme smooth-scroll handlers that call `stopPropagation` no longer block closing. `javascript:` hrefs are ignored for this behavior. Mirrored in the static prototype JS.
 - **Patterson Navigation — menu targets:** The “Open link in a new tab” choice in Appearance → Menus is output on every rendered menu anchor (desktop bar, dropdown columns, mobile); `rel` merges XFN and adds `noopener` / `noreferrer` when opening a new tab. Sites can use the `patterson_nav_force_new_tab_external` filter to open external URLs in a new tab when WordPress did not set `target`.
 
 ## 2026-04-23

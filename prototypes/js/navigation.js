@@ -33,6 +33,37 @@
     
     // Close dropdown on Escape key
     document.addEventListener('keydown', handleEscapeKey);
+    
+    // Close when a link inside an open panel is activated (hash / same-page / full nav).
+    // Capture phase runs before child handlers (e.g. smooth scroll) that may stopPropagation.
+    initDesktopDropdownLinkClose();
+  }
+  
+  /**
+   * @param {string} href
+   * @returns {boolean}
+   */
+  function isScriptOrVoidNavHref(href) {
+    if (!href) return true;
+    return href.trim().toLowerCase().startsWith('javascript:');
+  }
+  
+  function initDesktopDropdownLinkClose() {
+    const siteNav = document.getElementById('site-navigation');
+    if (!siteNav) return;
+    
+    siteNav.addEventListener(
+      'click',
+      (event) => {
+        if (!currentOpenDropdown) return;
+        const link = event.target.closest('a[href]');
+        if (!link || !currentOpenDropdown.contains(link)) return;
+        const href = link.getAttribute('href');
+        if (isScriptOrVoidNavHref(href)) return;
+        closeDropdown(currentOpenDropdown);
+      },
+      true
+    );
   }
   
   function handleDropdownClick(event) {
@@ -163,14 +194,21 @@
     
     // Close when activating a link inside the panel (in-page anchors, CTAs, universal links).
     // Accordion parents are <button>, not <a>, so they are unaffected.
-    mobileMenu.addEventListener('click', (event) => {
-      if (mobileMenu.hidden) return;
-      if (event.defaultPrevented) return;
-      const link = event.target.closest('a[href]');
-      if (!link || !mobileMenu.contains(link)) return;
-      closeMobileMenu();
-      mobileToggle.focus();
-    });
+    // Capture phase: theme smooth-scroll scripts often stopPropagation on the anchor; bubble
+    // listeners on this panel would never run, so the drawer would stay open.
+    mobileMenu.addEventListener(
+      'click',
+      (event) => {
+        if (mobileMenu.hidden) return;
+        const link = event.target.closest('a[href]');
+        if (!link || !mobileMenu.contains(link)) return;
+        const href = link.getAttribute('href');
+        if (isScriptOrVoidNavHref(href)) return;
+        closeMobileMenu();
+        mobileToggle.focus();
+      },
+      true
+    );
     
     // Mobile accordion items
     initMobileAccordion();
