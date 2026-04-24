@@ -3,7 +3,7 @@
  * Plugin Name: Patterson Subsidiary Navigation
  * Plugin URI: https://github.com/patterson/navigation
  * Description: Universal Patterson nav + brand-specific main navigation system with mega-menu dropdowns, mobile menu, and accessibility features.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Patterson Companies
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('PATTERSON_NAV_VERSION', '1.0.0');
+define('PATTERSON_NAV_VERSION', '1.0.1');
 define('PATTERSON_NAV_PLUGIN_FILE', __FILE__);
 define('PATTERSON_NAV_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PATTERSON_NAV_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -57,6 +57,7 @@ class Patterson_Navigation {
      * Include required files
      */
     private function includes() {
+        require_once PATTERSON_NAV_PLUGIN_DIR . 'includes/class-menu-link-attributes.php';
         require_once PATTERSON_NAV_PLUGIN_DIR . 'includes/class-menu-walker.php';
         require_once PATTERSON_NAV_PLUGIN_DIR . 'includes/class-admin.php';
         require_once PATTERSON_NAV_PLUGIN_DIR . 'includes/class-renderer.php';

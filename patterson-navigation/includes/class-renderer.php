@@ -244,22 +244,10 @@ class Patterson_Nav_Renderer {
     }
     
     /**
-     * Check if a URL is external
+     * Check if a URL is external to this site
      */
     private static function is_external_link($url) {
-        // Get the home URL hostname
-        $home_host = parse_url(home_url(), PHP_URL_HOST);
-        
-        // Parse the link URL
-        $link_host = parse_url($url, PHP_URL_HOST);
-        
-        // Relative URLs (no host) are internal
-        if (!$link_host) {
-            return false;
-        }
-        
-        // Compare hostnames (external if different)
-        return $home_host !== $link_host;
+        return Patterson_Nav_Menu_Link_Attributes::is_external_url($url);
     }
     
     /**
@@ -448,7 +436,7 @@ class Patterson_Nav_Renderer {
                 
                 if ($has_url) {
                     // Nav item has a link AND children - render as link with dropdown
-                    echo '<a class="main-nav__link" href="' . esc_url($item->url) . '" aria-expanded="false" aria-controls="' . esc_attr($dropdown_id) . '">';
+                    echo '<a class="main-nav__link" href="' . esc_url($item->url) . '"' . Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($item, 'main-nav-dropdown-trigger') . ' aria-expanded="false" aria-controls="' . esc_attr($dropdown_id) . '">';
                     echo esc_html($item->title);
                     echo self::get_icon_svg('angle-down');
                     echo '</a>';
@@ -460,7 +448,7 @@ class Patterson_Nav_Renderer {
                     echo '</button>';
                 }
             } else {
-                echo '<a class="main-nav__link" href="' . esc_url($item->url) . '">';
+                echo '<a class="main-nav__link" href="' . esc_url($item->url) . '"' . Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($item, 'main-nav-top') . '>';
                 echo esc_html($item->title);
                 echo '</a>';
             }
@@ -548,7 +536,7 @@ class Patterson_Nav_Renderer {
             
             if ($has_url) {
                 // Parent nav item is a link - make dropdown title a link with caret icon
-                echo '<a href="' . esc_url($item->url) . '" class="main-nav__dropdown-title">' . esc_html($item->title) . '</a>';
+                echo '<a href="' . esc_url($item->url) . '" class="main-nav__dropdown-title"' . Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($item, 'dropdown-parent-title') . '>' . esc_html($item->title) . '</a>';
                 echo self::get_icon_svg('angle-right');
             } else {
                 // Parent nav item is not a link - keep as span without caret icon
@@ -573,6 +561,7 @@ class Patterson_Nav_Renderer {
                     
                     // Build the dropdown item
                     $columns_html .= '<a href="' . esc_url($child->url) . '" class="main-nav__dropdown-item"';
+                    $columns_html .= Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($child, 'dropdown-item');
                     if ($is_external) {
                         $columns_html .= ' data-external="true"';
                     }
@@ -593,6 +582,7 @@ class Patterson_Nav_Renderer {
                             $is_external_sub = self::is_external_link($grandchild->url);
                             
                             $columns_html .= '<a href="' . esc_url($grandchild->url) . '" class="main-nav__dropdown-subitem"';
+                            $columns_html .= Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($grandchild, 'dropdown-subitem');
                             if ($is_external_sub) {
                                 $columns_html .= ' data-external="true"';
                             }
@@ -745,7 +735,7 @@ class Patterson_Nav_Renderer {
                 
                 // If parent nav item has a URL, add it as the first link in the mobile dropdown
                 if ($has_url) {
-                    echo '<a href="' . esc_url($item->url) . '" class="main-nav__mobile-dropdown-title">';
+                    echo '<a href="' . esc_url($item->url) . '" class="main-nav__mobile-dropdown-title"' . Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($item, 'mobile-dropdown-parent-title') . '>';
                     echo esc_html($item->title);
                     echo '</a>';
                 }
@@ -776,6 +766,7 @@ class Patterson_Nav_Renderer {
                         if ($child_has_url) {
                             echo '<a href="' . esc_url($child->url) . '" ';
                             echo 'class="main-nav__mobile-subitem main-nav__mobile-subitem--parent"';
+                            echo Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($child, 'mobile-nested-parent');
                             if ($is_external) {
                                 echo ' data-external="true"';
                             }
@@ -793,6 +784,7 @@ class Patterson_Nav_Renderer {
                             
                             echo '<a href="' . esc_url($grandchild->url) . '" ';
                             echo 'class="main-nav__mobile-subitem"';
+                            echo Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($grandchild, 'mobile-subitem');
                             if ($is_external_sub) {
                                 echo ' data-external="true"';
                             }
@@ -808,6 +800,7 @@ class Patterson_Nav_Renderer {
                     } else {
                         // 2nd level item without children - regular link
                         echo '<a href="' . esc_url($child->url) . '"';
+                        echo Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($child, 'mobile-child');
                         if ($is_external) {
                             echo ' data-external="true"';
                         }
@@ -823,7 +816,7 @@ class Patterson_Nav_Renderer {
                 echo '</div>'; // .main-nav__mobile-dropdown
             } else {
                 // Top-level item without children
-                echo '<a class="main-nav__mobile-link" href="' . esc_url($item->url) . '">';
+                echo '<a class="main-nav__mobile-link" href="' . esc_url($item->url) . '"' . Patterson_Nav_Menu_Link_Attributes::html_fragment_for_item($item, 'mobile-top') . '>';
                 echo esc_html($item->title);
                 echo '</a>';
             }
