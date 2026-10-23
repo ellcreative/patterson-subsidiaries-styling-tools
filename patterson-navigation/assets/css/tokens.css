@@ -9,256 +9,274 @@
 
 :root {
   /* ============================================
-     SITE COLORS
-     Override --universal-nav-primary-color per subsidiary site
-     ============================================ */
-  
+	 SITE COLORS
+	 Override --primary-color per subsidiary site
+	 ============================================ */
+
   /* Primary Site Color - OVERRIDE THIS PER SITE */
-  --universal-nav-primary-color: #e51b24;
-  --universal-nav-primary-color-hover: oklch(from var(--universal-nav-primary-color) calc(l * 0.85) c h);
-  --universal-nav-primary-color-active: oklch(from var(--universal-nav-primary-color) calc(l * 0.75) c h);
-  
+  --primary-color: #e51b24;
+  --primary-color-hover: oklch(from var(--primary-color) calc(l * 0.85) c h);
+  --primary-color-active: oklch(from var(--primary-color) calc(l * 0.75) c h);
+
   /* Neutral Colors */
-  --universal-nav-color-white: oklch(1 0 0);
-  --universal-nav-color-black: oklch(0.15 0 0);
-  --universal-nav-color-gray-50: oklch(0.98 0 0);
-  --universal-nav-color-gray-100: oklch(0.96 0 0);
-  --universal-nav-color-gray-200: oklch(0.93 0 0);
-  --universal-nav-color-gray-300: oklch(0.88 0 0);
-  --universal-nav-color-gray-400: oklch(0.70 0 0);
-  --universal-nav-color-gray-500: oklch(0.58 0 0);
-  --universal-nav-color-gray-600: oklch(0.51 0 0);
-  --universal-nav-color-gray-700: oklch(0.40 0 0);
-  --universal-nav-color-gray-800: oklch(0.28 0 0);
-  --universal-nav-color-gray-900: oklch(0.20 0 0);
-  
+  --color-white: oklch(1 0 0);
+  --color-black: oklch(0.15 0 0);
+  --color-gray-50: oklch(0.98 0 0);
+  --color-gray-100: oklch(0.96 0 0);
+  --color-gray-200: oklch(0.93 0 0);
+  --color-gray-300: oklch(0.88 0 0);
+  --color-gray-400: oklch(0.7 0 0);
+  --color-gray-500: oklch(0.58 0 0);
+  --color-gray-600: oklch(0.51 0 0);
+  --color-gray-700: oklch(0.4 0 0);
+  --color-gray-800: oklch(0.28 0 0);
+  --color-gray-900: oklch(0.2 0 0);
+
   /* Semantic Colors */
-  --universal-nav-color-text-primary: var(--universal-nav-color-gray-900);
-  --universal-nav-color-text-secondary: var(--universal-nav-color-gray-600);
-  --universal-nav-color-text-tertiary: var(--universal-nav-color-gray-500);
-  --universal-nav-color-text-inverse: var(--universal-nav-color-white);
-  
-  --universal-nav-color-border-default: oklch(0.93 0 0 / 0.6);
-  --universal-nav-color-border-subtle: oklch(0.96 0 0 / 0.4);
-  
-  --universal-nav-color-background-primary: var(--universal-nav-color-white);
-  --universal-nav-color-background-secondary: var(--universal-nav-color-gray-50);
-  --universal-nav-color-background-tertiary: var(--universal-nav-color-gray-100);
-  --universal-nav-color-background-overlay: oklch(0.15 0 0 / 0.63);
-  
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-inverse: var(--color-white);
+
+  --color-border-default: oklch(0.93 0 0 / 0.6);
+  --color-border-subtle: oklch(0.96 0 0 / 0.4);
+
+  --color-background-primary: var(--color-white);
+  --color-background-secondary: var(--color-gray-50);
+  --color-background-tertiary: var(--color-gray-100);
+  --color-background-overlay: oklch(0.15 0 0 / 0.63);
+
+  --nav-text: #fdfcfb;
+
   /* ============================================
-     TYPOGRAPHY
-     ============================================ */
-  
+	 TYPOGRAPHY
+	 ============================================ */
+
   /* Font Families */
-  --universal-nav-font-heading: "rift", sans-serif;
-  --universal-nav-font-body: "rift", sans-serif;
-  --universal-nav-font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', 
-               Consolas, 'Courier New', monospace;
-  
+  --font-heading: "rift", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+
   /* Font Sizes - Mobile first (base sizes) */
-  --universal-nav-font-size-xs: 0.6875rem;    /* 11px */
-  --universal-nav-font-size-sm: 0.8125rem;    /* 13px */
-  --universal-nav-font-size-base: 0.9375rem;  /* 15px */
-  --universal-nav-font-size-lg: 1.0625rem;    /* 17px */
-  --universal-nav-font-size-xl: 1.1875rem;    /* 19px */
-  --universal-nav-font-size-2xl: 1.375rem;    /* 22px */
-  --universal-nav-font-size-3xl: 1.75rem;     /* 28px */
-  --universal-nav-font-size-4xl: 2.125rem;    /* 34px */
-  
+  --font-size-xs: 0.6875rem; /* 11px */
+  --font-size-sm: 0.8125rem; /* 13px */
+  --font-size-base: 0.875rem; /* 16px */
+  --font-size-lg: 1.0625rem; /* 17px */
+  --font-size-xl: 1.185rem; /* 19px */
+  --font-size-2xl: 1.375rem; /* 22px */
+  --font-size-3xl: 1.75rem; /* 28px */
+  --font-size-4xl: 2.125rem; /* 34px */
+
+  --nav-universal-link-size: 0.875rem;
+  --nav-main-link-size: 0.875rem;
   /* Line Heights */
-  --universal-nav-line-height-super-tight: 0.75;
-  --universal-nav-line-height-tight: 1.2;
-  --universal-nav-line-height-normal: 1.5;
-  --universal-nav-line-height-relaxed: 1.625;
-  --universal-nav-line-height-loose: 1.75;
-  
+  --line-height-super-tight: 0.75;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 1.75;
+  --nav-universal-link-line-height: 1.5;
+  --nav-universal-link-tracking: 0;
+
   /* Font Weights - Rift: 400 (Regular), 600 (Demi), 700 (Bold) */
-  --universal-nav-font-weight-normal: 400;
-  --universal-nav-font-weight-medium: 600;  /* Rift Demi */
-  --universal-nav-font-weight-semibold: 600; /* Rift Demi */
-  --universal-nav-font-weight-bold: 700;
-  
+  --font-weight-normal: 400;
+  --font-weight-medium: 600; /* Rift Demi */
+  --font-weight-semibold: 600; /* Rift Demi */
+  --font-weight-bold: 700;
+
   /* ============================================
-     SPACING
-     ============================================ */
-  
-  --universal-nav-space-0: 0;
-  --universal-nav-space-1: 0.25rem;    /* 4px */
-  --universal-nav-space-2: 0.4375rem;  /* 7px */
-  --universal-nav-space-3: 0.6875rem;  /* 11px */
-  --universal-nav-space-4: 0.9375rem;  /* 15px */
-  --universal-nav-space-5: 1.125rem;   /* 18px */
-  --universal-nav-space-6: 1.375rem;   /* 22px */
-  --universal-nav-space-7: 1.5625rem;  /* 25px */
-  --universal-nav-space-8: 1.875rem;   /* 30px */
-  --universal-nav-space-10: 2.25rem;   /* 36px */
-  --universal-nav-space-12: 2.75rem;   /* 44px */
-  --universal-nav-space-15: 3.5rem;    /* 56px */
-  --universal-nav-space-16: 3.625rem;  /* 58px */
-  --universal-nav-space-20: 4.5rem;    /* 72px */
-  --universal-nav-space-24: 5.5rem;    /* 88px */
-  
+	 SPACING
+	 ============================================ */
+
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.4375rem; /* 7px */
+  --space-3: 0.6875rem; /* 11px */
+  --space-4: 0.9375rem; /* 15px */
+  --space-5: 1.125rem; /* 18px */
+  --space-6: 1.375rem; /* 22px */
+  --space-7: 1.5625rem; /* 25px */
+  --space-8: 1.875rem; /* 30px */
+  --space-10: 2.25rem; /* 36px */
+  --space-12: 2.75rem; /* 44px */
+  --space-15: 3.5rem; /* 56px */
+  --space-16: 3.625rem; /* 58px */
+  --space-20: 4.5rem; /* 72px */
+  --space-24: 5.5rem; /* 88px */
+
   /* ============================================
-     LAYOUT
-     ============================================ */
-  
-  --universal-nav-container-max-width: 100rem;     /* 1600px */
-  --universal-nav-container-padding-inline: var(--universal-nav-space-15);
-  --universal-nav-container-padding-block: var(--universal-nav-space-8);
-  
+	 LAYOUT
+	 ============================================ */
+
+  --container-max-width: 100rem; /* 1600px */
+  --container-padding-inline: var(--space-15);
+  --container-padding-block: var(--space-8);
+
   /* Breakpoints (for reference in media queries) */
-  --universal-nav-breakpoint-sm: 640px;
-  --universal-nav-breakpoint-md: 768px;
-  --universal-nav-breakpoint-lg: 1024px;
-  --universal-nav-breakpoint-xl: 1280px;
-  --universal-nav-breakpoint-2xl: 1536px;
-  
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
   /* Navigation Breakpoint (reference only - must be updated in navigation.css) */
-  --universal-nav-nav-mobile-breakpoint: 1315px;
-  
+  --nav-mobile-breakpoint: 1315px;
+
+  --nav-actions-gap: 1.5625rem;
+  --nav-main-height: 4.625rem;
+  --nav-border-color: oklch(0.99 0.002 85 / 0.6);
+
   /* ============================================
-     NAVIGATION-SPECIFIC TOKENS
-     ============================================ */
-  
+	 NAVIGATION-SPECIFIC TOKENS
+	 ============================================ */
+
+  --nav-universal-link-gap: 1.875rem;
+  --nav-main-link-icon-gap: 0.5625rem;
+  --nav-main-link-tracking: -0.03em;
+
   /* Navigation Colors */
-  --universal-nav-nav-dropdown-title-color: #787676;
-  --universal-nav-nav-dropdown-item-color: #787676;
-  --universal-nav-nav-dropdown-featured-bg: #f8f8f8;
-  --universal-nav-nav-dropdown-featured-border: #eeeeee;
-  --universal-nav-nav-dropdown-featured-text: #282828;
-  
+  --nav-dropdown-title-color: #787676;
+  --nav-dropdown-item-color: #787676;
+  --nav-dropdown-featured-bg: #f8f8f8;
+  --nav-dropdown-featured-border: #eeeeee;
+  --nav-dropdown-featured-text: #282828;
+
   /* Navigation Spacing */
-  --universal-nav-nav-dropdown-section-padding: 3.75rem;      /* 60px */
-  --universal-nav-nav-dropdown-header-gap: 1.53125rem;        /* 24.5px */
-  --universal-nav-nav-dropdown-header-width: 18.375rem;       /* 294px */
-  --universal-nav-nav-dropdown-column-gap: 1.25rem;           /* 20px */
-  --universal-nav-nav-dropdown-column-width: 19.8125rem;      /* 317px */
-  --universal-nav-nav-dropdown-item-gap: 0.1875rem;           /* 3px */
-  --universal-nav-nav-dropdown-item-padding-block: 0.75rem;   /* 12px */
-  --universal-nav-nav-dropdown-item-padding-inline: 1.0625rem;/* 17px */
-  --universal-nav-nav-dropdown-item-border-radius: 0.25rem;   /* 4px */
-  --universal-nav-nav-dropdown-featured-width: 28.4375rem;    /* 455px */
-  --universal-nav-nav-dropdown-featured-min-height: 34.375rem;/* 550px */
-  --universal-nav-nav-dropdown-featured-content-width: 25.25rem; /* 404px */
-  --universal-nav-nav-dropdown-featured-padding-top: 1.625rem;   /* 26px */
-  --universal-nav-nav-dropdown-featured-padding-inline: 1.5rem;  /* 24px */
-  --universal-nav-nav-dropdown-featured-padding-bottom: 1.25rem; /* 20px */
-  --universal-nav-nav-dropdown-featured-gap: 1.3125rem;          /* 21px */
-  --universal-nav-nav-dropdown-featured-image-height: 15.9375rem;/* 255px */
-  --universal-nav-nav-dropdown-featured-link-gap: 0.5625rem;     /* 9px */
-  
+  --nav-dropdown-section-padding: 3.75rem; /* 60px */
+  --nav-dropdown-header-gap: 1.53125rem; /* 24.5px */
+  --nav-dropdown-header-width: 18.375rem; /* 294px */
+  --nav-dropdown-column-gap: 1.25rem; /* 20px */
+  --nav-dropdown-column-width: 19.8125rem; /* 317px */
+  --nav-dropdown-item-gap: 0.1875rem; /* 3px */
+  --nav-dropdown-item-padding-block: 0.75rem; /* 12px */
+  --nav-dropdown-item-padding-inline: 1.0625rem; /* 17px */
+  --nav-dropdown-item-border-radius: 0.25rem; /* 4px */
+  --nav-dropdown-featured-width: 28.4375rem; /* 455px */
+  --nav-dropdown-featured-min-height: 34.375rem; /* 550px */
+  --nav-dropdown-featured-content-width: 25.25rem; /* 404px */
+  --nav-dropdown-featured-padding-top: 1.625rem; /* 26px */
+  --nav-dropdown-featured-padding-inline: 1.5rem; /* 24px */
+  --nav-dropdown-featured-padding-bottom: 1.25rem; /* 20px */
+  --nav-dropdown-featured-gap: 1.3125rem; /* 21px */
+  --nav-dropdown-featured-image-height: 15.9375rem; /* 255px */
+  --nav-dropdown-featured-link-gap: 0.5625rem; /* 9px */
+
   /* Navigation Typography */
-  --universal-nav-nav-dropdown-title-size: 1.5625rem;         /* 25px */
-  --universal-nav-nav-dropdown-item-title-size: 1rem;         /* 16px */
-  --universal-nav-nav-dropdown-item-desc-size: 0.875rem;      /* 14px */
-  --universal-nav-nav-dropdown-item-desc-line-height: 1.0625rem; /* 17px */
-  --universal-nav-nav-dropdown-item-desc-width: 17.6875rem;   /* 283px */
-  --universal-nav-nav-dropdown-featured-title-size: 1.8125rem;/* 29px */
-  --universal-nav-nav-dropdown-featured-desc-line-height: 1.4375rem; /* 23px */
-  --universal-nav-nav-dropdown-featured-link-size: 1.25rem;   /* 20px */
-  
+  --nav-dropdown-title-size: 1.5625rem; /* 25px */
+  --nav-dropdown-item-title-size: 1rem; /* 16px */
+  --nav-dropdown-item-desc-size: 0.875rem; /* 14px */
+  --nav-dropdown-item-desc-line-height: 1.0625rem; /* 17px */
+  --nav-dropdown-item-desc-width: 17.6875rem; /* 283px */
+  --nav-dropdown-featured-title-size: 1.8125rem; /* 29px */
+  --nav-dropdown-featured-desc-line-height: 1.4375rem; /* 23px */
+  --nav-dropdown-featured-link-size: 1.25rem; /* 20px */
+
   /* ============================================
-     BORDERS & RADII
-     ============================================ */
-  
-  --universal-nav-border-width-thin: 1px;
-  --universal-nav-border-width-default: 2px;
-  --universal-nav-border-width-thick: 4px;
-  
-  --universal-nav-border-radius-sm: 0.25rem;
-  --universal-nav-border-radius-default: 0.375rem;
-  --universal-nav-border-radius-md: 0.5rem;
-  --universal-nav-border-radius-lg: 0.75rem;
-  --universal-nav-border-radius-xl: 1rem;
-  --universal-nav-border-radius-full: 9999px;
-  
+	 BORDERS & RADII
+	 ============================================ */
+
+  --border-width-thin: 1px;
+  --border-width-default: 2px;
+  --border-width-thick: 4px;
+
+  --border-radius-sm: 0.25rem;
+  --border-radius-default: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-radius-full: 9999px;
+
   /* ============================================
-     SHADOWS & EFFECTS
-     ============================================ */
-  
-  --universal-nav-shadow-xs: 0 1px 2px 0 oklch(0.15 0 0 / 0.05);
-  --universal-nav-shadow-sm: 0 1px 3px 0 oklch(0.15 0 0 / 0.1), 
-               0 1px 2px -1px oklch(0.15 0 0 / 0.1);
-  --universal-nav-shadow-default: 0 4px 6px -1px oklch(0.15 0 0 / 0.1), 
-                    0 2px 4px -2px oklch(0.15 0 0 / 0.1);
-  --universal-nav-shadow-md: 0 10px 15px -3px oklch(0.15 0 0 / 0.1), 
-               0 4px 6px -4px oklch(0.15 0 0 / 0.1);
-  --universal-nav-shadow-lg: 0 20px 25px -5px oklch(0.15 0 0 / 0.1), 
-               0 8px 10px -6px oklch(0.15 0 0 / 0.1);
-  --universal-nav-shadow-xl: 0 25px 50px -12px oklch(0.15 0 0 / 0.25);
-  
-  --universal-nav-backdrop-blur: blur(17.25px);
-  
+	 SHADOWS & EFFECTS
+	 ============================================ */
+
+  --shadow-xs: 0 1px 2px 0 oklch(0.15 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 oklch(0.15 0 0 / 0.1),
+    0 1px 2px -1px oklch(0.15 0 0 / 0.1);
+  --shadow-default: 0 4px 6px -1px oklch(0.15 0 0 / 0.1),
+    0 2px 4px -2px oklch(0.15 0 0 / 0.1);
+  --shadow-md: 0 10px 15px -3px oklch(0.15 0 0 / 0.1),
+    0 4px 6px -4px oklch(0.15 0 0 / 0.1);
+  --shadow-lg: 0 20px 25px -5px oklch(0.15 0 0 / 0.1),
+    0 8px 10px -6px oklch(0.15 0 0 / 0.1);
+  --shadow-xl: 0 25px 50px -12px oklch(0.15 0 0 / 0.25);
+
+  --backdrop-blur: blur(17.25px);
+
   /* ============================================
-     ANIMATION & TRANSITIONS
-     ============================================ */
-  
-  --universal-nav-transition-speed-fast: 150ms;
-  --universal-nav-transition-speed-default: 300ms;
-  --universal-nav-transition-speed-slow: 500ms;
-  
-  --universal-nav-transition-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
-  --universal-nav-transition-easing-in: cubic-bezier(0.4, 0, 1, 1);
-  --universal-nav-transition-easing-out: cubic-bezier(0, 0, 0.2, 1);
-  --universal-nav-transition-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  
+	 ANIMATION & TRANSITIONS
+	 ============================================ */
+
+  --transition-speed-fast: 150ms;
+  --transition-speed-default: 300ms;
+  --transition-speed-slow: 500ms;
+
+  --transition-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --transition-easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --transition-easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
   /* ============================================
-     Z-INDEX SCALE
-     ============================================ */
-  
-  --universal-nav-z-index-dropdown: 1000;
-  --universal-nav-z-index-sticky: 1020;
-  --universal-nav-z-index-fixed: 1030;
-  --universal-nav-z-index-modal-backdrop: 1040;
-  --universal-nav-z-index-modal: 1050;
-  --universal-nav-z-index-popover: 1060;
-  --universal-nav-z-index-tooltip: 1070;
-  
+	 Z-INDEX SCALE
+	 ============================================ */
+
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
   /* ============================================
-     BUTTONS
-     ============================================ */
-  
+	 BUTTONS
+	 ============================================ */
+
   /* Button Sizing */
-  --universal-nav-button-padding-inline: 2rem;               /* 32px */
-  --universal-nav-button-padding-block: 0.85rem;             /* 13.6px */
-  --universal-nav-button-icon-gap: 0.9375rem;                /* 15px */
-  
+  --button-padding-inline: 2rem; /* 32px */
+  --button-padding-block: 0.85rem; /* 13.6px */
+  --button-icon-gap: 0.9375rem; /* 15px */
+
   /* Button Typography */
-  --universal-nav-button-font-size: 1.125rem;                /* 18px */
-  --universal-nav-button-font-weight: var(--universal-nav-font-weight-bold);
-  --universal-nav-button-font-family: var(--universal-nav-font-heading);
-  --universal-nav-button-letter-spacing: 0.02em;
-  --universal-nav-button-text-transform: uppercase;
-  
+  --button-font-size: 1.125rem; /* 18px */
+  --button-font-weight: var(--font-weight-bold);
+  --button-font-family: var(--font-heading);
+  --button-letter-spacing: 0.02em;
+  --button-text-transform: uppercase;
+
   /* Button Colors */
-  --universal-nav-button-primary-bg: var(--universal-nav-primary-color);
-  --universal-nav-button-primary-bg-hover: var(--universal-nav-primary-color-hover);
-  --universal-nav-button-primary-bg-active: var(--universal-nav-primary-color-active);
-  --universal-nav-button-primary-text: var(--universal-nav-color-white);
-  
-  --universal-nav-button-secondary-border: var(--universal-nav-primary-color);
-  --universal-nav-button-secondary-border-hover: var(--universal-nav-primary-color-hover);
-  --universal-nav-button-secondary-border-active: var(--universal-nav-primary-color-active);
-  --universal-nav-button-secondary-text: var(--universal-nav-primary-color);
-  --universal-nav-button-secondary-text-hover: var(--universal-nav-primary-color-hover);
-  --universal-nav-button-secondary-text-active: var(--universal-nav-primary-color-active);
-  --universal-nav-button-secondary-bg: transparent;
-  
-  --universal-nav-button-tertiary-border: var(--universal-nav-primary-color);
-  --universal-nav-button-tertiary-border-hover: var(--universal-nav-primary-color-hover);
-  --universal-nav-button-tertiary-border-active: var(--universal-nav-primary-color-active);
-  --universal-nav-button-tertiary-text: var(--universal-nav-primary-color);
-  --universal-nav-button-tertiary-text-hover: var(--universal-nav-primary-color-hover);
-  --universal-nav-button-tertiary-text-active: var(--universal-nav-primary-color-active);
-  --universal-nav-button-tertiary-bg: transparent;
-  
+  --button-primary-bg: var(--primary-color);
+  --button-primary-bg-hover: var(--primary-color-hover);
+  --button-primary-bg-active: var(--primary-color-active);
+  --button-primary-text: var(--color-white);
+
+  --button-secondary-border: var(--primary-color);
+  --button-secondary-border-hover: var(--primary-color-hover);
+  --button-secondary-border-active: var(--primary-color-active);
+  --button-secondary-text: var(--primary-color);
+  --button-secondary-text-hover: var(--primary-color-hover);
+  --button-secondary-text-active: var(--primary-color-active);
+  --button-secondary-bg: transparent;
+
+  --button-tertiary-border: var(--primary-color);
+  --button-tertiary-border-hover: var(--primary-color-hover);
+  --button-tertiary-border-active: var(--primary-color-active);
+  --button-tertiary-text: var(--primary-color);
+  --button-tertiary-text-hover: var(--primary-color-hover);
+  --button-tertiary-text-active: var(--primary-color-active);
+  --button-tertiary-bg: transparent;
+
   /* Button Borders */
-  --universal-nav-button-border-width: 3px;
-  --universal-nav-button-border-radius: 0;
-  
+  --button-border-width: 3px;
+  --button-border-radius: 0;
+
   /* Button Icon */
-  --universal-nav-button-icon-size: 1.0625rem;               /* 17px */
+  --button-icon-size: 1.0625rem; /* 17px */
+
+  --nav-cta-height: 2.25rem;
+  --nav-cta-height: 2.25rem;
+  --nav-cta-padding-inline: 1.125rem;
 }
 
 /* ============================================
@@ -267,9 +285,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --universal-nav-transition-speed-fast: 50ms;
-    --universal-nav-transition-speed-default: 50ms;
-    --universal-nav-transition-speed-slow: 50ms;
+    --transition-speed-fast: 50ms;
+    --transition-speed-default: 50ms;
+    --transition-speed-slow: 50ms;
   }
 }
 
@@ -278,28 +296,28 @@
    ============================================ */
 
 /* Tablet and up - increase font sizes */
-/*@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   :root {
-    --universal-nav-font-size-xs: 0.875rem;     /* 14px */
-    --universal-nav-font-size-sm: 1rem;         /* 16px */
-    --universal-nav-font-size-base: 1.125rem;   /* 18px */
-    --universal-nav-font-size-lg: 1.25rem;      /* 20px */
-    --universal-nav-font-size-xl: 1.5rem;       /* 24px */
-    --universal-nav-font-size-2xl: 1.875rem;    /* 30px */
-    --universal-nav-font-size-3xl: 2.25rem;     /* 36px */
-    --universal-nav-font-size-4xl: 3rem;        /* 48px */
-  }
+	--font-size-xs: 0.875rem;     /* 14px */
+/*--font-size-sm: 1rem;         /* 16px */
+/*	--font-size-base: 1.125rem;   /* 18px */
+/*	--font-size-lg: 1.25rem;      /* 20px */
+/*	--font-size-xl: 1.5rem;       /* 24px */
+/*	--font-size-2xl: 1.875rem;    /* 30px */
+/*	--font-size-3xl: 2.25rem;     /* 36px */
+/*	--font-size-4xl: 3rem;        /* 48px */
+/* }
 }*/
 
 @media (max-width: 1024px) {
   :root {
-    --universal-nav-container-padding-inline: var(--universal-nav-space-8);
+    --container-padding-inline: var(--space-8);
   }
 }
 
 @media (max-width: 640px) {
   :root {
-    --universal-nav-container-padding-inline: var(--universal-nav-space-4);
+    --container-padding-inline: var(--space-4);
   }
 }
 
@@ -316,38 +334,47 @@ a.c-button {
   margin: 0;
   text-decoration: none;
   cursor: pointer;
-  
+
   /* Base styles */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding-inline: var(--universal-nav-button-padding-inline);
-  padding-block: var(--universal-nav-button-padding-block);
-  
+  padding-inline: var(--button-padding-inline);
+  padding-block: var(--button-padding-block);
+
   /* Typography */
-  font-family: var(--universal-nav-button-font-family);
-  font-size: var(--universal-nav-button-font-size);
-  font-weight: var(--universal-nav-button-font-weight);
-  letter-spacing: var(--universal-nav-button-letter-spacing);
-  text-transform: var(--universal-nav-button-text-transform);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  letter-spacing: var(--button-letter-spacing);
+  text-transform: var(--button-text-transform);
   line-height: 1;
   white-space: nowrap;
-  
+
   /* Transitions */
   transition-property: background-color, color, border-color, transform;
-  transition-duration: var(--universal-nav-transition-speed-default);
-  transition-timing-function: var(--universal-nav-transition-easing-default);
-  
+  transition-duration: var(--transition-speed-default);
+  transition-timing-function: var(--transition-easing-default);
+
   /* Accessibility */
   -webkit-user-select: none;
   user-select: none;
+
+  min-block-size: var(--nav-cta-height);
+  block-size: var(--nav-cta-height);
+  min-inline-size: 5.5625rem;
+  padding-block: 0;
+  padding-inline-start: var(--nav-cta-padding-inline);
+  padding-inline-end: var(--nav-cta-padding-inline);
+  font-size: var(--button-font-size);
+  letter-spacing: 0;
 }
 
 /* Focus styles for accessibility - using :focus-visible */
 .c-button:focus-visible,
 button.c-button:focus-visible,
 a.c-button:focus-visible {
-  outline: 3px solid var(--universal-nav-primary-color);
+  outline: 3px solid var(--primary-color);
   outline-offset: 3px;
 }
 
@@ -365,18 +392,18 @@ a.c-button[aria-disabled="true"] {
    ============================================ */
 
 .c-button--primary {
-  background-color: var(--universal-nav-button-primary-bg);
-  color: var(--universal-nav-button-primary-text);
-  border: var(--universal-nav-button-border-width) solid transparent;
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border: var(--button-border-width) solid transparent;
 }
 
 .c-button--primary:hover,
 .c-button--primary:focus-visible {
-  background-color: var(--universal-nav-button-primary-bg-hover);
+  background-color: var(--button-primary-bg-hover);
 }
 
 .c-button--primary:active {
-  background-color: var(--universal-nav-button-primary-bg-active);
+  background-color: var(--button-primary-bg-active);
 }
 
 /* ============================================
@@ -384,20 +411,20 @@ a.c-button[aria-disabled="true"] {
    ============================================ */
 
 .c-button--secondary {
-  background-color: var(--universal-nav-button-secondary-bg);
-  color: var(--universal-nav-button-secondary-text);
-  border: var(--universal-nav-button-border-width) solid var(--universal-nav-button-secondary-border);
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  border: var(--button-border-width) solid var(--button-secondary-border);
 }
 
 .c-button--secondary:hover,
 .c-button--secondary:focus-visible {
-  color: var(--universal-nav-button-secondary-text-hover);
-  border-color: var(--universal-nav-button-secondary-border-hover);
+  color: var(--button-secondary-text-hover);
+  border-color: var(--button-secondary-border-hover);
 }
 
 .c-button--secondary:active {
-  color: var(--universal-nav-button-secondary-text-active);
-  border-color: var(--universal-nav-button-secondary-border-active);
+  color: var(--button-secondary-text-active);
+  border-color: var(--button-secondary-border-active);
 }
 
 /* ============================================
@@ -405,33 +432,33 @@ a.c-button[aria-disabled="true"] {
    ============================================ */
 
 .c-button--tertiary {
-  background-color: var(--universal-nav-button-tertiary-bg);
-  color: var(--universal-nav-button-tertiary-text);
-  border: var(--universal-nav-button-border-width) solid transparent;
-  border-block-end-color: var(--universal-nav-button-tertiary-border);
+  background-color: var(--button-tertiary-bg);
+  color: var(--button-tertiary-text);
+  border: var(--button-border-width) solid transparent;
+  border-block-end-color: var(--button-tertiary-border);
   padding-block: 0.625rem; /* 10px - smaller vertical padding for tertiary */
 }
 
 .c-button--tertiary:hover,
 .c-button--tertiary:focus-visible {
-  color: var(--universal-nav-button-tertiary-text-hover);
-  border-block-end-color: var(--universal-nav-button-tertiary-border-hover);
+  color: var(--button-tertiary-text-hover);
+  border-block-end-color: var(--button-tertiary-border-hover);
 }
 
 .c-button--tertiary:active {
-  color: var(--universal-nav-button-tertiary-text-active);
-  border-block-end-color: var(--universal-nav-button-tertiary-border-active);
+  color: var(--button-tertiary-text-active);
+  border-block-end-color: var(--button-tertiary-border-active);
 }
 
 /* ============================================
    BUTTON WITH ICON
    
    Usage with embedded SVG:
-   <button class="c-button c-button--universal-nav-primary">
-     <span>Learn More</span>
-     <svg class="nav-icon" aria-hidden="true" width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-       <path d="M8.33398 6.80664L7.57031 7.57031L2.25781 12.8828L1.52734 13.6465L0 12.1191L0.763672 11.3887L5.3125 6.80664L0.763672 2.25781L0 1.49414L1.52734 0L2.25781 0.763672L7.57031 6.07617L8.33398 6.80664Z" fill="currentColor"/>
-     </svg>
+   <button class="c-button c-button--primary">
+	 <span>Learn More</span>
+	 <svg class="nav-icon" aria-hidden="true" width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+	   <path d="M8.33398 6.80664L7.57031 7.57031L2.25781 12.8828L1.52734 13.6465L0 12.1191L0.763672 11.3887L5.3125 6.80664L0.763672 2.25781L0 1.49414L1.52734 0L2.25781 0.763672L7.57031 6.07617L8.33398 6.80664Z" fill="currentColor"/>
+	 </svg>
    </button>
    
    The icon uses currentColor so it automatically matches text color.
@@ -439,8 +466,8 @@ a.c-button[aria-disabled="true"] {
    ============================================ */
 
 .c-button .nav-icon {
-  inline-size: var(--universal-nav-button-icon-size);
-  block-size: var(--universal-nav-button-icon-size);
+  inline-size: var(--button-icon-size);
+  block-size: var(--button-icon-size);
 }
 
 /* Hide icon by default, show on hover */
@@ -449,21 +476,22 @@ a.c-button[aria-disabled="true"] {
   inline-size: 0;
   margin-inline-start: 0;
   overflow: hidden;
-  transition: opacity var(--universal-nav-transition-speed-default) var(--universal-nav-transition-easing-default),
-              inline-size var(--universal-nav-transition-speed-default) var(--universal-nav-transition-easing-default),
-              margin-inline-start var(--universal-nav-transition-speed-default) var(--universal-nav-transition-easing-default);
+  transition: opacity var(--transition-speed-default)
+      var(--transition-easing-default),
+    inline-size var(--transition-speed-default) var(--transition-easing-default),
+    margin-inline-start var(--transition-speed-default)
+      var(--transition-easing-default);
 }
 
 .c-button:hover .nav-icon,
 .c-button:focus-visible .nav-icon {
   opacity: 1;
-  inline-size: var(--universal-nav-button-icon-size);
-  margin-inline-start: var(--universal-nav-button-icon-gap);
+  inline-size: var(--button-icon-size);
+  margin-inline-start: var(--button-icon-gap);
 }
 
-/* Always show icon variant - add class "c-button--universal-nav-icon-visible" to always show the icon */
+/* Always show icon variant - add class "c-button--icon-visible" to always show the icon */
 .c-button--icon-visible .nav-icon {
   opacity: 1 !important;
-  inline-size: var(--universal-nav-button-icon-size) !important;
+  inline-size: var(--button-icon-size) !important;
 }
-
