@@ -3,7 +3,7 @@
  * Plugin Name: Patterson Subsidiary Navigation
  * Plugin URI: https://github.com/patterson/navigation
  * Description: Universal Patterson nav + brand-specific main navigation system with mega-menu dropdowns, mobile menu, and accessibility features.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Patterson Companies
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('PATTERSON_NAV_VERSION', '1.0.1');
+define('PATTERSON_NAV_VERSION', '1.0.2');
 define('PATTERSON_NAV_PLUGIN_FILE', __FILE__);
 define('PATTERSON_NAV_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PATTERSON_NAV_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -74,6 +74,9 @@ class Patterson_Navigation {
         // Enqueue assets
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
         
+        // Clear mobile-rules transient after plugin updates
+        add_action('admin_init', array($this, 'maybe_clear_cache_on_upgrade'));
+        
         // Add filter to load custom menu item fields (needed on frontend)
         add_filter('wp_setup_nav_menu_item', array($this, 'add_menu_item_custom_fields'));
         
@@ -93,6 +96,18 @@ class Patterson_Navigation {
         // Add theme support check
         add_action('after_setup_theme', array($this, 'check_theme_support'));
     }
+
+    /**
+     * Clear cached mobile CSS when the plugin version changes.
+     */
+    public function maybe_clear_cache_on_upgrade() {
+        $stored = get_option('patterson_nav_plugin_version');
+        if ($stored === PATTERSON_NAV_VERSION) {
+            return;
+        }
+        delete_transient('patterson_nav_mobile_rules');
+        update_option('patterson_nav_plugin_version', PATTERSON_NAV_VERSION, false);
+    }
     
     /**
      * Register navigation menu locations
@@ -107,7 +122,7 @@ class Patterson_Navigation {
      * Enqueue frontend assets
      */
     public function enqueue_frontend_assets() {
-        // Enqueue Adobe Typekit fonts (required for Patterson brand fonts)
+        // Enqueue Adobe Typekit fonts (required for Patterson brand fonts / Rift)
         $options = get_option('patterson_nav_settings');
         $typekit_code = isset($options['typekit_code']) && !empty($options['typekit_code']) 
             ? $options['typekit_code'] 
@@ -119,12 +134,20 @@ class Patterson_Navigation {
             array(),
             null
         );
+
+        // DM Sans (body / nav links) + Roboto (featured dropdown body)
+        wp_enqueue_style(
+            'patterson-nav-google-fonts',
+            'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Roboto:wght@400&display=swap',
+            array(),
+            null
+        );
         
         // Enqueue design tokens (required)
         wp_enqueue_style(
             'patterson-nav-tokens',
             PATTERSON_NAV_PLUGIN_URL . 'assets/css/tokens.css',
-            array('patterson-typekit'),
+            array('patterson-typekit', 'patterson-nav-google-fonts'),
             PATTERSON_NAV_VERSION
         );
         
@@ -236,6 +259,7 @@ register_activation_hook(__FILE__, function() {
     
     // Clear mobile rules cache on activation
     delete_transient('patterson_nav_mobile_rules');
+    update_option('patterson_nav_plugin_version', PATTERSON_NAV_VERSION, false);
 });
 
 /**

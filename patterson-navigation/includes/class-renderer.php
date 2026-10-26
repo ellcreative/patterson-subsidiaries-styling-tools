@@ -126,7 +126,7 @@ class Patterson_Nav_Renderer
    */
   private static function enqueue_assets()
   {
-    // Enqueue Adobe Typekit fonts (required for Patterson brand fonts)
+    // Enqueue Adobe Typekit fonts (required for Patterson brand fonts / Rift)
     if (!wp_style_is("patterson-typekit", "enqueued")) {
       $options = get_option("patterson_nav_settings");
       $typekit_code =
@@ -142,12 +142,22 @@ class Patterson_Nav_Renderer
       );
     }
 
+    // DM Sans (body / nav links) + Roboto (featured dropdown body)
+    if (!wp_style_is("patterson-nav-google-fonts", "enqueued")) {
+      wp_enqueue_style(
+        "patterson-nav-google-fonts",
+        "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Roboto:wght@400&display=swap",
+        [],
+        null
+      );
+    }
+
     // Only enqueue if not already enqueued
     if (!wp_style_is("patterson-nav-tokens", "enqueued")) {
       wp_enqueue_style(
         "patterson-nav-tokens",
         PATTERSON_NAV_PLUGIN_URL . "assets/css/tokens.css",
-        ["patterson-typekit"],
+        ["patterson-typekit", "patterson-nav-google-fonts"],
         PATTERSON_NAV_VERSION
       );
     }

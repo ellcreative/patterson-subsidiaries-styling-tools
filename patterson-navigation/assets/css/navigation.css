@@ -16,8 +16,8 @@
  * ============================================
  */
 
-/* Import additional fonts for dropdown menus */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@400&display=swap");
+/* DM Sans + Roboto are enqueued from PHP (wp_enqueue_style).
+   Prototypes / standalone CSS can load them separately. */
 
 /* ============================================================================
    SHARED STYLES - These styles are used in the WordPress plugin
@@ -170,11 +170,11 @@ p:has(> .skip-link) {
 
 .universal-nav {
   /* Universal nav always has dark background and white text - Patterson branding */
-  background: oklch(0.15 0 0 / 0.63);
-  color: var(--color-nav-text);
+  background: var(--color-background-overlay);
+  color: var(--nav-text);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  block-size: 46px;
+  block-size: var(--nav-universal-height);
   display: flex;
   align-items: center;
   opacity: 1; /* Explicitly set default - visible on page load */
@@ -345,30 +345,34 @@ p:has(> .skip-link) {
 
 .main-nav__brand-logo {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  margin-inline-end: var(--space-4);
+  margin-inline-end: var(--nav-main-item-gap);
   color: inherit; /* Inherit from .main-nav for dark mode support */
 }
 
 .main-nav__brand-logo a {
   display: block;
   line-height: 0;
-  padding-inline-end: var(--space-4);
+  padding-inline-end: 0;
   color: inherit;
 }
 
 .main-nav__brand-logo svg {
   display: block;
-  block-size: 44px;
-  inline-size: auto; /* Maintain aspect ratio based on viewBox */
+  block-size: var(--nav-logo-height);
+  inline-size: var(--nav-logo-width);
+  flex-shrink: 0;
 }
 
 /* Fallback for img tags (if any) */
 .main-nav__brand-logo img {
   display: block;
-  block-size: auto;
-  max-block-size: 44px;
-  max-inline-size: 100%;
+  inline-size: var(--nav-logo-width);
+  block-size: var(--nav-logo-height);
+  max-inline-size: none;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 /* When brand logo is present, adjust menu container */
@@ -383,11 +387,11 @@ p:has(> .skip-link) {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--nav-main-item-gap);
   list-style: none;
   margin: 0;
   padding: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .main-nav .main-nav__search span {
   display: none;
@@ -468,11 +472,11 @@ p:has(> .skip-link) {
 .main-nav__search {
   background: transparent;
   border: none;
-  color: var(--color-text-inverse);
+  color: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--nav-main-link-icon-gap);
   font-family: var(--font-body);
   font-size: var(--nav-main-link-size);
   font-weight: var(--font-weight-semibold);

@@ -30,6 +30,14 @@ patterson-subsidiaries-styling-tools/
 └── docs/                   # Installation and configuration guides
 ```
 
+## Design source of truth
+
+Visual nav styling (type, color, spacing, `--nav-*` tokens) is designed and first implemented on the **corporate Craft site** (`patenergy.com` / Patterson Craft SCSS: `_navigation-tokens.scss`, `_navigation.scss`). This WordPress plugin is the **WP port** of that look for subsidiaries.
+
+- Port Craft token/selector deltas into `patterson-navigation/assets/css/` when the corporate nav changes.
+- Keep the WP **mobile breakpoint default at 1420px** (admin-configurable). Craft hard-codes 1315px; denser subsidiary menus may need the higher default.
+- Prefer shared short token names (`--nav-*`, `--font-body`) over site-specific prefixes unless a theme collision is proven.
+
 ## Documentation
 
 - **[Installation Guide](docs/installation.md)** - Complete setup for classical and block themes

@@ -61,15 +61,16 @@
   /* Font Sizes - Mobile first (base sizes) */
   --font-size-xs: 0.6875rem; /* 11px */
   --font-size-sm: 0.8125rem; /* 13px */
-  --font-size-base: 0.875rem; /* 16px */
+  --font-size-base: 0.9375rem; /* 15px */
   --font-size-lg: 1.0625rem; /* 17px */
-  --font-size-xl: 1.185rem; /* 19px */
+  --font-size-xl: 1.1875rem; /* 19px */
   --font-size-2xl: 1.375rem; /* 22px */
   --font-size-3xl: 1.75rem; /* 28px */
   --font-size-4xl: 2.125rem; /* 34px */
 
-  --nav-universal-link-size: 0.875rem;
-  --nav-main-link-size: 0.875rem;
+  /* Nav link sizes (Figma / Craft corporate) — not the same as --font-size-base */
+  --nav-universal-link-size: 0.875rem; /* 14px */
+  --nav-main-link-size: 0.875rem; /* 14px */
   /* Line Heights */
   --line-height-super-tight: 0.75;
   --line-height-tight: 1.2;
@@ -120,19 +121,27 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 
-  /* Navigation Breakpoint (reference only - must be updated in navigation.css) */
+  /*
+	 Navigation Breakpoint (reference / Craft corporate = 1315px).
+	 WordPress plugin default remains 1420px via PHP admin setting
+	 (room for denser menus + logo); do not treat this token as the WP default.
+	 */
   --nav-mobile-breakpoint: 1315px;
 
-  --nav-actions-gap: 1.5625rem;
-  --nav-main-height: 4.625rem;
+  --nav-universal-height: 2.875rem; /* 46px */
+  --nav-actions-gap: 1.5625rem; /* 25px */
+  --nav-main-height: 4.625rem; /* 74px */
   --nav-border-color: oklch(0.99 0.002 85 / 0.6);
+  --nav-logo-width: 8.375rem; /* 134px */
+  --nav-logo-height: 2.3125rem; /* 37px */
 
   /* ============================================
 	 NAVIGATION-SPECIFIC TOKENS
 	 ============================================ */
 
-  --nav-universal-link-gap: 1.875rem;
-  --nav-main-link-icon-gap: 0.5625rem;
+  --nav-universal-link-gap: 1.875rem; /* 30px */
+  --nav-main-item-gap: 0.75rem; /* 12px */
+  --nav-main-link-icon-gap: 0.5625rem; /* 9px */
   --nav-main-link-tracking: -0.03em;
 
   /* Navigation Colors */

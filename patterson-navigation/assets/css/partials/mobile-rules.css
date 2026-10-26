@@ -539,7 +539,7 @@ a.main-nav__mobile-link {
 /* Universal nav adjustments */
 .universal-nav {
   block-size: auto;
-  min-block-size: 46px;
+  min-block-size: var(--nav-universal-height);
 }
 
 .main-nav__logo img {

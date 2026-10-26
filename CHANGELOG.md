@@ -2,6 +2,10 @@
 
 History below begins at commit `51409128900581156f45a2db0f22cd1110b72329`. Sections are ordered **newest first** (by date heading). Each heading’s date is the corresponding git commit, or today’s date for work not yet committed.
 
+## 2026-10-26
+
+- **Patterson Navigation — Craft/Figma parity:** Align WP plugin tokens and chrome styles with corporate Craft nav (DM Sans body links at 14px, `--nav-*` spacing/height/logo tokens). Fix undefined `--color-nav-text`. Enqueue Google Fonts from PHP; bump to 1.0.2 and clear mobile-rules transient on version upgrade. Keep WP mobile breakpoint default at 1420px (admin-configurable).
+
 ## 2026-04-24
 
 - **Patterson Navigation — anchor links:** Clicking menu links that stay on the same page (e.g. `#section` hashes) closes the mobile drawer and the desktop mega-menu panel; listeners use the capture phase so theme smooth-scroll handlers that call `stopPropagation` no longer block closing. `javascript:` hrefs are ignored for this behavior. Mirrored in the static prototype JS.
